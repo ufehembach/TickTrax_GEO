@@ -1,17 +1,21 @@
 package de.ticktrax.ticktrax_geo.ui
 
 import android.app.Application
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import de.ticktrax.de.ticktrax.ticktrax_geo.location.DefaultLocationClient
+import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationClient
 import de.ticktrax.ticktrax_geo.data.GenericAppRepository
 import de.ticktrax.ticktrax_geo.data.local.TemplateDB.Companion.getDatabase
 import de.ticktrax.ticktrax_geo.data.remote.TemplateJsonApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import kotlinx.coroutines.flow.Flow
 
 enum class LOADStatus {
     NIX, LOADREQUESTED, LOADED, NIXLOADED
@@ -35,8 +39,6 @@ class TemplateViewModel (application: Application) : AndroidViewModel(applicatio
 
     fun loadGenericEnv() {
         Log.d("ufe", "Pre json corroutine")
-
-
 
         viewModelScope.launch {
             _saving.value = LOADStatus.LOADREQUESTED
@@ -65,4 +67,14 @@ class TemplateViewModel (application: Application) : AndroidViewModel(applicatio
         }
         Log.d("ufe", "post txt corroutine")
     }
+
+    private val _geo = MutableLiveData<String>()
+    val geo: LiveData<String>
+        get() = _geo
+
+    public fun setGeo(lon: String, lat:String ){
+      _geo.value= lon + " " + lat
+        Log.d("ufe-viewmod", _geo.value!!)
+    }
+
 }
