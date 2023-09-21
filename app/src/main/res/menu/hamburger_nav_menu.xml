@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home_Fragment2"
+            android:icon="@drawable/baseline_file_download_24"
+            android:title="@string/MenuHome" />
+        <item
+            android:id="@+id/export_Fragment2"
+            android:icon="@drawable/baseline_file_download_24"
+            android:title="@string/MenuExport" />
+        <item
+            android:id="@+id/me_Fragment2"
+            android:icon="@drawable/baseline_person_24"
+            android:title="@string/MenuMe" />
+        <item
+            android:id="@+id/settings_Fragment2"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="@string/MenuSettings" />
+    </group>
+    <item android:title="@string/MenuGEO">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/home_Fragment2"
+                    android:icon="@drawable/baseline_file_download_24"
+                    android:title="@string/MenuHome" />
+                <item
+                    android:id="@+id/export_Fragment2"
+                    android:icon="@drawable/baseline_file_download_24"
+                    android:title="@string/MenuExport" />
+                <item
+                    android:id="@+id/me_Fragment2"
+                    android:icon="@drawable/baseline_person_24"
+                    android:title="@string/MenuMe" />
+                <item
+                    android:id="@+id/settings_Fragment2"
+                    android:icon="@drawable/baseline_settings_24"
+                    android:title="@string/MenuSettings" />
+            </group>
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TickTrax-GEO</string>
+    <string name="MenuMe">me</string>
+    <string name="MenuGEO">geo</string>
+    <string name="MenuSettings">settings</string>
+    <string name="MenuExport">export</string>
+    <string name="MenuHome">Home</string>
+    <string name="MenuBla">Bla</string>
+    <string name="MenuBlupp">Blupp</string>
+    <string name="MenuBlipp">Blipp</string>
+    <string name="openHam">openHam</string>
+    <string name="closeHam">closeHam</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="doWhat">do what?</string>
+
+
+
+</resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_Fragment2">
+    <fragment
+        android:id="@+id/export_Fragment2"
+        android:name="de.ticktrax.ticktrax_geo.ui.Export_Fragment"
+        android:label="fragment_export_"
+        tools:layout="@layout/fragment_export" >
+        <action
+            android:id="@+id/action_export_Fragment2_to_GEO_Fragment2"
+            app:destination="@id/GEO_Fragment2" />
+        <action
+            android:id="@+id/action_export_Fragment2_to_home_Fragment2"
+            app:destination="@id/home_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/GEO_Fragment2"
+        android:name="de.ticktrax.ticktrax_geo.ui.GEO_Fragment"
+        android:label="fragment_g_e_o_"
+        tools:layout="@layout/fragment_g_e_o" >
+        <action
+            android:id="@+id/action_GEO_Fragment2_to_me_Fragment2"
+            app:destination="@id/me_Fragment2" />
+        <action
+            android:id="@+id/action_GEO_Fragment2_to_export_Fragment2"
+            app:destination="@id/export_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/home_Fragment2"
+        android:name="de.ticktrax.ticktrax_geo.ui.Home_Fragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_Fragment2_to_export_Fragment2"
+            app:destination="@id/export_Fragment2" />
+        <action
+            android:id="@+id/action_home_Fragment2_to_settings_Fragment2"
+            app:destination="@id/settings_Fragment2" />
+        <action
+            android:id="@+id/action_home_Fragment2_to_home_Detail_Fragment"
+            app:destination="@id/home_Detail_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/me_Fragment2"
+        android:name="de.ticktrax.ticktrax_geo.ui.Me_Fragment"
+        android:label="fragment_me"
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_me_Fragment2_to_settings_Fragment2"
+            app:destination="@id/settings_Fragment2" />
+        <action
+            android:id="@+id/action_me_Fragment2_to_GEO_Fragment2"
+            app:destination="@id/GEO_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings_Fragment2"
+        android:name="de.ticktrax.ticktrax_geo.ui.Settings_Fragment"
+        android:label="fragment_settings_"
+        tools:layout="@layout/fragment_settings_" >
+        <action
+            android:id="@+id/action_settings_Fragment2_to_home_Fragment2"
+            app:destination="@id/home_Fragment2" />
+        <action
+            android:id="@+id/action_settings_Fragment2_to_me_Fragment2"
+            app:destination="@id/me_Fragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/home_Item_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment"
+        android:label="fragment_home__item_"
+        tools:layout="@layout/fragment_home_item" >
+        <action
+            android:id="@+id/action_home_Item_Fragment_to_home_Detail_Fragment"
+            app:destination="@id/home_Detail_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/home_Detail_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Home_Detail_Fragment"
+        android:label="fragment_home__detail"
+        tools:layout="@layout/fragment_home_detail" >
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+</navigation>
