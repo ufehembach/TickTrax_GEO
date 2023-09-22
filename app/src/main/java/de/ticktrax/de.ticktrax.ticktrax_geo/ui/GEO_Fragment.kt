@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentGEOBinding
 
@@ -28,6 +29,7 @@ class GEO_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+   //     LocationService.geoLocation.Observe
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
             navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToMeFragment2())

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     // ufe stuff
     init {
-        Log.d("ufe-geo", "bla")
+        Log.d("ufe-geo", "mainactivity init")
     }
 
     private lateinit var hamDrawerLayout: DrawerLayout
@@ -137,6 +137,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d ("ufe-geo", "main on start, sent start intend")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_START
             startService(this)
@@ -144,6 +145,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+        Log.d ("ufe-geo", "main on stop, sent stop intend")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_STOP
             startService(this)
