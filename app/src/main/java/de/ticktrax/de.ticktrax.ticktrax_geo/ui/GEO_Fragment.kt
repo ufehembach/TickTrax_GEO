@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
 import de.ticktrax.ticktrax_geo.R
@@ -17,6 +18,7 @@ import de.ticktrax.ticktrax_geo.databinding.FragmentGEOBinding
 
 class GEO_Fragment : Fragment() {
     private lateinit var binding: FragmentGEOBinding
+    private val viewModel: TemplateViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +31,10 @@ class GEO_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-   //     LocationService.geoLocation.Observe
+        viewModel.geo.observe(viewLifecycleOwner){
+            binding.GeoLocTV?.text = it.latitude.toString() + "/"+ it.longitude.toString() + "/"+ it.altitude.toString()
+
+        }
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
             navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToMeFragment2())

@@ -7,15 +7,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import de.ticktrax.de.ticktrax.ticktrax_geo.location.DefaultLocationClient
-import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationClient
-import de.ticktrax.ticktrax_geo.data.GenericAppRepository
-import de.ticktrax.ticktrax_geo.data.local.TemplateDB.Companion.getDatabase
-import de.ticktrax.ticktrax_geo.data.remote.TemplateJsonApi
+import de.ticktrax.de.ticktrax.ticktrax_geo.RepositoryProvider
+import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
+import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
+import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import kotlinx.coroutines.flow.Flow
 
 enum class LOADStatus {
     NIX, LOADREQUESTED, LOADED, NIXLOADED
@@ -25,9 +23,9 @@ class TemplateViewModel (application: Application) : AndroidViewModel(applicatio
 
     val database = getDatabase(application)
     //private val TemplateRep = TemplateAppRepository(TemplateJsonApi,TemplateTxtApi)
-    private val genericRep = GenericAppRepository(TemplateJsonApi,database)
-    val genericEnv = genericRep.genericEnvelope
-
+    private val OSMRep = TickTraxAppRepository(OSMGsonApi,database)
+    val genericEnv = OSMRep.genericEnvelope
+    private val locationRepository = RepositoryProvider.locationRepository
     private val _saving = MutableLiveData<LOADStatus>()
     val saving: LiveData<LOADStatus>
         get() = _saving
@@ -68,13 +66,10 @@ class TemplateViewModel (application: Application) : AndroidViewModel(applicatio
         Log.d("ufe", "post txt corroutine")
     }
 
-    private val _geo = MutableLiveData<String>()
-    val geo: LiveData<String>
+    private val _geo = locationRepository.locationData
+    //val geo: LiveData<Pair<Double,Double>>
+    val geo: LiveData<Location>
         get() = _geo
 
-    public fun setGeo(lon: String, lat:String ){
-      _geo.value= lon + " " + lat
-        Log.d("ufe-viewmod", _geo.value!!)
-    }
 
 }

@@ -4,25 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import de.ticktrax.ticktrax_geo.data.datamodels.GenericData
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 
-@Database(entities = [GenericData::class], version = 1)
+@Database(entities = [OSMPlace::class], version = 1)
 //@TypeConverters(Converters::class)
-abstract class TemplateDB : RoomDatabase() {
+abstract class TickTraxDB : RoomDatabase() {
 
-    abstract val TemplateDao: TemplateDao
+    abstract val TemplateDao: TickTraxDao
 
     companion object {
-        private lateinit var dbInstance: TemplateDB
+        private lateinit var dbInstance: TickTraxDB
 
-        fun getDatabase(context: Context): TemplateDB {
+        fun getDatabase(context: Context): TickTraxDB {
             synchronized(this) {
                 // Initialisiere Datenbank
                 if (!this::dbInstance.isInitialized) {
                     dbInstance = Room.databaseBuilder(
                         context.applicationContext,
-                        TemplateDB::class.java,
-                        "contact_database"
+                        TickTraxDB::class.java,
+                        "ticktrax_database"
                     ).allowMainThreadQueries().build()
                 }
                 return dbInstance

@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
+import de.ticktrax.de.ticktrax.ticktrax_geo.RepositoryProvider
 import de.ticktrax.ticktrax_geo.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +25,7 @@ class LocationService: Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var locationClient: LocationClient
-
-    private var _geoLocation = MutableLiveData<Location>()
-    val  geoLocation: LiveData<Location>
-        get() = _geoLocation
+    private val locationRepository = RepositoryProvider.locationRepository
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -62,13 +60,15 @@ class LocationService: Service() {
             .getLocationUpdates(10000L)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
+
                 val lat = location.latitude.toString()//.takeLast(3)
                 val long = location.longitude.toString()//.takeLast(3)
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
                 Log.d("ufe-geo", "Location in LocService: ($lat, $long)")
-                _geoLocation.postValue(location)
+                //locationRepository.setLocation(location.latitude, location.longitude)
+                locationRepository.setLocation(location)
                 notificationManager.notify(1, updatedNotification.build())
             }
             .launchIn(serviceScope)
