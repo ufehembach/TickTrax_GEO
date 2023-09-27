@@ -10,7 +10,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 //@TypeConverters(Converters::class)
 abstract class TickTraxDB : RoomDatabase() {
 
-    abstract val TemplateDao: TickTraxDao
+    abstract val TickTraxDao: TickTraxDao
 
     companion object {
         private lateinit var dbInstance: TickTraxDB

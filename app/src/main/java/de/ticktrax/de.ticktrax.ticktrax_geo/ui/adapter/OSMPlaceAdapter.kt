@@ -5,17 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
-import de.ticktrax.ticktrax_geo.data.datamodels.GenericEnvelope
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
-import de.ticktrax.ticktrax_geo.ui.Home_Fragment
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
-import de.ticktrax.ticktrax_geo.ui.Home_Item_FragmentDirections
 
-class GenericAdapter(
-    private val GenericEnv: GenericEnvelope
-) : RecyclerView.Adapter<GenericAdapter.ItemViewHolder>() {
+class OSMPlaceAdapter(
+    private val thisOSMPlaces: List<OSMPlace>
+) : RecyclerView.Adapter<OSMPlaceAdapter.ItemViewHolder>() {
 
 
     // stellt einen Listeneintrag dar
@@ -37,22 +33,21 @@ class GenericAdapter(
         Log.d("ufe", "onviewcreated")
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
-        var genericDatas = GenericEnv.media
-        var genericData = genericDatas[position.toInt()]
+        var myOSMPlace = thisOSMPlaces[position.toInt()]
         Log.d("ufe", "onbindviewholder " + position)
-        binding.genericHeadTV.text = genericData.imagetext
+        binding.LonLatTV!!.text = myOSMPlace.lat.toString() + "/" + myOSMPlace.lon
+        binding.DisplayNameTV!!.text = myOSMPlace.displayName
+
         //Use Coil to load images
-        Log.d("ufe", "get image from " + genericData.image)
-        binding.genericIV.load(genericData.image) {
-            transformations(RoundedCornersTransformation(10F))
-        }
-        binding.genericHeadTV.text = genericData.name
+//        Log.d("ufe", "get image from " + genericData.image)
+//       binding.genericIV.load(genericData.image) {
+//            transformations(RoundedCornersTransformation(10F))
 
         binding.theCardView.setOnClickListener {
             Log.d("ufe", "on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
-                //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
+                    //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
                     Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
                 )
         }
@@ -63,7 +58,8 @@ class GenericAdapter(
      * damit der LayoutManager weiß, wie lang die Liste ist
      */
     override fun getItemCount(): Int {
-        return GenericEnv.media.size
+        //return enericEnv.media.size
+        return thisOSMPlaces.size
     }
 }
 

@@ -18,7 +18,7 @@ import de.ticktrax.ticktrax_geo.databinding.FragmentGEOBinding
 
 class GEO_Fragment : Fragment() {
     private lateinit var binding: FragmentGEOBinding
-    private val viewModel: TemplateViewModel by activityViewModels()
+    private val viewModel: TickTraxViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

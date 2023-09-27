@@ -1,6 +1,7 @@
 package de.ticktrax.de.ticktrax.ticktrax_geo
 
 import android.location.Location
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 object RepositoryProvider {
@@ -13,7 +14,8 @@ class SharedLocationRepository {
     //private val _locationData = MutableLiveData<Pair<Double, Double>>()
     private val _locationData = MutableLiveData<Location>()
     //val locationData: MutableLiveData<Pair<Double, Double>>
-    val locationData: MutableLiveData<Location>
+    // geändert bei reveiw
+    val locationData: LiveData<Location>
         get() = _locationData
 
     //fun setLocation(latitude: Double, longitude: Double) {

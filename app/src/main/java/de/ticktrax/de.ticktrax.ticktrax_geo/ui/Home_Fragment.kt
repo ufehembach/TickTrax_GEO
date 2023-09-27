@@ -10,13 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
-import de.ticktrax.ticktrax_geo.ui.adapter.GenericAdapter
+import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 
 
 class Home_Fragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: TemplateViewModel by activityViewModels()
+    private val viewModel: TickTraxViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,20 +38,16 @@ class Home_Fragment : Fragment() {
             navController.navigate(Home_FragmentDirections.actionHomeFragment2ToSettingsFragment2())
         }
 
-        binding.btnRefresh?.setOnClickListener{
-            Log.d("ufe","refreshwhat pressed")
-            viewModel.reloadGenericEnv()
-        }
-        viewModel.genericEnv.observe(viewLifecycleOwner) {
+//        binding.btnRefresh?.setOnClickListener{
+//            Log.d("ufe","refreshwhat pressed")
+//            viewModel.reloadGenericEnv()
+//        }
+        viewModel.osmPlaces.observe(viewLifecycleOwner) {
             Log.d("ufe", "Call Adapter ${it}")
-            Log.d("ufe", "${it.media.size}")
-            binding.rvGeneric?.adapter = GenericAdapter(it)
+            Log.d("ufe", "${it.size}")
+            binding.rvGeneric?.adapter = OSMPlaceAdapter(it)
         }
-        viewModel.genericEnv.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call Adapter ${it}")
-            //   Log.d("ufe", "${it.media.size}")
-            binding.rvGeneric?.adapter = GenericAdapter(it)
-        }
+
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
         val helper: SnapHelper = PagerSnapHelper()
         helper.attachToRecyclerView(binding.rvGeneric)

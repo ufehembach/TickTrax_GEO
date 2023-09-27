@@ -8,7 +8,7 @@ import de.ticktrax.de.ticktrax.ticktrax_geo.data.remote.Flatten
 
 const val OSMPLACES_TBL_NAME="tblOSMPlaces"
 
-@Entity(tableName = "tblOSMPlaces")
+@Entity(tableName = OSMPLACES_TBL_NAME)
 data class OSMPlace(
     @PrimaryKey
     @SerializedName("place_id") val placeId: Long,

@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
 
@@ -13,16 +15,19 @@ import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
 interface TickTraxDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItem(itemData: OSMPlace)
+    fun insertLonLatAlt(lonLatAlt: LonLatAltRoom)
+    @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
+    fun getAllLonLatAlt(): List<LonLatAltRoom>
 
-    //   @Insert(onConflict = OnConflictStrategy.REPLACE)
-    //   fun insertList(itemList:List<GenericData>)
+    // --------------------------------------------------
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOSMPlace(OSMPlace: OSMPlace)
 
     @Update
-    fun updateItem(itemData: OSMPlace)
+    fun updateOSMPlace(OSMPlace: OSMPlace)
 
     @Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
-    fun getAll(): LiveData<List<OSMPlace>>
+    fun getAllOSMPlaces(): List<OSMPlace>
 
     //   @Query("SELECT * FROM motiondata_table WHERE id = :id")
 //    fun getById(id: Long): LiveData<List<MotionData>>
@@ -30,9 +35,9 @@ interface TickTraxDao {
     //  @Query("DELETE FROM motion_table WHERE id = :id")
     //   fun delete(id: Long)
 
-    @Query("DELETE FROM "+ OSMPLACES_TBL_NAME)
-    fun deleteAll()
+    @Query("DELETE FROM " + OSMPLACES_TBL_NAME)
+    fun deleteAllOSMPlaces()
 
     @Query("SELECT COUNT(*) FROM " + OSMPLACES_TBL_NAME)
-    fun count(): Long
+    fun countOSMPlaces(): Long
 }
