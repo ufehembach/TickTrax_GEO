@@ -14,10 +14,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
 @Dao
 interface TickTraxDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLonLatAlt(lonLatAlt: LonLatAltRoom)
-    @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
-    fun getAllLonLatAlt(): List<LonLatAltRoom>
+
 
     // --------------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -40,4 +37,11 @@ interface TickTraxDao {
 
     @Query("SELECT COUNT(*) FROM " + OSMPLACES_TBL_NAME)
     fun countOSMPlaces(): Long
+
+    // -------------------------------------------------
+    // lon lat alt
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertLonLatAlt(lonLatAlt: LonLatAltRoom)
+    @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
+    fun getAllLonLatAlt(): List<LonLatAltRoom>
 }

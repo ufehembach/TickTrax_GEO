@@ -1,5 +1,6 @@
 package de.ticktrax.ticktrax_geo.data
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,10 @@ import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
  * Diese Klasse holt die Informationen und stellt sie mithilfe von Live Data dem Rest
  * der App zur Verfügung
  */
+
+object RepositoryProvider {
+    val locationRepository by lazy { TickTraxAppRepository(OSMGsonApi, database ) }
+}
 class TickTraxAppRepository(
     private val OSMGsonApi: OSMGsonApi,
     private val database: TickTraxDB
@@ -22,8 +27,9 @@ class TickTraxAppRepository(
 
     init{
         Log.d("ufe ", "TickTraxAppRepository -> INIT")
-        getAllLonLatAlt()
+       // getAllLonLatAlt()
     }
+
     private var _OSMPlace = MutableLiveData<OSMPlace>()
     val OSMPlace: LiveData<OSMPlace>
         get() = _OSMPlace
@@ -84,6 +90,20 @@ class TickTraxAppRepository(
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from API: $e")
         }
+    }
+    // -------------------------
+    // from sharedrepository
+    //private val _locationData = MutableLiveData<Pair<Double, Double>>()
+    private val _locationData = MutableLiveData<Location>()
+    //val locationData: MutableLiveData<Pair<Double, Double>>
+    // geändert bei reveiw
+    val locationData: LiveData<Location>
+        get() = _locationData
+
+    //fun setLocation(latitude: Double, longitude: Double) {
+    fun setLocation(myLocation: Location) {
+        //_locationData.postValue(Pair(latitude, longitude))
+        _locationData.postValue(myLocation)
     }
 }
 

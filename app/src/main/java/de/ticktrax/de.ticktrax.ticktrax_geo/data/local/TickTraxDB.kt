@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 
-@Database(entities = [OSMPlace::class], version = 1)
-//@TypeConverters(Converters::class)
+@Database(entities = [OSMPlace::class, LonLatAltRoom::class], version = 1)
 abstract class TickTraxDB : RoomDatabase() {
 
     abstract val TickTraxDao: TickTraxDao

@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import de.ticktrax.de.ticktrax.ticktrax_geo.RepositoryProvider
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
@@ -25,7 +24,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
 
     //private val TemplateRep = TemplateAppRepository(TemplateJsonApi,TemplateTxtApi)
     private val ttApRep = TickTraxAppRepository(OSMGsonApi, database)
-    private val locationRepository = RepositoryProvider.locationRepository
+//    private val locationRepository = RepositoryProvider.locationRepository
 
     init {
         Log.d("ufe", "init viewmodel")
@@ -38,7 +37,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
         get() = _saving
 
     // geo daten  lon lat
-    private val _geo = locationRepository.locationData
+    private val _geo = ttApRep.locationData
     val geo: LiveData<Location>
         get() = _geo
 
