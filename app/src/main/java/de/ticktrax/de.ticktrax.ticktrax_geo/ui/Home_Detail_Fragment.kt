@@ -65,7 +65,7 @@ class Home_Detail_Fragment : Fragment() {
             binding.addressTypeTV?.text=d.addresstype.toString()
             binding.nameTV?.text=d.name
             binding.displayNameTV?.text=d.displayName
-            binding.houseNumberTV?.text=d.houseNumber
+          //  binding.houseNumberTV?.text=d.houseNumber
             binding.roadTV?.text=d.road
             binding.hamletTV?.text=d.hamlet
             binding.townTV?.text=d.town

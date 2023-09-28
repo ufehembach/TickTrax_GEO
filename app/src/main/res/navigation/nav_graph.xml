@@ -83,6 +83,7 @@
         tools:layout="@layout/fragment_home_detail" >
         <argument
             android:name="position"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

@@ -48,6 +48,7 @@ class OSMPlaceAdapter(
             holder.binding.root.findNavController()
                 .navigate(
                     //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
+                    //Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
                     Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
                 )
         }

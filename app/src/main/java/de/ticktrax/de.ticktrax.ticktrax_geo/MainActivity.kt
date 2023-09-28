@@ -20,10 +20,9 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import de.ticktrax.de.ticktrax.ticktrax_geo.hasLocationPermission
 import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
 import kotlinx.coroutines.selects.select
-
-
 import de.ticktrax.ticktrax_geo.databinding.ActivityMainBinding
 
 
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         //Wird aufgerufen wenn Item in der NavBar ausgewählt wird
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            Log.d("ufe-geo", "BottomNavSelectList")
+            Log.d("ufe", "BottomNavSelectList " + item.itemId)
 
             //Standard NavBar Funktionalität: Navigiere zum ausgewählten Item
             //Hierbei wird auch im navController der entsprechende BackStack geladen
@@ -137,15 +136,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d ("ufe-geo", "main on start, sent start intend")
-        Intent(applicationContext, LocationService::class.java).apply {
-            action = LocationService.ACTION_START
-            startService(this)
-        }
+        Log.d("ufe-geo", "main on start, sent start intend")
+        if (!this.hasLocationPermission()) {
+            Log.d("ufe-geo", "No Permisson for geo set!")
+        } else
+
+            Intent(applicationContext, LocationService::class.java).apply {
+                action = LocationService.ACTION_START
+                startService(this)
+            }
     }
 
     override fun onStop() {
-        Log.d ("ufe-geo", "main on stop, sent stop intend")
+        Log.d("ufe-geo", "main on stop, sent stop intend")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_STOP
             startService(this)

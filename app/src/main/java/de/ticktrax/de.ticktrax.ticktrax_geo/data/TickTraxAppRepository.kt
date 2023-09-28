@@ -8,6 +8,9 @@ import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // todo
 /**
@@ -15,19 +18,23 @@ import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
  * der App zur Verfügung
  */
 
-object RepositoryProvider {
-    val locationRepository by lazy { TickTraxAppRepository(OSMGsonApi, database ) }
+object ttRepositoryProvider {
+    val TickTraxRepository by lazy { TickTraxAppRepository() }
 }
-class TickTraxAppRepository(
-    private val OSMGsonApi: OSMGsonApi,
-    private val database: TickTraxDB
-    // private val TemplateTxtApi: TemplateTxtApi
-) {
-//    private val locationRepository = RepositoryProvider.locationRepository
 
-    init{
+class TickTraxAppRepository {
+
+    private lateinit var oSMGsonApi: OSMGsonApi
+    private lateinit var database: TickTraxDB
+
+    init {
         Log.d("ufe ", "TickTraxAppRepository -> INIT")
-       // getAllLonLatAlt()
+        // getAllLonLatAlt()
+    }
+
+    public fun setParas(pOSMGsonApi: OSMGsonApi, pDatabase: TickTraxDB) {
+        oSMGsonApi = pOSMGsonApi
+        database = pDatabase
     }
 
     private var _OSMPlace = MutableLiveData<OSMPlace>()
@@ -64,47 +71,34 @@ class TickTraxAppRepository(
         }
     }
 
-    // -------------------------------------------
-    private var _lonLatAltRoom = MutableLiveData<LonLatAltRoom>()
-    val lonLatAltRoom: LiveData<LonLatAltRoom>
-        get() = _lonLatAltRoom
-
-    suspend fun saveOneLonLatAlt(lon: Double, lat: Double, alt: Double) {
-        try {
-            Log.d("ufe", "save lonlatalt Data from room")
-            var lonLatAlt = LonLatAltRoom(0, lon, lat, alt)
-            database.TickTraxDao.insertLonLatAlt((lonLatAlt))
-        } catch (e: Exception) {
-            Log.e("ufe", "error saving date from API: $e")
-        }
-    }
-
-    private var _lonLatAltRoomS = MutableLiveData<List<LonLatAltRoom>>()
-    val lonLatAltRoomS: LiveData<List<LonLatAltRoom>>
-        get() = _lonLatAltRoomS
-
-    suspend fun getAllLonLatAlt() {
-        try {
-            Log.d("ufe", "load lonlatalt Data from room")
-            _lonLatAltRoomS.postValue(database.TickTraxDao.getAllLonLatAlt())
-        } catch (e: Exception) {
-            Log.e("ufe", "Error loading Data from API: $e")
-        }
-    }
     // -------------------------
     // from sharedrepository
-    //private val _locationData = MutableLiveData<Pair<Double, Double>>()
     private val _locationData = MutableLiveData<Location>()
-    //val locationData: MutableLiveData<Pair<Double, Double>>
-    // geändert bei reveiw
+
     val locationData: LiveData<Location>
         get() = _locationData
 
     //fun setLocation(latitude: Double, longitude: Double) {
     fun setLocation(myLocation: Location) {
-        //_locationData.postValue(Pair(latitude, longitude))
         _locationData.postValue(myLocation)
+        var lonLatAlt: LonLatAltRoom =
+            LonLatAltRoom(0, myLocation.longitude, myLocation.latitude, myLocation.altitude)
+        Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
+        database.TickTraxDao.insertLonLatAlt((lonLatAlt))
+        Log.d("ufe", "after db insert:" + myLocation.toString())
+        // Starten Sie eine Coroutine auf dem Dispatchers.IO-Thread
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Führen Sie hier asynchrone Aufgaben aus, z.B. eine Netzwerkanfrage
+                getPlaceFromOSM(myLocation.latitude,myLocation.longitude)
+            } catch (e: Exception) {
+                // Behandeln Sie Fehler hier
+                Log.e("ufe", e.toString())
+            }
+            getAllOSMPlacesFromRoom()
+        }
     }
+
 }
 
 

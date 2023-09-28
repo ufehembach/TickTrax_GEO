@@ -13,13 +13,10 @@ import com.google.gson.TypeAdapterFactory
 import com.google.gson.reflect.TypeToken
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Query
 
 // Die Konstante enthält die URL der API
 const val BASE_URL = "https://nominatim.openstreetmap.org/"
-
-//private val moshi = Moshi.Builder()
-//    .add(KotlinJsonAdapterFactory())
-//    .build()
 
 object YourCustomGson {
     fun create(): Gson {
@@ -31,19 +28,20 @@ object YourCustomGson {
 
 val gson = GsonBuilder()
     .registerTypeAdapterFactory(FlattenTypeAdapterFactory())
+    //.serializeNulls()
     .create()
 
-    //.addConverterFactory(MoshiConverterFactory.create(moshi))
 private val retrofitGson = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create(gson))
     .baseUrl(BASE_URL)
     .build()
 
 interface OSMGsonApiService {
-    //@GET("users/{id}")
-    //suspend fun getUserById(@Path("id") userID: Int) : User
-    @GET("reverse?format=json&lat={GPSLat}&lon={GPSLon}")
-    suspend fun getOSMPlace(@Path("GPSLat") lat: Double, @Path("GPSLon") lon: Double): OSMPlace
+    @GET("reverse?format=json")
+    suspend fun getOSMPlace(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double
+    ): OSMPlace
 
 }
 
