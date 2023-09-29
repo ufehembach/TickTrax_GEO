@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
+import de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment
 
 class OSMPlaceAdapter(
     private val thisOSMPlaces: List<OSMPlace>
@@ -49,7 +50,7 @@ class OSMPlaceAdapter(
                 .navigate(
                     //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
                     //Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
-                    Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
+                    Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
                 )
         }
 

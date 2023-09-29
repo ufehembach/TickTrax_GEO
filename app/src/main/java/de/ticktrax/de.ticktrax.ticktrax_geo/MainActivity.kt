@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         hamDrawerToggle.syncState()
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         hamNavigationView.setNavigationItemSelectedListener() {
-            Log.d("ufe-geo", "HamburgerSelectList")
+            Log.d("ufe-geo", "HamburgerSelectList " +it.toString())
             when (it.itemId) {
                 R.id.home_Fragment2 ->
                     Toast.makeText(this, "hamburger home", Toast.LENGTH_SHORT).show()

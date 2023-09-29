@@ -6,14 +6,21 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.remote.Flatten
 
-const val LonLatAlt_TBL_NAME="tblLonLatAlt"
+const val LonLatAlt_TBL_NAME = "tblLonLatAlt"
 
 @Entity(tableName = LonLatAlt_TBL_NAME)
 data class LonLatAltRoom(
     @PrimaryKey(autoGenerate = true)
-    var LonLATALTId: Int = 0,
-    var lon : Double,
-    var lat : Double,
-    var alt: Double
+    var lonLatAltId: Int = 0,
 
-)
+    var lastSeen: String? = null,
+    var noOfSights: Long? = null,
+    var firstSeen: String? = null,
+
+    var lon: Double,
+    var lat: Double,
+    var alt: Double,
+
+
+
+    )

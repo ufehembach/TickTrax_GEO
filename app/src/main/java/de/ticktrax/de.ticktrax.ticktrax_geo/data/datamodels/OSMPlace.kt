@@ -14,6 +14,11 @@ data class OSMPlace(
     @PrimaryKey
     @SerializedName("place_id") val placeId: Long,
     //license
+
+    var lastSeen: String? = null,
+    var noOfSights: Long? = null,
+    var firstSeen: String? = null,
+
     var licence: String? = null,
 //    var osm_type: String,
     @SerializedName("osm_type") val osmType: String? = null,

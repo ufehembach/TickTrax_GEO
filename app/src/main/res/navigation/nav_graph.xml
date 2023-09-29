@@ -40,8 +40,8 @@
             android:id="@+id/action_home_Fragment2_to_settings_Fragment2"
             app:destination="@id/settings_Fragment2" />
         <action
-            android:id="@+id/action_home_Fragment2_to_home_Detail_Fragment"
-            app:destination="@id/home_Detail_Fragment" />
+            android:id="@+id/action_home_Fragment2_to_homeRecyclerDetail"
+            app:destination="@id/homeRecyclerDetail" />
     </fragment>
     <fragment
         android:id="@+id/me_Fragment2"
@@ -71,16 +71,12 @@
         android:id="@+id/home_Item_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment"
         android:label="fragment_home__item_"
-        tools:layout="@layout/fragment_home_item" >
-        <action
-            android:id="@+id/action_home_Item_Fragment_to_home_Detail_Fragment"
-            app:destination="@id/home_Detail_Fragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home_item" />
     <fragment
-        android:id="@+id/home_Detail_Fragment"
-        android:name="de.ticktrax.ticktrax_geo.ui.Home_Detail_Fragment"
-        android:label="fragment_home__detail"
-        tools:layout="@layout/fragment_home_detail" >
+        android:id="@+id/homeRecyclerDetail"
+        android:name="de.ticktrax.de.ticktrax.ticktrax_geo.ui.HomeRecyclerDetail"
+        android:label="fragment_home_recycler_detail"
+        tools:layout="@layout/fragment_home_recycler_detail" >
         <argument
             android:name="position"
             app:argType="integer"

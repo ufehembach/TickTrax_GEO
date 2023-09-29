@@ -1,6 +1,5 @@
 package de.ticktrax.ticktrax_geo.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,13 +7,15 @@ import androidx.room.Query
 import androidx.room.Update
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
-import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+
 
 @Dao
 interface TickTraxDao {
-
-
+    // for export
+ //   @get:Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
+ //   val allOSMPlaces: List<OSMPlace?>?
 
     // --------------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -42,6 +43,9 @@ interface TickTraxDao {
     // lon lat alt
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLonLatAlt(lonLatAlt: LonLatAltRoom)
+
     @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
     fun getAllLonLatAlt(): List<LonLatAltRoom>
+
+
 }

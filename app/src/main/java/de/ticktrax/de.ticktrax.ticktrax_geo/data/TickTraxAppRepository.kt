@@ -5,12 +5,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
+import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Date
 
 // todo
 /**
@@ -50,6 +52,9 @@ class TickTraxAppRepository {
             //     )
             Log.d("ufe", "Data from API ")
             //      Log.d("ufe", "Data from API " + _OSMPlace.value.media.size)
+            gsonOSMPlace.firstSeen=DateTimeUtils.formatDateTimeToUTC(Date())
+            gsonOSMPlace.lastSeen=DateTimeUtils.formatDateTimeToUTC(Date())
+            gsonOSMPlace.noOfSights=1
             _OSMPlace.postValue(gsonOSMPlace)
             database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
         } catch (e: Exception) {
@@ -80,9 +85,13 @@ class TickTraxAppRepository {
 
     //fun setLocation(latitude: Double, longitude: Double) {
     fun setLocation(myLocation: Location) {
+        val currentDate = Date()
+        val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
+        Log.d("Formatted Date (UTC)", formattedDateUTC)
+
         _locationData.postValue(myLocation)
         var lonLatAlt: LonLatAltRoom =
-            LonLatAltRoom(0, myLocation.longitude, myLocation.latitude, myLocation.altitude)
+            LonLatAltRoom(0,formattedDateUTC,1,formattedDateUTC, myLocation.longitude, myLocation.latitude, myLocation.altitude)
         Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
         database.TickTraxDao.insertLonLatAlt((lonLatAlt))
         Log.d("ufe", "after db insert:" + myLocation.toString())

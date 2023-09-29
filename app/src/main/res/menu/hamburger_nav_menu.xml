@@ -22,21 +22,21 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/home_Fragment2"
+                    android:id="@+id/Bla"
                     android:icon="@drawable/baseline_file_download_24"
-                    android:title="@string/MenuHome" />
+                    android:title="@string/MenuBla" />
                 <item
-                    android:id="@+id/export_Fragment2"
+                    android:id="@+id/blupp"
                     android:icon="@drawable/baseline_file_download_24"
-                    android:title="@string/MenuExport" />
+                    android:title="@string/MenuBlupp" />
                 <item
-                    android:id="@+id/me_Fragment2"
+                    android:id="@+id/impressum"
                     android:icon="@drawable/baseline_person_24"
-                    android:title="@string/MenuMe" />
+                    android:title="@string/MenuImpressum" />
                 <item
-                    android:id="@+id/settings_Fragment2"
+                    android:id="@+id/lizenz"
                     android:icon="@drawable/baseline_settings_24"
-                    android:title="@string/MenuSettings" />
+                    android:title="lizenz" />
             </group>
         </menu>
     </item>

@@ -1,26 +1,28 @@
-package de.ticktrax.ticktrax_g
-
-import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
+package de.ticktrax.de.ticktrax.ticktrax_geo.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.VideoView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import coil.load
-import coil.transform.RoundedCornersTransformation
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.databinding.FragmentHomeDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
+import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
+import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 
-class Home_Detail_Fragment : Fragment() {
+/**
+ * A simple [Fragment] subclass.
+ * Use the [HomeRecyclerDetail.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class HomeRecyclerDetail : Fragment() {
     // TODO: Rename and change types of parameters
+
     private val ViewModel: TickTraxViewModel by activityViewModels()
-    private lateinit var binding: FragmentHomeDetailBinding
+    private lateinit var binding:  FragmentHomeRecyclerDetailBinding
 
     private lateinit var myOSMPlace: OSMPlace
     private var index: Int = 0
@@ -31,18 +33,16 @@ class Home_Detail_Fragment : Fragment() {
             Log.d("ufe", "set pos  " + index)
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentHomeDetailBinding.inflate(inflater, container, false)
+        //  return inflater.inflate(R.layout.fragment_home_recycler_detail, container, false)
+        binding = FragmentHomeRecyclerDetailBinding.inflate(inflater, container, false)
         Log.d("ufe", " oncreateview ")
         return binding.root
-        //return inflater.inflate(R.layout.fragment_home_detail, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ufe", " settings fields ")
@@ -65,7 +65,7 @@ class Home_Detail_Fragment : Fragment() {
             binding.addressTypeTV?.text=d.addresstype.toString()
             binding.nameTV?.text=d.name
             binding.displayNameTV?.text=d.displayName
-          //  binding.houseNumberTV?.text=d.houseNumber
+            binding.houseNumberTV?.text=d.houseNumber
             binding.roadTV?.text=d.road
             binding.hamletTV?.text=d.hamlet
             binding.townTV?.text=d.town
@@ -95,4 +95,5 @@ class Home_Detail_Fragment : Fragment() {
         //    navController.navigateUp()
         // }
     }
+
 }
