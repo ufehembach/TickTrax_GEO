@@ -24,7 +24,7 @@ interface TickTraxDao {
     @Update
     fun updateOSMPlace(OSMPlace: OSMPlace)
 
-    @Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
+    @Query("SELECT * FROM " + OSMPLACES_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllOSMPlaces(): List<OSMPlace>
 
     //   @Query("SELECT * FROM motiondata_table WHERE id = :id")
