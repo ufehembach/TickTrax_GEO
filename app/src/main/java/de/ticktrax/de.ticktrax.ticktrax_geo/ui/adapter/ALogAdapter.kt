@@ -6,7 +6,12 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.de.ticktrax.ticktrax_geo.ui.ALog_Fragment
+import de.ticktrax.ticktrax_geo.ALogDetailFragment
+import de.ticktrax.ticktrax_geo.ALogFragmentDirections
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.databinding.FragmentALogBinding
+import de.ticktrax.ticktrax_geo.databinding.FragmentALogItemBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
 import de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment
@@ -16,7 +21,7 @@ class ALogAdapter(
 ) : RecyclerView.Adapter<ALogAdapter.ItemViewHolder>() {
 
     // stellt einen Listeneintrag dar
-    inner class ItemViewHolder(val binding: FragmentHomeItemBinding) :
+    inner class ItemViewHolder(val binding: FragmentALogItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     // hier werden neue ViewHolder erstellt
@@ -24,7 +29,7 @@ class ALogAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d("ufe", "create viewholder")
         val binding =
-            FragmentHomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            FragmentALogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -36,8 +41,7 @@ class ALogAdapter(
         // Hole die Somedata aus dem enveloppe
         var myALog = thisALog[position.toInt()]
         Log.d("ufe", "onbindviewholder " + position)
-        binding.LonLatTV!!.text = myALog.logText.toString() + "/" + thisALog.toString()
-        binding.DisplayNameTV!!.text = myALog.logText
+        binding.ALogItemTV.text = myALog.logText.toString() + "/" + thisALog.toString()
         //Use Coil to load images
 //        Log.d("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {
@@ -47,12 +51,10 @@ class ALogAdapter(
             Log.d("ufe", "on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
-                    //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
-                    //Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
-                    Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
+                    ALogFragmentDirections.actionALogFragmentToALogDetailFragment(position)
+
                 )
         }
-
     }
 
     /**

@@ -1,4 +1,4 @@
-package de.ticktrax.ticktrax_geo.ui
+package de.ticktrax.ticktrax_geo
 
 import android.os.Bundle
 import android.util.Log
@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
-import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
+import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
+import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 
 
-class Home_Fragment : Fragment() {
+class ALogFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: TickTraxViewModel by activityViewModels()
 
@@ -23,6 +22,7 @@ class Home_Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        Log.d("ufe","oncreateview ALOG")
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -30,19 +30,6 @@ class Home_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.nextFAB.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToExportFragment2())
-        }
-        binding.prevFAB.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToSettingsFragment2())
-        }
-
-//        binding.btnRefresh?.setOnClickListener{
-//            Log.d("ufe","refreshwhat pressed")
-//            viewModel.reloadGenericEnv()
-//        }
         viewModel.osmPlaces.observe(viewLifecycleOwner) {
             Log.d("ufe", "Call Adapter ${it}")
             Log.d("ufe", "${it.size}")
@@ -52,13 +39,5 @@ class Home_Fragment : Fragment() {
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
         val helper: SnapHelper = PagerSnapHelper()
         helper.attachToRecyclerView(binding.rvGeneric)
-
-    }
-    fun showLogFrag()
-    {
-        binding.root.findNavController()
-            .navigate(
-                Home_FragmentDirections.actionHomeFragment2ToALogFragment()
-            )
     }
 }

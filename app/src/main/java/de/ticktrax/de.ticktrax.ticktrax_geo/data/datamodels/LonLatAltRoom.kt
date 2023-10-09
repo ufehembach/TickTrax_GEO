@@ -20,7 +20,4 @@ data class LonLatAltRoom(
     var lon: Double,
     var lat: Double,
     var alt: Double,
-
-
-
     )

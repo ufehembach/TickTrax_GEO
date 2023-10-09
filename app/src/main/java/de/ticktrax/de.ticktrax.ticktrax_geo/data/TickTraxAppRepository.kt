@@ -4,10 +4,12 @@ import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
+import de.ticktrax.ticktrax_geo.data.local.TickTraxDao
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,9 +54,9 @@ class TickTraxAppRepository {
             //     )
             Log.d("ufe", "Data from API ")
             //      Log.d("ufe", "Data from API " + _OSMPlace.value.media.size)
-            gsonOSMPlace.firstSeen=DateTimeUtils.formatDateTimeToUTC(Date())
-            gsonOSMPlace.lastSeen=DateTimeUtils.formatDateTimeToUTC(Date())
-            gsonOSMPlace.noOfSights=1
+            gsonOSMPlace.firstSeen = DateTimeUtils.formatDateTimeToUTC(Date())
+            gsonOSMPlace.lastSeen = DateTimeUtils.formatDateTimeToUTC(Date())
+            gsonOSMPlace.noOfSights = 1
             _OSMPlace.postValue(gsonOSMPlace)
             database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
         } catch (e: Exception) {
@@ -72,7 +74,7 @@ class TickTraxAppRepository {
             Log.d("ufe", "I read " + allPlaces.size + " Records from ROOM")
             _OSMPlaces.postValue(allPlaces)
         } catch (e: Exception) {
-            Log.e("ufe", "Error loading Data from API: $e")
+            Log.e("ufe", "Error loading Data from ROOM: $e")
         }
     }
 
@@ -91,7 +93,15 @@ class TickTraxAppRepository {
 
         _locationData.postValue(myLocation)
         var lonLatAlt: LonLatAltRoom =
-            LonLatAltRoom(0,formattedDateUTC,1,formattedDateUTC, myLocation.longitude, myLocation.latitude, myLocation.altitude)
+            LonLatAltRoom(
+                0,
+                formattedDateUTC,
+                1,
+                formattedDateUTC,
+                myLocation.longitude,
+                myLocation.latitude,
+                myLocation.altitude
+            )
         Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
         database.TickTraxDao.insertLonLatAlt((lonLatAlt))
         Log.d("ufe", "after db insert:" + myLocation.toString())
@@ -99,7 +109,7 @@ class TickTraxAppRepository {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Führen Sie hier asynchrone Aufgaben aus, z.B. eine Netzwerkanfrage
-                getPlaceFromOSM(myLocation.latitude,myLocation.longitude)
+                getPlaceFromOSM(myLocation.latitude, myLocation.longitude)
             } catch (e: Exception) {
                 // Behandeln Sie Fehler hier
                 Log.e("ufe", e.toString())
@@ -108,6 +118,44 @@ class TickTraxAppRepository {
         }
     }
 
+    private val _alogData = MutableLiveData<ALog>()
+    val alogData: LiveData<ALog>
+        get() = _alogData
+
+    private val _alogDataS = MutableLiveData<List<ALog>>()
+    val alogDataS: LiveData<List<ALog>>
+        get() = _alogDataS
+
+    fun addLogEntry(type: String, logText: String?, lopDetail: String?) {
+        val currentDate = Date()
+        val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
+        Log.d("Formatted Date (UTC)", formattedDateUTC)
+        var myAlog: ALog = ALog(0, formattedDateUTC, type, logText, lopDetail)
+        _alogData.postValue(myAlog)
+        Log.d("ufe", "ALog Room:" + myAlog.toString())
+        database.TickTraxDao.insertLogEntry((myAlog))
+        Log.d("ufe", "after db insert:" + myAlog.toString())
+        getAllLogEntriesFromRoom()
+    }
+
+    private fun getAllLogEntriesFromRoom() {
+        try {
+            var allLogsEntries = database.TickTraxDao.getAllLogEntries()
+            Log.d("ufe", "I read " + allLogsEntries.size + " Records from ROOM")
+            _alogDataS.postValue(allLogsEntries)
+        } catch (e: Exception) {
+            Log.e("ufe", "Error loading Data from ROOM: $e")
+        }
+    }
+        suspend fun deleteSmallestIdEntry() {
+            val smallestIdEntry =database.TickTraxDao.getSmallestALogIdEntry()
+            smallestIdEntry?.let {
+                while(.getCountOfEntries())
+                {
+if ()
+                    database.TickTraxDao.deleteALogId(it)
+                }
+            }    }
 }
 
 

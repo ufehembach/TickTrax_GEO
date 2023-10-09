@@ -2,41 +2,45 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/home_Fragment2"
+            android:id="@+id/HMenuHome"
             android:icon="@drawable/baseline_file_download_24"
             android:title="@string/MenuHome" />
         <item
-            android:id="@+id/export_Fragment2"
-            android:icon="@drawable/baseline_file_download_24"
-            android:title="@string/MenuExport" />
-        <item
-            android:id="@+id/me_Fragment2"
+            android:id="@+id/HMenuMe"
             android:icon="@drawable/baseline_person_24"
             android:title="@string/MenuMe" />
         <item
-            android:id="@+id/settings_Fragment2"
+            android:id="@+id/HMenuExport"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="@string/MenuExport" />
+        <item
+            android:id="@+id/HMenuSettings"
             android:icon="@drawable/baseline_settings_24"
             android:title="@string/MenuSettings" />
+        <item
+            android:id="@+id/HMenuGeo"
+            android:icon="@drawable/baseline_settings_24"
+            android:title="@string/MenuGEO" />
     </group>
-    <item android:title="@string/MenuGEO">
+    <item android:title="@string/HMenuSettings">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/Bla"
+                    android:id="@+id/HMenuLog"
                     android:icon="@drawable/baseline_file_download_24"
-                    android:title="@string/MenuBla" />
+                    android:title="@string/HMenuLog" />
                 <item
-                    android:id="@+id/blupp"
+                    android:id="@+id/HMenuCopy"
                     android:icon="@drawable/baseline_file_download_24"
-                    android:title="@string/MenuBlupp" />
+                    android:title="@string/HMenuCopy" />
                 <item
-                    android:id="@+id/impressum"
+                    android:id="@+id/HMenuImpressum"
                     android:icon="@drawable/baseline_person_24"
-                    android:title="@string/MenuImpressum" />
+                    android:title="@string/HMenuImpressum" />
                 <item
-                    android:id="@+id/lizenz"
+                    android:id="@+id/HMenuLicense"
                     android:icon="@drawable/baseline_settings_24"
-                    android:title="lizenz" />
+                    android:title="@string/HMenuLicense" />
             </group>
         </menu>
     </item>

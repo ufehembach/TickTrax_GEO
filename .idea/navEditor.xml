@@ -8,6 +8,42 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="ALogDetailFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="989" />
+                            <option name="y" value="414" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="ALogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="796" />
+                            <option name="y" value="401" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="ALogItem">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="787" />
+                            <option name="y" value="719" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="GEO_Fragment2">
                     <value>
                       <LayoutPositions>
@@ -84,6 +120,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_home_Fragment2_to_export_Fragment2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_home_Fragment2_to_homeRecyclerDetail">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_home_Fragment2_to_homeRecyclerDetail"
             app:destination="@id/homeRecyclerDetail" />
+        <action
+            android:id="@+id/action_home_Fragment2_to_ALogFragment"
+            app:destination="@id/ALogFragment" />
     </fragment>
     <fragment
         android:id="@+id/me_Fragment2"
@@ -82,4 +85,27 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/ALogFragment"
+        android:name="de.ticktrax.ticktrax_geo.ALogFragment"
+        android:label="fragment_a_log"
+        tools:layout="@layout/fragment_a_log" >
+        <action
+            android:id="@+id/action_ALogFragment_to_ALogDetailFragment"
+            app:destination="@id/ALogDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ALogDetailFragment"
+        android:name="de.ticktrax.ticktrax_geo.ALogDetailFragment"
+        android:label="fragment_a_log_detail"
+        tools:layout="@layout/fragment_a_log_detail" >
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/ALogItem"
+        android:name="de.ticktrax.ticktrax_geo.ALogItem"
+        android:label="fragment_a_log_item"
+        tools:layout="@layout/fragment_a_log_item" />
 </navigation>

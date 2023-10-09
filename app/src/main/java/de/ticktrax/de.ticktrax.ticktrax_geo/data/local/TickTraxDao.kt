@@ -1,10 +1,13 @@
 package de.ticktrax.ticktrax_geo.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog_TBL_NAME
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
@@ -47,5 +50,14 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
     fun getAllLonLatAlt(): List<LonLatAltRoom>
 
+    // -------------------------------------------------
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertLogEntry(entry: ALog)
+    @Query("SELECT * FROM " + ALog_TBL_NAME)
+    fun getAllLogEntries():List<ALog>
+    @Query("SELECT * FROM "+ ALog_TBL_NAME + " ORDER BY id ASC LIMIT 1")
+    fun getSmallestALogIdEntry(): ALog?
 
+    @Delete
+    fun deleteALogId(entity: ALog)
 }

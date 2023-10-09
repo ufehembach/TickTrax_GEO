@@ -6,17 +6,15 @@
     <string name="MenuSettings">settings</string>
     <string name="MenuExport">export</string>
     <string name="MenuHome">Home</string>
-    <string name="MenuBla">Bla</string>
-    <string name="MenuBlupp">Blupp</string>
-    <string name="MenuImpressum">Impressum</string>
-    <string name="MenuLicense">Lizenz</string>
+    <string name="HMenuSettings">Settings</string>
+    <string name="HMenuLog">Log</string>
+    <string name="HMenuCopy">Copyright</string>
+    <string name="HMenuLicense">Lizenz</string>
+    <string name="HMenuImpressum">Impressum</string>
     <string name="openHam">openHam</string>
     <string name="closeHam">closeHam</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="doWhat">do what?</string>
+    <string name="ALog">Android-Log</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
-
-
 </resources>
