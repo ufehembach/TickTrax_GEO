@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import de.ticktrax.ticktrax_geo.databinding.FragmentALogBinding
+import de.ticktrax.ticktrax_geo.databinding.FragmentALogItemBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
+import de.ticktrax.ticktrax_geo.ui.adapter.ALogAdapter
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 
 
 class ALogFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentALogBinding
     private val viewModel: TickTraxViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -23,21 +26,21 @@ class ALogFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         Log.d("ufe","oncreateview ALOG")
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentALogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.osmPlaces.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call Adapter ${it}")
+        viewModel.alogDataS.observe(viewLifecycleOwner) {
+            Log.d("ufe", "Call ALOG Adapter ${it}")
             Log.d("ufe", "${it.size}")
-            binding.rvGeneric?.adapter = OSMPlaceAdapter(it)
+            binding.rvLog.adapter = ALogAdapter(it)
         }
 
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
         val helper: SnapHelper = PagerSnapHelper()
-        helper.attachToRecyclerView(binding.rvGeneric)
+        helper.attachToRecyclerView(binding.rvLog)
     }
 }

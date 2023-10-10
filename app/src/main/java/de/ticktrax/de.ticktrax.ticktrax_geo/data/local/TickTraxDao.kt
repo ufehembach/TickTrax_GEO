@@ -55,9 +55,11 @@ interface TickTraxDao {
     fun insertLogEntry(entry: ALog)
     @Query("SELECT * FROM " + ALog_TBL_NAME)
     fun getAllLogEntries():List<ALog>
-    @Query("SELECT * FROM "+ ALog_TBL_NAME + " ORDER BY id ASC LIMIT 1")
+    @Query("SELECT * FROM "+ ALog_TBL_NAME + " ORDER BY aLogId ASC LIMIT 1")
     fun getSmallestALogIdEntry(): ALog?
 
     @Delete
     fun deleteALogId(entity: ALog)
+    @Query("SELECT COUNT(*) FROM " + ALog_TBL_NAME)
+    fun countLogEntries(): Int
 }

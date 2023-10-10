@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
@@ -34,6 +36,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     init {
         Log.d("ufe", "init viewmodel")
         ttApRep.setParas(OSMGsonApi, database)
+        ttApRep.addLogEntry(ALogType.INFO,"Repository Initalized")
         //  loadAllOSMPlaces()
     }
 
@@ -48,8 +51,8 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
         get() = _geo
 
     // One OSM Place
-   // private val _osmPlace = MutableLiveData<OSMPlace>()
-    private val _osmPlace=ttApRep.OSMPlace
+    // private val _osmPlace = MutableLiveData<OSMPlace>()
+    private val _osmPlace = ttApRep.OSMPlace
     val osmPlace: LiveData<OSMPlace>
         get() = _osmPlace
 
@@ -59,7 +62,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     val osmPlaces: LiveData<List<OSMPlace>>
         get() = _osmPlaces
 
-//    fun loadPlaceFromOSM() {
+    //    fun loadPlaceFromOSM() {
 //        Log.d("ufe", "Pre json corroutine")
 //        viewModelScope.launch {
 //            _saving.value = LOADStatus.LOADREQUESTED
@@ -104,4 +107,11 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
 //        }
 //        Log.d("ufe", "post load corroutine")
 //    }
+    private val _alogData = ttApRep.alogData
+    val alogData: LiveData<ALog>
+        get() = _alogData
+
+    private val _alogDataS = ttApRep.alogDataS
+    val alogDataS: LiveData<List<ALog>>
+        get() = _alogDataS
 }

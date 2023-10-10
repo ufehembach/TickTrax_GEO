@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog_ROOM_Max
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
@@ -52,7 +54,7 @@ class TickTraxAppRepository {
             //          locationRepository.locationData.value!!.latitude,
             //          locationRepository.locationData.value!!.longitude
             //     )
-            Log.d("ufe", "Data from API ")
+            Log.d("ufe", "OSM Data from API ")
             //      Log.d("ufe", "Data from API " + _OSMPlace.value.media.size)
             gsonOSMPlace.firstSeen = DateTimeUtils.formatDateTimeToUTC(Date())
             gsonOSMPlace.lastSeen = DateTimeUtils.formatDateTimeToUTC(Date())
@@ -71,7 +73,7 @@ class TickTraxAppRepository {
     suspend fun getAllOSMPlacesFromRoom() {
         try {
             var allPlaces = database.TickTraxDao.getAllOSMPlaces()
-            Log.d("ufe", "I read " + allPlaces.size + " Records from ROOM")
+            Log.d("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
             _OSMPlaces.postValue(allPlaces)
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from ROOM: $e")
@@ -104,7 +106,7 @@ class TickTraxAppRepository {
             )
         Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
         database.TickTraxDao.insertLonLatAlt((lonLatAlt))
-        Log.d("ufe", "after db insert:" + myLocation.toString())
+        Log.d("ufe", "lonLatAlt - after db insert:" + myLocation.toString())
         // Starten Sie eine Coroutine auf dem Dispatchers.IO-Thread
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -126,7 +128,7 @@ class TickTraxAppRepository {
     val alogDataS: LiveData<List<ALog>>
         get() = _alogDataS
 
-    fun addLogEntry(type: String, logText: String?, lopDetail: String?) {
+    fun addLogEntry(type: ALogType, logText: String?, lopDetail: String?) {
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
         Log.d("Formatted Date (UTC)", formattedDateUTC)
@@ -134,28 +136,36 @@ class TickTraxAppRepository {
         _alogData.postValue(myAlog)
         Log.d("ufe", "ALog Room:" + myAlog.toString())
         database.TickTraxDao.insertLogEntry((myAlog))
-        Log.d("ufe", "after db insert:" + myAlog.toString())
+        Log.d("ufe", "ALog after db insert:" + myAlog.toString())
         getAllLogEntriesFromRoom()
+    }
+
+    fun addLogEntry(type: ALogType, logText: String?) {
+        addLogEntry(type, logText, "rep " + logText)
     }
 
     private fun getAllLogEntriesFromRoom() {
         try {
             var allLogsEntries = database.TickTraxDao.getAllLogEntries()
-            Log.d("ufe", "I read " + allLogsEntries.size + " Records from ROOM")
+            Log.d("ufe", "I read " + allLogsEntries.size + " ALog Records from ROOM")
             _alogDataS.postValue(allLogsEntries)
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from ROOM: $e")
         }
     }
-        suspend fun deleteSmallestIdEntry() {
-            val smallestIdEntry =database.TickTraxDao.getSmallestALogIdEntry()
+
+    suspend fun getCountOfLogEntries(): Int {
+        return database.TickTraxDao.countLogEntries()
+    }
+
+    suspend fun deleteSmallestIdEntry() {
+        while (getCountOfLogEntries() > ALog_ROOM_Max) {
+            val smallestIdEntry = database.TickTraxDao.getSmallestALogIdEntry()
             smallestIdEntry?.let {
-                while(.getCountOfEntries())
-                {
-if ()
-                    database.TickTraxDao.deleteALogId(it)
-                }
-            }    }
+                database.TickTraxDao.deleteALogId(it)
+            }
+        }
+    }
 }
 
 

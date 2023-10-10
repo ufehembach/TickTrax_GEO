@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -27,9 +28,11 @@ import kotlinx.coroutines.selects.select
 import de.ticktrax.ticktrax_geo.databinding.ActivityMainBinding
 import de.ticktrax.ticktrax_geo.ui.Home_Fragment
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
+import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 
 
 class MainActivity : AppCompatActivity() {
+    // private val viewModel: TickTraxViewModel by activityViewModels()
 
     // ufe stuff
     init {
@@ -47,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("ufe-geo", "onCreate")
@@ -57,57 +59,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-//hamburger
-        Log.d("ufe-geo", "Hamburger")
-        hamDrawerLayout = binding.hamDrawerLayout
-        hamNavigationView = binding.hamburgerNav
-        hamDrawerToggle =
-            ActionBarDrawerToggle(this, hamDrawerLayout, R.string.openHam, R.string.closeHam)
-        hamDrawerLayout.addDrawerListener(hamDrawerToggle)
-        hamDrawerToggle.syncState()
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-        hamNavigationView.setNavigationItemSelectedListener() {
-            Log.d("ufe-geo", "HamburgerSelectList " + it.toString())
-            when (it.itemId) {
-                R.id.HMenuHome ->
-                    Toast.makeText(this, R.string.MenuHome, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuMe ->
-                    Toast.makeText(this, R.string.MenuMe, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuExport ->
-                    Toast.makeText(this, R.string.MenuExport, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuSettings ->
-                    Toast.makeText(this, R.string.MenuSettings, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuGeo ->
-                    Toast.makeText(this, R.string.MenuGEO, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuLog -> {
-                    Log.d("ufe", "Hamburger nav to log" + it.toString())
-                    val navController = findNavController(R.id.navHostHomeFrag)
-                    navController.navigate(R.id.ALogFragment)
-                    Log.d("ufe", "Hamburger after nav to log" + it.toString())
-                    Toast.makeText(this, R.string.HMenuLog, Toast.LENGTH_SHORT).show()
-                }
-
-                R.id.HMenuLicense -> {
-                    Toast.makeText(this, R.string.HMenuLicense, Toast.LENGTH_SHORT).show()
-                    // When the user selects an option to see the licenses:
-                    startActivity(Intent(this, OssLicensesMenuActivity::class.java))
-                }
-
-                R.id.HMenuCopy ->
-                    Toast.makeText(this, R.string.HMenuCopy, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuImpressum ->
-                    Toast.makeText(this, R.string.HMenuImpressum, Toast.LENGTH_SHORT).show()
-
-            }
-
-            return@setNavigationItemSelectedListener false
-        }
         //NavController durch NavHostFragment laden
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostHomeFrag) as NavHostFragment
@@ -136,7 +87,63 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        //hamburger
 
+        Log.d("ufe-geo", "Hamburger")
+        hamDrawerLayout = binding.hamDrawerLayout
+        hamNavigationView = binding.hamburgerNav
+        hamDrawerToggle =
+            ActionBarDrawerToggle(this, hamDrawerLayout, R.string.openHam, R.string.closeHam)
+        hamDrawerLayout.addDrawerListener(hamDrawerToggle)
+        hamDrawerToggle.syncState()
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        hamNavigationView.setNavigationItemSelectedListener() {
+            Log.d("ufe-geo", "HamburgerSelectList " + it.toString())
+            //("ufe-geo", "HamburgerSelectList " + it.toString())
+            when (it.itemId) {
+                R.id.HMenuHome ->
+                    Toast.makeText(this, R.string.MenuHome, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuMe ->
+                    Toast.makeText(this, R.string.MenuMe, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuExport ->
+                    Toast.makeText(this, R.string.MenuExport, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuSettings ->
+                    Toast.makeText(this, R.string.MenuSettings, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuGeo ->
+                    Toast.makeText(this, R.string.MenuGEO, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuLog -> {
+                    Log.d("ufe", "Hamburger nav to log" + it.toString())
+                    // ("ufe", "Hamburger nav to log"+it.toString())
+                    Toast.makeText(this, "pre- " + R.string.HMenuLog, Toast.LENGTH_SHORT).show()
+                    // val navController = findNavController(R.id.navHostHomeFrag)
+                    // navController.navigate(R.id.ALogFragment)
+                    navHostFragment.navController.navigate(R.id.ALogFragment)
+                    Log.d("ufe", "Hamburger after nav to log" + it.toString())
+                    Toast.makeText(this, R.string.HMenuLog, Toast.LENGTH_SHORT).show()
+                    hamDrawerLayout.closeDrawer(GravityCompat.START)
+                }
+
+                R.id.HMenuLicense -> {
+                    Toast.makeText(this, R.string.HMenuLicense, Toast.LENGTH_SHORT).show()
+                    // When the user selects an option to see the licenses:
+                    startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+                }
+
+                R.id.HMenuCopy ->
+                    Toast.makeText(this, R.string.HMenuCopy, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuImpressum ->
+                    Toast.makeText(this, R.string.HMenuImpressum, Toast.LENGTH_SHORT).show()
+
+            }
+
+            return@setNavigationItemSelectedListener false
+        }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 navController.navigateUp()
