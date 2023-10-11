@@ -53,7 +53,7 @@ interface TickTraxDao {
     // -------------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogEntry(entry: ALog)
-    @Query("SELECT * FROM " + ALog_TBL_NAME)
+    @Query("SELECT * FROM " + ALog_TBL_NAME+ " ORDER BY dateTime DESC" )
     fun getAllLogEntries():List<ALog>
     @Query("SELECT * FROM "+ ALog_TBL_NAME + " ORDER BY aLogId ASC LIMIT 1")
     fun getSmallestALogIdEntry(): ALog?

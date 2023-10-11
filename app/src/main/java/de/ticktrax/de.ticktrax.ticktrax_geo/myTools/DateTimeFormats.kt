@@ -1,34 +1,43 @@
-import org.threeten.bp.Duration
-import org.threeten.bp.Instant
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 object DateTimeFormats {
-    fun formatDateTime(timestamp: Long): String {
-        val instant = Instant.ofEpochMilli(timestamp)
-        val zonedDateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
-        val now = ZonedDateTime.now()
-        val duration = Duration.between(zonedDateTime, now)
-        val days = duration.toDays()
-        return if (days == 0L) {
+    fun formatDateTime(myDate: Date): String {
+        val nowDate = Date()
+
+        val nowCalendar = Calendar.getInstance()
+        nowCalendar.time = nowDate
+        val myCalendar = Calendar.getInstance()
+        myCalendar.time = myDate
+
+        val diffTimestampMillis = nowDate.time - myDate.time
+        val diffDays = TimeUnit.DAYS.convert(diffTimestampMillis, TimeUnit.MILLISECONDS)
+
+
+        return if (diffDays == 0L) {
             // Today -> only time
-            formatTime(timestamp)
-        } else if (days == 1L) {
+            formatTime(myDate.time)
+        } else if (diffDays == 1L) {
             // Yesterday -> yesterday + time
-            "Yesterday " + formatTime(timestamp)
-        } else if (days <= 7) {
+            "Yesterday " + formatTime(myDate.time)
+        } else if (diffDays <= 7) {
             // Within a week -> date and time
-            formatDateAndTime(timestamp)
-        } else if (days <= 30) {
+            formatDateAndTime(myDate.time)
+        } else if (diffDays <= 30) {
             // Older than a week, but within a month -> only week
-            "Week of " + formatDate(timestamp)
+            "Week of " + formatDate(myDate.time)
         } else {
             // Older than a month -> only day
-            formatDate(timestamp)
+            formatDate(myDate.time)
         }
+        return "nix"
     }
 
     private fun formatDate(timestamp: Long): String {
@@ -42,7 +51,7 @@ object DateTimeFormats {
     }
 
     private fun formatTime(timestamp: Long): String {
-        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         return sdf.format(Date(timestamp))
     }
 }

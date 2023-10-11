@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
@@ -22,6 +23,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.de.ticktrax.ticktrax_geo.hasLocationPermission
 import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
 import kotlinx.coroutines.selects.select
@@ -29,10 +31,11 @@ import de.ticktrax.ticktrax_geo.databinding.ActivityMainBinding
 import de.ticktrax.ticktrax_geo.ui.Home_Fragment
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
-    // private val viewModel: TickTraxViewModel by activityViewModels()
+    private val viewModel: TickTraxViewModel by viewModels()
 
     // ufe stuff
     init {
@@ -58,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.aLog(ALogType.INFO,"################# TZ:"+ Locale.getDefault())
+        viewModel.aLog(ALogType.INFO,"App Started")
 
         //NavController durch NavHostFragment laden
         val navHostFragment =
@@ -86,9 +91,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
-
         //hamburger
-
         Log.d("ufe-geo", "Hamburger")
         hamDrawerLayout = binding.hamDrawerLayout
         hamNavigationView = binding.hamburgerNav
@@ -173,9 +176,10 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.d("ufe-geo", "main on start, sent start intend")
         if (!this.hasLocationPermission()) {
-            Log.d("ufe-geo", "No Permisson for geo set!")
+            viewModel.aLog(ALogType.GEO,"No Location Permissions")
+            Log.d("ufe-geo", "No Location Permissions")
         } else
-
+            viewModel.aLog(ALogType.GEO,"LocationService Intent - START")
             Intent(applicationContext, LocationService::class.java).apply {
                 action = LocationService.ACTION_START
                 startService(this)
@@ -183,12 +187,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+        Log.d("ufe-geo", "main on stop")
+        viewModel.aLog(ALogType.GEO,"main-onStop")
+    }
+
+    override fun onDestroy() {
         Log.d("ufe-geo", "main on stop, sent stop intend")
+        viewModel.aLog(ALogType.GEO,"LocationService Intent - STOP")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_STOP
             startService(this)
         }
-        super.onStop()
+        super.onDestroy()
     }
 
 

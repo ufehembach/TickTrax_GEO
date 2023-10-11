@@ -114,4 +114,10 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     private val _alogDataS = ttApRep.alogDataS
     val alogDataS: LiveData<List<ALog>>
         get() = _alogDataS
+    fun aLog(type: ALogType, logText: String?) {
+        ttApRep.addLogEntry(type, logText, "rep " + logText)
+    }
+    fun aLog(type: ALogType, logText: String?,logDetail:String?) {
+        ttApRep.addLogEntry(type, logText, "rep " + logText)
+    }
 }

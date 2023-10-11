@@ -1,13 +1,16 @@
 package de.ticktrax.ticktrax_geo.ui.adapter
 
+import DateTimeFormats
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.ALogFragmentDirections
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogItemBinding
+import java.util.Date
 
 class ALogAdapter(
     private val thisALog: List<ALog>
@@ -34,7 +37,12 @@ class ALogAdapter(
         // Hole die Somedata aus dem enveloppe
         var myALog = thisALog[position.toInt()]
         Log.d("ufe", "ALOG onbindviewholder " + position)
-        binding.ALogItemTV.text = myALog.dateTime.toString() +" "+ myALog.logType.toString()+" "+ myALog.logText.toString()
+        var myDate = DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString())
+        var niceDateString = DateTimeFormats.formatDateTime(myDate)
+        //DateTimeUtils.formatDateTime(DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString()))
+
+        binding.ALogItemTV.text =
+            niceDateString + " " + myALog.logType.toString() + " " + myALog.logText.toString()
         //Use Coil to load images
 //        Log.d("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {

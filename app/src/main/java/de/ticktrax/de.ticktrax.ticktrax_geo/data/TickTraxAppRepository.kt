@@ -60,6 +60,7 @@ class TickTraxAppRepository {
             gsonOSMPlace.lastSeen = DateTimeUtils.formatDateTimeToUTC(Date())
             gsonOSMPlace.noOfSights = 1
             _OSMPlace.postValue(gsonOSMPlace)
+            addLogEntry(ALogType.GEO,"OSM Place added", gsonOSMPlace.toString())
             database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from API: $e")
@@ -106,6 +107,7 @@ class TickTraxAppRepository {
             )
         Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
         database.TickTraxDao.insertLonLatAlt((lonLatAlt))
+        addLogEntry(ALogType.GEO,"LonLatAlt added", lonLatAlt.toString())
         Log.d("ufe", "lonLatAlt - after db insert:" + myLocation.toString())
         // Starten Sie eine Coroutine auf dem Dispatchers.IO-Thread
         CoroutineScope(Dispatchers.IO).launch {
