@@ -23,7 +23,7 @@ class ALogAdapter(
     // hier werden neue ViewHolder erstellt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        Log.d("ufe", "ALOG Adapter create viewholder")
+       // Log.d("ufe", "ALOG Adapter create viewholder")
         val binding =
             FragmentALogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
@@ -36,7 +36,7 @@ class ALogAdapter(
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
         var myALog = thisALog[position.toInt()]
-        Log.d("ufe", "ALOG onbindviewholder " + position)
+        //  Log.d("ufe", "ALOG onbindviewholder " + position)
         var myDate = DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString())
         var niceDateString = DateTimeFormats.formatDateTime(myDate)
         //DateTimeUtils.formatDateTime(DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString()))
@@ -49,7 +49,7 @@ class ALogAdapter(
 //            transformations(RoundedCornersTransformation(10F))
 
         binding.theCardView.setOnClickListener {
-            Log.d("ufe", "ALOG Adapter on the way to detail with $position")
+//            Log.d("ufe", "ALOG Adapter on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
                     ALogFragmentDirections.actionALogFragmentToALogDetailFragment(position)

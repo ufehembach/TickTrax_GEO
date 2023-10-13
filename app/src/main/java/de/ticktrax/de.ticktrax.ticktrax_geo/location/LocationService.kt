@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
+import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
@@ -42,6 +43,7 @@ class LocationService : Service() {
             applicationContext,
             LocationServices.getFusedLocationProviderClient(applicationContext)
         )
+        Log.d("ufe-service", "service on create")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -49,6 +51,8 @@ class LocationService : Service() {
             ACTION_START -> start()
             ACTION_STOP -> stop()
         }
+        //ttApRep.addLogEntry(ALogType.FGSERV, "service on startCommand")
+        Log.d("ufe-service", "service on onStartCommand()")
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -58,6 +62,8 @@ class LocationService : Service() {
             .setContentText("Location: null")
             .setSmallIcon(R.drawable.opas_ticktrax_app_logo)
             .setOngoing(true)
+        //ttApRep.addLogEntry(ALogType.FGSERV, "service on start")
+        Log.d("ufe-service","Service Start")
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -75,6 +81,11 @@ class LocationService : Service() {
                 Log.d("ufe-geo", "Location in LocService: ($lat, $long)")
                 // locationRepository.setLocation(location)
                 ttApRep.setLocation(location)
+                ttApRep.addLogEntry(
+                    ALogType.FGSERV,
+                    "LocService: ($lat, $long)",
+                    location.toString()
+                )
                 notificationManager.notify(1, updatedNotification.build())
             }
             .launchIn(serviceScope)

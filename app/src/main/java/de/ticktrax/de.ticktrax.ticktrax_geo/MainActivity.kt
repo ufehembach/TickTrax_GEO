@@ -174,6 +174,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        viewModel.aLog(ALogType.GEO,"main on start, sent start intend")
         Log.d("ufe-geo", "main on start, sent start intend")
         if (!this.hasLocationPermission()) {
             viewModel.aLog(ALogType.GEO,"No Location Permissions")
@@ -189,6 +190,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         Log.d("ufe-geo", "main on stop")
         viewModel.aLog(ALogType.GEO,"main-onStop")
+        super.onStop()
     }
 
     override fun onDestroy() {

@@ -107,7 +107,7 @@ class TickTraxAppRepository {
             )
         Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
         database.TickTraxDao.insertLonLatAlt((lonLatAlt))
-        addLogEntry(ALogType.GEO,"LonLatAlt added", lonLatAlt.toString())
+        addLogEntry(ALogType.GEO,"LonLatAlt (${lonLatAlt.lon},${lonLatAlt.lat})", lonLatAlt.toString())
         Log.d("ufe", "lonLatAlt - after db insert:" + myLocation.toString())
         // Starten Sie eine Coroutine auf dem Dispatchers.IO-Thread
         CoroutineScope(Dispatchers.IO).launch {
@@ -133,12 +133,12 @@ class TickTraxAppRepository {
     fun addLogEntry(type: ALogType, logText: String?, lopDetail: String?) {
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
-        Log.d("Formatted Date (UTC)", formattedDateUTC)
+     //   Log.d("Formatted Date (UTC)", formattedDateUTC)
         var myAlog: ALog = ALog(0, formattedDateUTC, type, logText, lopDetail)
         _alogData.postValue(myAlog)
-        Log.d("ufe", "ALog Room:" + myAlog.toString())
+     //   Log.d("ufe", "ALog Room:" + myAlog.toString())
         database.TickTraxDao.insertLogEntry((myAlog))
-        Log.d("ufe", "ALog after db insert:" + myAlog.toString())
+     //   Log.d("ufe", "ALog after db insert:" + myAlog.toString())
         getAllLogEntriesFromRoom()
     }
 

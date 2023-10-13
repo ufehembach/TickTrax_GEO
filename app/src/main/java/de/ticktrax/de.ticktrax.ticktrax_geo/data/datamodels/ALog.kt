@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 enum class ALogType {
-    INFO, API, GEO, ERROR
+    FGSERV,INFO, API, GEO, ERROR
 }
 
 const val ALog_TBL_NAME = "tblAlog"
