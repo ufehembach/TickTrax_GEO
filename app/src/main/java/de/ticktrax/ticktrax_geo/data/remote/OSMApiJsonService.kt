@@ -2,7 +2,7 @@ package de.ticktrax.ticktrax_geo.data.remote
 
 import com.google.gson.GsonBuilder
 import com.squareup.moshi.Moshi
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.remote.FlattenTypeAdapterFactory
+import de.ticktrax.ticktrax_geo.data.remote.FlattenTypeAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET

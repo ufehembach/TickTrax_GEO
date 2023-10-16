@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo
+package de.ticktrax.ticktrax_geo
 
 import android.Manifest
 import android.content.Context

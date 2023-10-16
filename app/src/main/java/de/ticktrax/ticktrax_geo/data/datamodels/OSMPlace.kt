@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 //import com.squareup.moshi.Json
 import com.google.gson.annotations.SerializedName
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.remote.Flatten
+import de.ticktrax.ticktrax_geo.data.remote.Flatten
 import androidx.annotation.Nullable; // Import this for @Nullable annotation
 
 const val OSMPLACES_TBL_NAME = "tblOSMPlaces"

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 
 @Database(entities = [OSMPlace::class, LonLatAltRoom::class, ALog::class], version = 1)

@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.data.remote;
+package de.ticktrax.ticktrax_geo.data.remote;
 
 
 import java.lang.annotation.ElementType;

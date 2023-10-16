@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
-import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.ALogFragmentDirections
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogItemBinding
 import java.util.Date

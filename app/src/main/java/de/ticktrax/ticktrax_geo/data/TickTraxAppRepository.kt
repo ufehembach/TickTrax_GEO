@@ -4,11 +4,11 @@ import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog_ROOM_Max
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
-import de.ticktrax.de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog_ROOM_Max
+import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
+import de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDao

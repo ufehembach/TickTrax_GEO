@@ -56,7 +56,7 @@
         tools:layout="@layout/fragment_home_item" />
     <fragment
         android:id="@+id/homeRecyclerDetail"
-        android:name="de.ticktrax.de.ticktrax.ticktrax_geo.ui.HomeRecyclerDetail"
+        android:name="de.ticktrax.ticktrax_geo.ui.HomeRecyclerDetail"
         android:label="fragment_home_recycler_detail"
         tools:layout="@layout/fragment_home_recycler_detail" >
         <argument

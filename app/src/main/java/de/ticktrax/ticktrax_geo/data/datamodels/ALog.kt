@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels
+package de.ticktrax.ticktrax_geo.data.datamodels
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

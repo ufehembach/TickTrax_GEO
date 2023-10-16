@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.myTools
+package de.ticktrax.ticktrax_geo.myTools
 
 import android.util.Log
 import java.text.ParseException

@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase

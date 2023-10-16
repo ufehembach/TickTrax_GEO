@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.ui
+package de.ticktrax.ticktrax_geo.ui
 
 import android.os.Bundle
 import android.util.Log

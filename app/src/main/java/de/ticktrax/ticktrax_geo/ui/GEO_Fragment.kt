@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
+import de.ticktrax.ticktrax_geo.location.LocationService
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentGEOBinding
 

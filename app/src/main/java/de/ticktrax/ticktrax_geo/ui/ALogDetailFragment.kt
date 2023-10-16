@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogDetailBinding

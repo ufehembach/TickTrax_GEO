@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.location
+package de.ticktrax.ticktrax_geo.location
 
 import android.app.NotificationManager
 import android.app.Service
@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB

@@ -39,7 +39,7 @@
                     android:title="@string/HMenuImpressum" />
                 <item
                     android:id="@+id/HMenuLicense"
-                    android:icon="@drawable/baseline_court_24"
+                    android:icon="@drawable/paragraph   "
                     android:title="@string/HMenuLicense" />
             </group>
         </menu>

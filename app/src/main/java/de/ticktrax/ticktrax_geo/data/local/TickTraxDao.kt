@@ -6,10 +6,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALog_TBL_NAME
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog
+import de.ticktrax.ticktrax_geo.data.datamodels.ALog_TBL_NAME
+import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
+import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 

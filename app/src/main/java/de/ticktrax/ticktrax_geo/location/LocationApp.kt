@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.location
+package de.ticktrax.ticktrax_geo.location
 
 import android.app.Application
 import android.app.Notification

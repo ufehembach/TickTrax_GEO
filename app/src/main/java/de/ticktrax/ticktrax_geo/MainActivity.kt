@@ -23,9 +23,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import de.ticktrax.de.ticktrax.ticktrax_geo.data.datamodels.ALogType
-import de.ticktrax.de.ticktrax.ticktrax_geo.hasLocationPermission
-import de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService
+import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.ticktrax_geo.hasLocationPermission
+import de.ticktrax.ticktrax_geo.location.LocationService
 import kotlinx.coroutines.selects.select
 import de.ticktrax.ticktrax_geo.databinding.ActivityMainBinding
 import de.ticktrax.ticktrax_geo.ui.Home_Fragment

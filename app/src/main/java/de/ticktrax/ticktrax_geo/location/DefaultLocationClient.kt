@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.location
+package de.ticktrax.ticktrax_geo.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import de.ticktrax.de.ticktrax.ticktrax_geo.hasLocationPermission
+import de.ticktrax.ticktrax_geo.hasLocationPermission
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

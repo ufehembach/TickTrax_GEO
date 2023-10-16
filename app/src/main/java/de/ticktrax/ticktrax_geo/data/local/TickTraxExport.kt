@@ -1,4 +1,4 @@
-package de.ticktrax.de.ticktrax.ticktrax_geo.data.local
+package de.ticktrax.ticktrax_geo.data.local
 
 import com.google.gson.Gson
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace

@@ -12,7 +12,7 @@
 
 
     <application
-        android:name="de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationApp"
+        android:name="de.ticktrax.ticktrax_geo.location.LocationApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,7 +23,7 @@
         android:theme="@style/Theme.TickTrax_GEO"
         tools:targetApi="31">
         <service
-            android:name="de.ticktrax.de.ticktrax.ticktrax_geo.location.LocationService"
+            android:name="de.ticktrax.ticktrax_geo.location.LocationService"
             android:foregroundServiceType="location" />
         <activity
             android:name=".MainActivity"
