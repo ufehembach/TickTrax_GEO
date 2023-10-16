@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import de.ticktrax.ticktrax_geo.databinding.FragmentSettingsBinding
+import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesBinding
 
-
-class Settings_Fragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
-
+class Places_Fragment : Fragment() {
+    private lateinit var binding: FragmentPlacesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding = FragmentPlacesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -26,11 +24,12 @@ class Settings_Fragment : Fragment() {
 
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Settings_FragmentDirections.actionSettingsFragment2ToHomeFragment2())
+            navController.navigate(Places_FragmentDirections.actionPlacesFragmentToLocationsFragment())
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Settings_FragmentDirections.actionSettingsFragment2ToMeFragment2())
+            //navController.navigate(Me_FragmentDirections.actionMeFragment2ToGEOFragment2())
+            navController.navigate(Places_FragmentDirections.actionPlacesFragmentToHomeFragment22())
 
 //       //Create function to navigate, because we have access to the navController in the fragment
 //        //This function can be passed to the adapter

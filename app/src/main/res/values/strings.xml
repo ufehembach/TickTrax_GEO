@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TickTrax-GEO</string>
-    <string name="MenuMe">me</string>
-    <string name="MenuGEO">geo</string>
-    <string name="MenuSettings">settings</string>
-    <string name="MenuExport">export</string>
-    <string name="MenuHome">Home</string>
-    <string name="HMenuSettings">Settings</string>
     <string name="HMenuLog">Log</string>
+    <string name="HMenuSettings">Settings</string>
     <string name="HMenuCopy">Copyright</string>
     <string name="HMenuLicense">Lizenz</string>
     <string name="HMenuImpressum">Impressum</string>
@@ -15,6 +10,11 @@
     <string name="closeHam">closeHam</string>
     <string name="doWhat">do what?</string>
     <string name="ALog">Android-Log</string>
+    <string name="MenuHome">Home</string>
+    <string name="MenuPlaces">Places</string>
+    <string name="MenuLocations">Locations</string>
+    <string name="MenuGEO">GEO</string>
+    <string name="MenuExport">Export</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

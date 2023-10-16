@@ -10,7 +10,7 @@
         android:label="fragment_export_"
         tools:layout="@layout/fragment_export" >
         <action
-            android:id="@+id/action_export_Fragment2_to_GEO_Fragment2"
+            android:id="@+id/action_export_Fragment2_to_GEO_Fragment22"
             app:destination="@id/GEO_Fragment2" />
         <action
             android:id="@+id/action_export_Fragment2_to_home_Fragment2"
@@ -22,11 +22,11 @@
         android:label="fragment_g_e_o_"
         tools:layout="@layout/fragment_g_e_o" >
         <action
-            android:id="@+id/action_GEO_Fragment2_to_me_Fragment2"
-            app:destination="@id/me_Fragment2" />
-        <action
             android:id="@+id/action_GEO_Fragment2_to_export_Fragment2"
             app:destination="@id/export_Fragment2" />
+        <action
+            android:id="@+id/action_GEO_Fragment2_to_locations_Fragment"
+            app:destination="@id/locations_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/home_Fragment2"
@@ -34,41 +34,20 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_home_Fragment2_to_export_Fragment2"
-            app:destination="@id/export_Fragment2" />
-        <action
-            android:id="@+id/action_home_Fragment2_to_settings_Fragment2"
-            app:destination="@id/settings_Fragment2" />
+            android:id="@+id/action_home_Fragment2_to_places_Fragment"
+            app:destination="@id/places_Fragment" />
         <action
             android:id="@+id/action_home_Fragment2_to_homeRecyclerDetail"
             app:destination="@id/homeRecyclerDetail" />
         <action
+            android:id="@+id/action_home_Fragment2_to_home_Item_Fragment"
+            app:destination="@id/home_Item_Fragment" />
+        <action
+            android:id="@+id/action_home_Fragment2_to_export_Fragment2"
+            app:destination="@id/export_Fragment2" />
+        <action
             android:id="@+id/action_home_Fragment2_to_ALogFragment"
             app:destination="@id/ALogFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/me_Fragment2"
-        android:name="de.ticktrax.ticktrax_geo.ui.Me_Fragment"
-        android:label="fragment_me"
-        tools:layout="@layout/fragment_me" >
-        <action
-            android:id="@+id/action_me_Fragment2_to_settings_Fragment2"
-            app:destination="@id/settings_Fragment2" />
-        <action
-            android:id="@+id/action_me_Fragment2_to_GEO_Fragment2"
-            app:destination="@id/GEO_Fragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/settings_Fragment2"
-        android:name="de.ticktrax.ticktrax_geo.ui.Settings_Fragment"
-        android:label="fragment_settings_"
-        tools:layout="@layout/fragment_settings_" >
-        <action
-            android:id="@+id/action_settings_Fragment2_to_home_Fragment2"
-            app:destination="@id/home_Fragment2" />
-        <action
-            android:id="@+id/action_settings_Fragment2_to_me_Fragment2"
-            app:destination="@id/me_Fragment2" />
     </fragment>
     <fragment
         android:id="@+id/home_Item_Fragment"
@@ -93,6 +72,9 @@
         <action
             android:id="@+id/action_ALogFragment_to_ALogDetailFragment"
             app:destination="@id/ALogDetailFragment" />
+        <action
+            android:id="@+id/action_ALogFragment_to_ALogItem"
+            app:destination="@id/ALogItem" />
     </fragment>
     <fragment
         android:id="@+id/ALogDetailFragment"
@@ -108,4 +90,28 @@
         android:name="de.ticktrax.ticktrax_geo.ALogItem"
         android:label="fragment_a_log_item"
         tools:layout="@layout/fragment_a_log_item" />
+    <fragment
+        android:id="@+id/places_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Places_Fragment"
+        android:label="fragment_places"
+        tools:layout="@layout/fragment_places" >
+        <action
+            android:id="@+id/action_places_Fragment_to_home_Fragment22"
+            app:destination="@id/home_Fragment2" />
+        <action
+            android:id="@+id/action_places_Fragment_to_locations_Fragment"
+            app:destination="@id/locations_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locations_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Locations_Fragment"
+        android:label="fragment_locations"
+        tools:layout="@layout/fragment_locations" >
+        <action
+            android:id="@+id/action_locations_Fragment_to_places_Fragment"
+            app:destination="@id/places_Fragment" />
+        <action
+            android:id="@+id/action_locations_Fragment_to_GEO_Fragment2"
+            app:destination="@id/GEO_Fragment2" />
+    </fragment>
 </navigation>

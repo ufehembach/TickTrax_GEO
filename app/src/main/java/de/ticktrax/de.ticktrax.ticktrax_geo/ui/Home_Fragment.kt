@@ -32,11 +32,11 @@ class Home_Fragment : Fragment() {
 
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToExportFragment2())
+            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToPlacesFragment())
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToSettingsFragment2())
+            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToExportFragment2())
         }
 
 //        binding.btnRefresh?.setOnClickListener{

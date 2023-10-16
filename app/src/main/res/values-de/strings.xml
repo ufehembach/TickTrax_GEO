@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">D-TickTrax-GEO</string>
-    <string name="MenuMe">D-me</string>
-    <string name="MenuGEO">D-geo</string>
-    <string name="MenuSettings">D-settings</string>
-    <string name="MenuExport">D-export</string>
-    <string name="MenuHome">D-Home</string>
     <string name="HMenuSettings">D-Settings</string>
     <string name="HMenuLog">D-Log</string>
     <string name="HMenuCopy">D-Copyright</string>
@@ -14,5 +9,10 @@
     <string name="openHam">D-openHam</string>
     <string name="closeHam">D-closeHam</string>
     <string name="doWhat">D-do what?</string>
+    <string name="MenuHome">D-Home</string>
+    <string name="MenuPlaces">D-Places</string>
+    <string name="MenuLocations">D-Locations</string>
+    <string name="MenuGEO">D-GEO</string>
+    <string name="MenuExport">D-Export</string>
     <string name="ALog">D-Android-Log</string>
 </resources>

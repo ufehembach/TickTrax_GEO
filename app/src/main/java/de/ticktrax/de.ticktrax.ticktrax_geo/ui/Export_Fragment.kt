@@ -26,7 +26,7 @@ class Export_Fragment : Fragment() {
 
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Export_FragmentDirections.actionExportFragment2ToGEOFragment2())
+            navController.navigate(Export_FragmentDirections.actionExportFragment2ToGEOFragment22())
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()

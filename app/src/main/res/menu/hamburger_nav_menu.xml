@@ -3,35 +3,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/HMenuHome"
-            android:icon="@drawable/baseline_file_download_24"
+            android:icon="@drawable/baseline_home_24"
             android:title="@string/MenuHome" />
         <item
-            android:id="@+id/HMenuMe"
-            android:icon="@drawable/baseline_person_24"
-            android:title="@string/MenuMe" />
+            android:id="@+id/HMenuPlaces"
+            android:icon="@drawable/baseline_location_on_24"
+            android:title="@string/MenuPlaces" />
         <item
-            android:id="@+id/HMenuExport"
-            android:icon="@drawable/baseline_settings_24"
-            android:title="@string/MenuExport" />
-        <item
-            android:id="@+id/HMenuSettings"
-            android:icon="@drawable/baseline_settings_24"
-            android:title="@string/MenuSettings" />
+            android:id="@+id/HMenuLocations"
+            android:icon="@drawable/baseline_my_location_24"
+            android:title="@string/MenuLocations" />
         <item
             android:id="@+id/HMenuGeo"
-            android:icon="@drawable/baseline_settings_24"
+            android:icon="@drawable/baseline_satellite_24"
             android:title="@string/MenuGEO" />
+        <item
+            android:id="@+id/HMenuExport"
+            android:icon="@drawable/baseline_file_download_24"
+            android:title="@string/MenuExport" />
     </group>
     <item android:title="@string/HMenuSettings">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/HMenuLog"
-                    android:icon="@drawable/baseline_file_download_24"
+                    android:icon="@drawable/baseline_text_snippet_for_log_24"
                     android:title="@string/HMenuLog" />
                 <item
                     android:id="@+id/HMenuCopy"
-                    android:icon="@drawable/baseline_file_download_24"
+                    android:icon="@drawable/baseline_copyright_24"
                     android:title="@string/HMenuCopy" />
                 <item
                     android:id="@+id/HMenuImpressum"
@@ -39,7 +39,7 @@
                     android:title="@string/HMenuImpressum" />
                 <item
                     android:id="@+id/HMenuLicense"
-                    android:icon="@drawable/baseline_settings_24"
+                    android:icon="@drawable/baseline_court_24"
                     android:title="@string/HMenuLicense" />
             </group>
         </menu>

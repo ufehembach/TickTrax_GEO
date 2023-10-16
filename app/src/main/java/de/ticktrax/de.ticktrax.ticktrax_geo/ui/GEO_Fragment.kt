@@ -37,11 +37,11 @@ class GEO_Fragment : Fragment() {
         }
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToMeFragment2())
+            navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToExportFragment2())
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToExportFragment2())
+            navController.navigate(GEO_FragmentDirections.actionGEOFragment2ToLocationsFragment())
         }
 
 

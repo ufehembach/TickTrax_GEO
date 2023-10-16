@@ -9,27 +9,27 @@
         android:title="@string/MenuHome"
         android:icon="@drawable/baseline_home_24"/>
     <item
-        android:id="@+id/me_Fragment2"
+        android:id="@+id/places_Fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/MenuMe"
-        android:icon="@drawable/baseline_person_24"/>
+        android:title="@string/MenuPlaces"
+        android:icon="@drawable/baseline_location_on_24"/>
     <item
-        android:id="@+id/export_Fragment2"
+        android:id="@+id/locations_Fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/MenuExport"
-        android:icon="@drawable/baseline_file_download_24"/>
-    <item
-        android:id="@+id/settings_Fragment2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/MenuSettings"
-        android:icon="@drawable/baseline_settings_24"/>
+        android:title="@string/MenuLocations"
+        android:icon="@drawable/baseline_my_location_24"/>
     <item
         android:id="@+id/GEO_Fragment2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/MenuGEO"
         android:icon="@drawable/baseline_satellite_24"/>
+    <item
+        android:id="@+id/export_Fragment2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/MenuExport"
+        android:icon="@drawable/baseline_file_download_24"/>
 </menu>

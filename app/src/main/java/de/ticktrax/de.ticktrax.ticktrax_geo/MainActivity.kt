@@ -107,17 +107,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.HMenuHome ->
                     Toast.makeText(this, R.string.MenuHome, Toast.LENGTH_SHORT).show()
 
-                R.id.HMenuMe ->
-                    Toast.makeText(this, R.string.MenuMe, Toast.LENGTH_SHORT).show()
+                R.id.HMenuPlaces ->
+                    Toast.makeText(this, R.string.MenuPlaces, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuLocations ->
+                    Toast.makeText(this, R.string.MenuLocations, Toast.LENGTH_SHORT).show()
+
+                R.id.HMenuGeo ->
+                    Toast.makeText(this, R.string.MenuGEO, Toast.LENGTH_SHORT).show()
 
                 R.id.HMenuExport ->
                     Toast.makeText(this, R.string.MenuExport, Toast.LENGTH_SHORT).show()
 
-                R.id.HMenuSettings ->
-                    Toast.makeText(this, R.string.MenuSettings, Toast.LENGTH_SHORT).show()
-
-                R.id.HMenuGeo ->
-                    Toast.makeText(this, R.string.MenuGEO, Toast.LENGTH_SHORT).show()
 
                 R.id.HMenuLog -> {
                     Log.d("ufe", "Hamburger nav to log" + it.toString())
