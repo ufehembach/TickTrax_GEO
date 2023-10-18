@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationServices
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider

@@ -7,7 +7,7 @@
     tools:context=".ui.Home_Item_Fragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/theCardView"
+        android:id="@+id/theHomeCardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:backgroundTint="@color/white"
@@ -27,7 +27,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_my_location_24" />
+                android:src="@drawable/checklist" />
 
             <LinearLayout
                 android:layout_width="match_parent"

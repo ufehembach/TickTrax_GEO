@@ -5,19 +5,19 @@ import androidx.room.PrimaryKey
 //import com.squareup.moshi.Json
 import com.google.gson.annotations.SerializedName
 import de.ticktrax.ticktrax_geo.data.remote.Flatten
+import androidx.annotation.Nullable; // Import this for @Nullable annotation
 
-const val LonLatAlt_TBL_NAME = "tblLonLatAlt"
+const val TTAggregation_TBL_NAME = "tblTTAggregation"
 
-@Entity(tableName = LonLatAlt_TBL_NAME)
-data class LonLatAltRoom(
+@Entity(tableName = TTAggregation_TBL_NAME)
+data class TTAggregation(
     @PrimaryKey(autoGenerate = true)
-    var lonLatAltId: Int = 0,
+    val TTAggregId: Long,
 
     var lastSeen: String? = null,
     var noOfSights: Long? = null,
     var firstSeen: String? = null,
 
-    var lon: Double,
-    var lat: Double,
-    var alt: Double,
-    )
+    var placeID: Long? = null,
+    var totalTime: Long? = null
+)

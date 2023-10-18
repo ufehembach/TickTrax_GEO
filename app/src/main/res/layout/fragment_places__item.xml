@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="de.ticktrax.ticktrax_geo.ui.Places_Item_Fragment">
+    tools:context=".ui.Places_Item_Fragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/theCardView"
+        android:id="@+id/thePlacesCardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
@@ -27,7 +27,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_my_location_24" />
+                android:src="@drawable/baseline_location_on_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"

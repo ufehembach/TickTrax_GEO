@@ -101,6 +101,9 @@
         <action
             android:id="@+id/action_places_Fragment_to_locations_Fragment"
             app:destination="@id/locations_Fragment" />
+        <action
+            android:id="@+id/action_places_Fragment_to_places_Detail_Fragment"
+            app:destination="@id/places_Detail_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/locations_Fragment"
@@ -113,5 +116,46 @@
         <action
             android:id="@+id/action_locations_Fragment_to_GEO_Fragment2"
             app:destination="@id/GEO_Fragment2" />
+        <action
+            android:id="@+id/action_locations_Fragment_to_location_Detail_Fragment"
+            app:destination="@id/location_Detail_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/location_Detail_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.Location_Detail_Fragment"
+        android:label="fragment_location__detail"
+        tools:layout="@layout/fragment_location__detail" >
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/locations_Item_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.Locations_Item_Fragment"
+        android:label="fragment_locations__item"
+        tools:layout="@layout/fragment_locations__item" >
+        <action
+            android:id="@+id/action_locations_Item_Fragment_to_locations_Fragment"
+            app:destination="@id/locations_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/places_Detail_Fragment"
+        android:name="de.ticktrax.Places_Detail_Fragment"
+        android:label="fragment_places_detail"
+        tools:layout="@layout/fragment_places_detail" >
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/places_Item_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Places_Item_Fragment"
+        android:label="fragment_places__item"
+        tools:layout="@layout/fragment_places__item" >
+        <action
+            android:id="@+id/action_places_Item_Fragment_to_places_Fragment"
+            app:destination="@id/places_Fragment" />
     </fragment>
 </navigation>

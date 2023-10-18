@@ -39,19 +39,16 @@ class Home_Fragment : Fragment() {
             navController.navigate(Home_FragmentDirections.actionHomeFragment2ToExportFragment2())
         }
 
-//        binding.btnRefresh?.setOnClickListener{
-//            Log.d("ufe","refreshwhat pressed")
-//            viewModel.reloadGenericEnv()
-//        }
-        viewModel.osmPlaces.observe(viewLifecycleOwner) {
+
+        viewModel.osmPlaceS.observe(viewLifecycleOwner) {
             Log.d("ufe", "Call Adapter ${it}")
             Log.d("ufe", "${it.size}")
-            binding.rvGeneric?.adapter = OSMPlaceAdapter(it)
+            binding.homeRV?.adapter = OSMPlaceAdapter(it)
         }
 
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
         val helper: SnapHelper = PagerSnapHelper()
-        helper.attachToRecyclerView(binding.rvGeneric)
+        helper.attachToRecyclerView(binding.homeRV)
 
     }
     fun showLogFrag()

@@ -7,7 +7,7 @@
     tools:context=".ALogItem">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/theCardView"
+        android:id="@+id/theALogCardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:backgroundTint="@color/white"

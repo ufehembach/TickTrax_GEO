@@ -48,7 +48,7 @@ class ALogAdapter(
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
-        binding.theCardView.setOnClickListener {
+        binding.theALogCardView.setOnClickListener {
 //            Log.d("ufe", "ALOG Adapter on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(

@@ -8,19 +8,38 @@ import androidx.room.Query
 import androidx.room.Update
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog_TBL_NAME
-import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
-import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAlt_TBL_NAME
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPLACES_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation
+import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation_TBL_NAME
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 
 
 @Dao
 interface TickTraxDao {
     // for export
- //   @get:Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
- //   val allOSMPlaces: List<OSMPlace?>?
+    //   @get:Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
+    //   val allOSMPlaces: List<OSMPlace?>?
+    
+    // -----TTAggregation---------------------------------------------
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTTAggregation(TTAggregation: TTAggregation)
 
-    // --------------------------------------------------
+    @Update
+    fun updateTTAggregation(TTAggregation: TTAggregation)
+
+    @Query("SELECT * FROM " + TTAggregation_TBL_NAME + " ORDER BY lastSeen DESC")
+    fun getAllTTAggregations(): List<TTAggregation>
+
+   
+    @Query("DELETE FROM " + TTAggregation_TBL_NAME)
+    fun deleteAllTTAggregations()
+
+    @Query("SELECT COUNT(*) FROM " + TTAggregation_TBL_NAME)
+    fun countTTAggregations(): Long
+    
+    // ----OSMPlace----------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOSMPlace(OSMPlace: OSMPlace)
 
@@ -30,12 +49,6 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + OSMPLACES_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllOSMPlaces(): List<OSMPlace>
 
-    //   @Query("SELECT * FROM motiondata_table WHERE id = :id")
-//    fun getById(id: Long): LiveData<List<MotionData>>
-
-    //  @Query("DELETE FROM motion_table WHERE id = :id")
-    //   fun delete(id: Long)
-
     @Query("DELETE FROM " + OSMPLACES_TBL_NAME)
     fun deleteAllOSMPlaces()
 
@@ -43,23 +56,26 @@ interface TickTraxDao {
     fun countOSMPlaces(): Long
 
     // -------------------------------------------------
-    // lon lat alt
+    // Location
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLonLatAlt(lonLatAlt: LonLatAltRoom)
+    fun insertLocation(Location: TTLocation)
 
-    @Query("SELECT * FROM " + LonLatAlt_TBL_NAME)
-    fun getAllLonLatAlt(): List<LonLatAltRoom>
+    @Query("SELECT * FROM " + TTLocation_TBL_NAME)
+    fun getAllLocations(): List<TTLocation>
 
     // -------------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogEntry(entry: ALog)
-    @Query("SELECT * FROM " + ALog_TBL_NAME+ " ORDER BY dateTime DESC" )
-    fun getAllLogEntries():List<ALog>
-    @Query("SELECT * FROM "+ ALog_TBL_NAME + " ORDER BY aLogId ASC LIMIT 1")
+
+    @Query("SELECT * FROM " + ALog_TBL_NAME + " ORDER BY dateTime DESC")
+    fun getAllLogEntries(): List<ALog>
+
+    @Query("SELECT * FROM " + ALog_TBL_NAME + " ORDER BY aLogId ASC LIMIT 1")
     fun getSmallestALogIdEntry(): ALog?
 
     @Delete
     fun deleteALogId(entity: ALog)
+
     @Query("SELECT COUNT(*) FROM " + ALog_TBL_NAME)
     fun countLogEntries(): Int
 }

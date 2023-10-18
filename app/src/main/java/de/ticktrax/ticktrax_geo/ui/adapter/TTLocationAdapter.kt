@@ -5,19 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
-import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
-import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
-import de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
+import de.ticktrax.ticktrax_geo.databinding.FragmentLocationsItemBinding
+import de.ticktrax.ticktrax_geo.ui.Locations_FragmentDirections
 
-class OSMPlaceAdapter(
-    private val thisOSMPlaces: List<OSMPlace>
-) : RecyclerView.Adapter<OSMPlaceAdapter.ItemViewHolder>() {
+class TTLocationAdapter(
+    private val thisTTLocations: List<TTLocation>
+) : RecyclerView.Adapter<TTLocationAdapter.ItemViewHolder>() {
 
 
     // stellt einen Listeneintrag dar
-    inner class ItemViewHolder(val binding: FragmentPlacesItemBinding) :
+    inner class ItemViewHolder(val binding: FragmentLocationsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     // hier werden neue ViewHolder erstellt
@@ -25,7 +23,7 @@ class OSMPlaceAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d("ufe", "create viewholder")
         val binding =
-            FragmentPlacesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            FragmentLocationsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -35,23 +33,22 @@ class OSMPlaceAdapter(
         Log.d("ufe", "onviewcreated")
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
-        var myOSMPlace = thisOSMPlaces[position.toInt()]
+        var myTTLocation = thisTTLocations[position.toInt()]
         Log.d("ufe", "onbindviewholder " + position)
-        binding.LonLatTV!!.text = myOSMPlace.lat.toString() + "/" + myOSMPlace.lon
-        binding.DisplayNameTV!!.text = myOSMPlace.displayName
+        binding.LonLatTV!!.text = myTTLocation.lat.toString() + "/" + myTTLocation.lon
+        binding.DisplayNameTV!!.text = myTTLocation.noOfSights.toString()
 
         //Use Coil to load images
 //        Log.d("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
-        binding.thePlacesCardView.setOnClickListener {
+        binding.theLocationCardView.setOnClickListener {
             Log.d("ufe", "on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
-                    //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
-                    //Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
-                    Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
+                    //Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
+                    Locations_FragmentDirections.actionLocationsFragmentToLocationDetailFragment()
                 )
         }
 
@@ -62,7 +59,7 @@ class OSMPlaceAdapter(
      */
     override fun getItemCount(): Int {
         //return enericEnv.media.size
-        return thisOSMPlaces.size
+        return thisTTLocations.size
     }
 }
 

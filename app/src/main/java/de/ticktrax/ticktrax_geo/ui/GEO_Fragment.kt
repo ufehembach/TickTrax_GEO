@@ -31,8 +31,8 @@ class GEO_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.geo.observe(viewLifecycleOwner){
-            binding.GeoLocTV?.text = it.latitude.toString() + "/"+ it.longitude.toString() + "/"+ it.altitude.toString()
+        viewModel.ttLocation.observe(viewLifecycleOwner){
+            binding.GeoLocTV?.text = it.lat.toString() + "/"+ it.lon.toString() + "/"+ it.alt.toString()
 
         }
         binding.nextFAB.setOnClickListener {

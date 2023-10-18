@@ -7,17 +7,16 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
-import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
 import de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment
 
-class OSMPlaceAdapter(
+class AggregationAdapter(
     private val thisOSMPlaces: List<OSMPlace>
-) : RecyclerView.Adapter<OSMPlaceAdapter.ItemViewHolder>() {
+) : RecyclerView.Adapter<AggregationAdapter.ItemViewHolder>() {
 
 
     // stellt einen Listeneintrag dar
-    inner class ItemViewHolder(val binding: FragmentPlacesItemBinding) :
+    inner class ItemViewHolder(val binding: FragmentHomeItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     // hier werden neue ViewHolder erstellt
@@ -25,7 +24,7 @@ class OSMPlaceAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d("ufe", "create viewholder")
         val binding =
-            FragmentPlacesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            FragmentHomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -45,7 +44,7 @@ class OSMPlaceAdapter(
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
-        binding.thePlacesCardView.setOnClickListener {
+        binding.theHomeCardView?.setOnClickListener {
             Log.d("ufe", "on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(

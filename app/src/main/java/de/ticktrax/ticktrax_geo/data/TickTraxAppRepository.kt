@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog_ROOM_Max
-import de.ticktrax.ticktrax_geo.data.datamodels.LonLatAltRoom
 import de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
-import de.ticktrax.ticktrax_geo.data.local.TickTraxDao
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,14 +35,44 @@ class TickTraxAppRepository {
 
     init {
         Log.d("ufe ", "TickTraxAppRepository -> INIT")
-        // getAllLonLatAlt()
+
     }
 
     public fun setParas(pOSMGsonApi: OSMGsonApi, pDatabase: TickTraxDB) {
         oSMGsonApi = pOSMGsonApi
         database = pDatabase
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Führen Sie hier asynchrone Aufgaben aus, z.B. eine Netzwerkanfrage
+                getAllLocationsFromRoom()
+                getAllOSMPlacesFromRoom()
+                getAllTTAggregationsFromRoom()
+            } catch (e: Exception) {
+                // Behandeln Sie Fehler hier
+                Log.e("ufe", e.toString())
+            }
+        }
+    }
+    // TTAggregation
+    private var _TTAggregation = MutableLiveData<TTAggregation>()
+    val TTAggregation: LiveData<TTAggregation>
+        get() = _TTAggregation
+
+    private var _TTAggregationS = MutableLiveData<List<TTAggregation>>()
+    val TTAggregationS: LiveData<List<TTAggregation>>
+        get() = _TTAggregationS
+
+    suspend fun getAllTTAggregationsFromRoom() {
+        try {
+            var allPlaces = database.TickTraxDao.getAllTTAggregations()
+            Log.d("ufe", "I read " + allPlaces.size + " TTAggregations from ROOM")
+            _TTAggregationS.postValue(allPlaces)
+        } catch (e: Exception) {
+            Log.e("ufe", "Error loading Data from ROOM: $e")
+        }
     }
 
+    // OSMPlace
     private var _OSMPlace = MutableLiveData<OSMPlace>()
     val OSMPlace: LiveData<OSMPlace>
         get() = _OSMPlace
@@ -51,52 +81,58 @@ class TickTraxAppRepository {
         try {
             Log.d("ufe", "load Data from API")
             val gsonOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
-            //          locationRepository.locationData.value!!.latitude,
-            //          locationRepository.locationData.value!!.longitude
-            //     )
             Log.d("ufe", "OSM Data from API ")
-            //      Log.d("ufe", "Data from API " + _OSMPlace.value.media.size)
             gsonOSMPlace.firstSeen = DateTimeUtils.formatDateTimeToUTC(Date())
             gsonOSMPlace.lastSeen = DateTimeUtils.formatDateTimeToUTC(Date())
             gsonOSMPlace.noOfSights = 1
             _OSMPlace.postValue(gsonOSMPlace)
-            addLogEntry(ALogType.GEO,"OSM Place added", gsonOSMPlace.toString())
+            addLogEntry(ALogType.GEO, "OSM Place added", gsonOSMPlace.toString())
             database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from API: $e")
         }
     }
 
-    private var _OSMPlaces = MutableLiveData<List<OSMPlace>>()
-    val OSMPlaces: LiveData<List<OSMPlace>>
-        get() = _OSMPlaces
+    private var _OSMPlaceS = MutableLiveData<List<OSMPlace>>()
+    val OSMPlaceS: LiveData<List<OSMPlace>>
+        get() = _OSMPlaceS
 
     suspend fun getAllOSMPlacesFromRoom() {
         try {
             var allPlaces = database.TickTraxDao.getAllOSMPlaces()
             Log.d("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
-            _OSMPlaces.postValue(allPlaces)
+            _OSMPlaceS.postValue(allPlaces)
         } catch (e: Exception) {
             Log.e("ufe", "Error loading Data from ROOM: $e")
         }
     }
 
-    // -------------------------
-    // from sharedrepository
-    private val _locationData = MutableLiveData<Location>()
+    // ---ttLocationData----------------------
+    private val _ttLocation = MutableLiveData<TTLocation>()
+    val ttLocation: LiveData<TTLocation>
+        get() = _ttLocation
 
-    val locationData: LiveData<Location>
-        get() = _locationData
+    private var _ttLocationS = MutableLiveData<List<TTLocation>>()
+    val ttLocationS: LiveData<List<TTLocation>>
+        get() = _ttLocationS
 
-    //fun setLocation(latitude: Double, longitude: Double) {
+    suspend fun getAllLocationsFromRoom() {
+        try {
+            var allLocations = database.TickTraxDao.getAllLocations()
+            Log.d("ufe", "I read " + allLocations.size + " ttlocations from ROOM")
+            _ttLocationS.postValue(allLocations)
+        } catch (e: Exception) {
+            Log.e("ufe", "Error loading Data from ROOM: $e")
+        }
+    }
+
     fun setLocation(myLocation: Location) {
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
         Log.d("Formatted Date (UTC)", formattedDateUTC)
 
-        _locationData.postValue(myLocation)
-        var lonLatAlt: LonLatAltRoom =
-            LonLatAltRoom(
+        var ttLocation: TTLocation =
+            TTLocation(
                 0,
                 formattedDateUTC,
                 1,
@@ -105,15 +141,20 @@ class TickTraxAppRepository {
                 myLocation.latitude,
                 myLocation.altitude
             )
-        Log.d("ufe", "LonLatAltRoom:" + myLocation.toString())
-        database.TickTraxDao.insertLonLatAlt((lonLatAlt))
-        addLogEntry(ALogType.GEO,"LonLatAlt (${lonLatAlt.lon},${lonLatAlt.lat})", lonLatAlt.toString())
-        Log.d("ufe", "lonLatAlt - after db insert:" + myLocation.toString())
+        _ttLocation.postValue(ttLocation)
+        Log.d("ufe", "Location:" + myLocation.toString())
+        database.TickTraxDao.insertLocation((ttLocation))
+        addLogEntry(
+            ALogType.GEO,
+            "Location (${ttLocation.lon},${ttLocation.lat})",
+            ttLocation.toString()
+        )
+        Log.d("ufe", "Location - after db insert:" + ttLocation.toString())
         // Starten Sie eine Coroutine auf dem Dispatchers.IO-Thread
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Führen Sie hier asynchrone Aufgaben aus, z.B. eine Netzwerkanfrage
-                getPlaceFromOSM(myLocation.latitude, myLocation.longitude)
+                getPlaceFromOSM(ttLocation.lat, ttLocation.lon)
             } catch (e: Exception) {
                 // Behandeln Sie Fehler hier
                 Log.e("ufe", e.toString())
@@ -122,6 +163,7 @@ class TickTraxAppRepository {
         }
     }
 
+    // --alogData----------------------
     private val _alogData = MutableLiveData<ALog>()
     val alogData: LiveData<ALog>
         get() = _alogData
@@ -133,12 +175,12 @@ class TickTraxAppRepository {
     fun addLogEntry(type: ALogType, logText: String?, lopDetail: String?) {
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
-     //   Log.d("Formatted Date (UTC)", formattedDateUTC)
+        //   Log.d("Formatted Date (UTC)", formattedDateUTC)
         var myAlog: ALog = ALog(0, formattedDateUTC, type, logText, lopDetail)
         _alogData.postValue(myAlog)
-     //   Log.d("ufe", "ALog Room:" + myAlog.toString())
+        //   Log.d("ufe", "ALog Room:" + myAlog.toString())
         database.TickTraxDao.insertLogEntry((myAlog))
-     //   Log.d("ufe", "ALog after db insert:" + myAlog.toString())
+        //   Log.d("ufe", "ALog after db insert:" + myAlog.toString())
         getAllLogEntriesFromRoom()
     }
 

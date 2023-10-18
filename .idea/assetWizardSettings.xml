@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="paragraph" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../__AndroidAbschlussArbeit/paragraph.svg" />
+                            <entry key="outputName" value="checklist" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../__AndroidAbschlussArbeit/checklist.svg" />
                           </map>
                         </option>
                       </PersistentState>

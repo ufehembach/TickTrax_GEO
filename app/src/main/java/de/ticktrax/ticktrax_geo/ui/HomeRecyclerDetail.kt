@@ -47,7 +47,7 @@ class HomeRecyclerDetail : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ufe", " settings fields ")
         var a = ViewModel
-        var b = a.osmPlaces
+        var b = a.osmPlaceS
         var c = b.value
         var d = c?.get(index)
 
