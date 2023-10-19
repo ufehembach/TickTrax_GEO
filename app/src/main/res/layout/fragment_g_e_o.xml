@@ -9,17 +9,25 @@
     tools:context=".ui.GEO_Fragment">
 
 
-    <TextView
-        android:id="@+id/GeoLocTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="geoLoc"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@+id/nextFAB"
+    <org.osmdroid.views.MapView
+        android:id="@+id/geoMAP"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/GeoLocTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="geoLoc"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/prevFAB"
         android:layout_width="wrap_content"

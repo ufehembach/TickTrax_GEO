@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesBinding
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 
@@ -30,12 +31,12 @@ class Places_Fragment : Fragment() {
 
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Places_FragmentDirections.actionPlacesFragmentToLocationsFragment())
+            navController.navigate(R.id.locations_Fragment)
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
             //navController.navigate(Me_FragmentDirections.actionMeFragment2ToGEOFragment2())
-            navController.navigate(Places_FragmentDirections.actionPlacesFragmentToHomeFragment22())
+            navController.navigate(R.id.home_Fragment)
         }
         viewModel.osmPlaceS.observe(viewLifecycleOwner) {
             Log.d("ufe", "Call Adapter ${it}")

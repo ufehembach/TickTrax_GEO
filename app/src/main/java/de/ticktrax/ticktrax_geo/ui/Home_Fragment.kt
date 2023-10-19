@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 
@@ -32,11 +33,11 @@ class Home_Fragment : Fragment() {
 
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToPlacesFragment())
+            navController.navigate(R.id.places_Fragment)
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(Home_FragmentDirections.actionHomeFragment2ToExportFragment2())
+            navController.navigate(R.id.export2Mail_Fragment)
         }
 
 
@@ -54,8 +55,6 @@ class Home_Fragment : Fragment() {
     fun showLogFrag()
     {
         binding.root.findNavController()
-            .navigate(
-                Home_FragmentDirections.actionHomeFragment2ToALogFragment()
-            )
+            .navigate(R.id.ALogFragment )
     }
 }

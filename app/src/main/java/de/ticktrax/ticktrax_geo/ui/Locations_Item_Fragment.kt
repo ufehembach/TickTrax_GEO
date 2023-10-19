@@ -34,7 +34,7 @@ class Locations_Item_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_locations__item, container, false)
+        return inflater.inflate(R.layout.fragment_locations_item, container, false)
     }
 
     companion object {

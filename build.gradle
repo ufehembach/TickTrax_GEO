@@ -2,19 +2,19 @@
 buildscript {
     ext {
         nav_version = "2.5.3"
+        osm_droid_version = "6.1.17"
     }
     repositories {
         google()
+        mavenCentral()
     }
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
         classpath 'com.google.gms:google-services:4.3.15'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.6'
-
+        classpath "org.osmdroid:osmdroid-android:$osm_droid_version"
     }
 }
-
-
 plugins {
     id 'com.android.application' version '8.1.2' apply false
     id 'com.android.library' version '8.1.2' apply false

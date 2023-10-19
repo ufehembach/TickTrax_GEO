@@ -48,9 +48,7 @@ class AggregationAdapter(
             Log.d("ufe", "on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
-                    //Home_Item_FragmentDirections.actionHomeItemFragmentToHomeDetailFragment(position)
-                    //Home_FragmentDirections.actionHomeFragment2ToHomeDetailFragment(position)
-                    Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
+                    Home_FragmentDirections.actionHomeFragmentToHomeRecyclerDetail(position)
                 )
         }
 

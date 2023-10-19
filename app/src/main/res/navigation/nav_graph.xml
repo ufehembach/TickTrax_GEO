@@ -3,51 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/home_Fragment2">
+    app:startDestination="@id/home_Fragment">
     <fragment
-        android:id="@+id/export_Fragment2"
-        android:name="de.ticktrax.ticktrax_geo.ui.Export_Fragment"
-        android:label="fragment_export_"
-        tools:layout="@layout/fragment_export" >
-        <action
-            android:id="@+id/action_export_Fragment2_to_GEO_Fragment22"
-            app:destination="@id/GEO_Fragment2" />
-        <action
-            android:id="@+id/action_export_Fragment2_to_home_Fragment2"
-            app:destination="@id/home_Fragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/GEO_Fragment2"
+        android:id="@+id/GEO_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.GEO_Fragment"
         android:label="fragment_g_e_o_"
-        tools:layout="@layout/fragment_g_e_o" >
-        <action
-            android:id="@+id/action_GEO_Fragment2_to_export_Fragment2"
-            app:destination="@id/export_Fragment2" />
-        <action
-            android:id="@+id/action_GEO_Fragment2_to_locations_Fragment"
-            app:destination="@id/locations_Fragment" />
-    </fragment>
+        tools:layout="@layout/fragment_g_e_o" />
     <fragment
-        android:id="@+id/home_Fragment2"
+        android:id="@+id/home_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Home_Fragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_home_Fragment2_to_places_Fragment"
-            app:destination="@id/places_Fragment" />
-        <action
-            android:id="@+id/action_home_Fragment2_to_homeRecyclerDetail"
+            android:id="@+id/action_home_Fragment_to_homeRecyclerDetail"
             app:destination="@id/homeRecyclerDetail" />
-        <action
-            android:id="@+id/action_home_Fragment2_to_home_Item_Fragment"
-            app:destination="@id/home_Item_Fragment" />
-        <action
-            android:id="@+id/action_home_Fragment2_to_export_Fragment2"
-            app:destination="@id/export_Fragment2" />
-        <action
-            android:id="@+id/action_home_Fragment2_to_ALogFragment"
-            app:destination="@id/ALogFragment" />
     </fragment>
     <fragment
         android:id="@+id/home_Item_Fragment"
@@ -72,9 +41,6 @@
         <action
             android:id="@+id/action_ALogFragment_to_ALogDetailFragment"
             app:destination="@id/ALogDetailFragment" />
-        <action
-            android:id="@+id/action_ALogFragment_to_ALogItem"
-            app:destination="@id/ALogItem" />
     </fragment>
     <fragment
         android:id="@+id/ALogDetailFragment"
@@ -96,12 +62,6 @@
         android:label="fragment_places"
         tools:layout="@layout/fragment_places" >
         <action
-            android:id="@+id/action_places_Fragment_to_home_Fragment22"
-            app:destination="@id/home_Fragment2" />
-        <action
-            android:id="@+id/action_places_Fragment_to_locations_Fragment"
-            app:destination="@id/locations_Fragment" />
-        <action
             android:id="@+id/action_places_Fragment_to_places_Detail_Fragment"
             app:destination="@id/places_Detail_Fragment" />
     </fragment>
@@ -111,20 +71,14 @@
         android:label="fragment_locations"
         tools:layout="@layout/fragment_locations" >
         <action
-            android:id="@+id/action_locations_Fragment_to_places_Fragment"
-            app:destination="@id/places_Fragment" />
-        <action
-            android:id="@+id/action_locations_Fragment_to_GEO_Fragment2"
-            app:destination="@id/GEO_Fragment2" />
-        <action
             android:id="@+id/action_locations_Fragment_to_location_Detail_Fragment"
             app:destination="@id/location_Detail_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/location_Detail_Fragment"
         android:name="de.ticktrax.ticktrax_geo.Location_Detail_Fragment"
-        android:label="fragment_location__detail"
-        tools:layout="@layout/fragment_location__detail" >
+        android:label="fragment_location_detail"
+        tools:layout="@layout/fragment_location_detail" >
         <argument
             android:name="position"
             app:argType="integer"
@@ -134,11 +88,7 @@
         android:id="@+id/locations_Item_Fragment"
         android:name="de.ticktrax.ticktrax_geo.Locations_Item_Fragment"
         android:label="fragment_locations__item"
-        tools:layout="@layout/fragment_locations__item" >
-        <action
-            android:id="@+id/action_locations_Item_Fragment_to_locations_Fragment"
-            app:destination="@id/locations_Fragment" />
-    </fragment>
+        tools:layout="@layout/fragment_locations_item" />
     <fragment
         android:id="@+id/places_Detail_Fragment"
         android:name="de.ticktrax.Places_Detail_Fragment"
@@ -152,10 +102,11 @@
     <fragment
         android:id="@+id/places_Item_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Places_Item_Fragment"
-        android:label="fragment_places__item"
-        tools:layout="@layout/fragment_places__item" >
-        <action
-            android:id="@+id/action_places_Item_Fragment_to_places_Fragment"
-            app:destination="@id/places_Fragment" />
-    </fragment>
+        android:label="fragment_places_item"
+        tools:layout="@layout/fragment_places_item" />
+    <fragment
+        android:id="@+id/export2Mail_Fragment"
+        android:name="de.ticktrax.ticktrax_geo.ui.Export2Mail_Fragment"
+        android:label="fragment_export2_mail"
+        tools:layout="@layout/fragment_export2_mail" />
 </navigation>
