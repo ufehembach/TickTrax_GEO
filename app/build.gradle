@@ -81,7 +81,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.5.2'
     implementation 'androidx.room:room-ktx:2.5.2'
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
 
     implementation 'com.google.android.gms:play-services-location:19.0.1'
@@ -91,6 +91,9 @@ dependencies {
     implementation "com.jakewharton.threetenabp:threetenabp:1.3.0"
     implementation "org.osmdroid:osmdroid-android:$osm_droid_version"
 
-    implementation 'org.apache.poi:poi:5.0.0'
-    implementation 'org.apache.poi:poi-ooxml:5.0.0'
+
+    // this caused gradle errors
+    // implementation 'org.apache.poi:poi:5.0.0'
+    // implementation 'org.apache.poi:poi-ooxml:5.0.0'
+    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
 }

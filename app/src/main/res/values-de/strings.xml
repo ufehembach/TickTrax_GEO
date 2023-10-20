@@ -15,4 +15,6 @@
     <string name="MenuGEO">D-GEO</string>
     <string name="MenuExport">D-Export</string>
     <string name="ALog">D-Android-Log</string>
+    <string name="hello_blank_fragment">D-Hello blank fragment</string>
+    <string name="PermissionToast">D-Warning: App will not work without Permissions for Geo Location! Please restart App after granting permission!</string>
 </resources>

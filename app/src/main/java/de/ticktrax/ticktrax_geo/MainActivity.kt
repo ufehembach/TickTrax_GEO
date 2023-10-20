@@ -207,6 +207,9 @@ class MainActivity : AppCompatActivity() {
         if (!this.hasLocationPermission()) {
             viewModel.aLog(ALogType.GEO, "No Location Permissions")
             Log.d("ufe-geo", "No Location Permissions")
+            Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
         } else
             viewModel.aLog(ALogType.GEO, "LocationService Intent - START")
         Intent(applicationContext, LocationService::class.java).apply {

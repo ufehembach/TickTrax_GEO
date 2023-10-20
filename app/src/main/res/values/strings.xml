@@ -17,4 +17,5 @@
     <string name="MenuExport">Export</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="PermissionToast">Warning: App will not work without Permissions for Geo Location! Please restart App after granting permission!</string>
 </resources>

@@ -15,20 +15,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import de.ticktrax.ticktrax_geo.R
-import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentExport2MailBinding
-import org.apache.poi.ss.usermodel.Workbook
+import de.ticktrax.ticktrax_geo.myTools.ExportViaMail
 import java.io.File
-import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
 import java.lang.Exception
-import org.apache.poi.ss.usermodel.Cell
-import org.apache.poi.ss.usermodel.Row
-import org.apache.poi.hssf.usermodel.HSSFWorkbook // For XLS files
-import org.apache.poi.xssf.usermodel.XSSFWorkbook // For XLSX files
-
-import java.lang.reflect.Field
 
 class Export2Mail_Fragment : Fragment() {
     private lateinit var binding: FragmentExport2MailBinding
@@ -60,17 +52,23 @@ class Export2Mail_Fragment : Fragment() {
         binding.exportDataTV?.text = data.toString()
 
         try {
-            val excelFilePath = requireContext().getExternalFilesDir(null)?.absolutePath + File.separator + "exported_data.xlsx"
-            createExcelFile(convertDataToExcel(viewModel.osmPlaceS.value,(OSMPlace::class.java), excelFilePath))
-
             val gson = Gson()
-            val myGson = gson.toJson(data)
+            val myGson = gson.toJson(data.toString())
             binding.exportDataTV?.text = myGson
+            val externalFilesDir =
+                requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+            // Export the data
+           // val myExport = ExportViaMail(data!!, requireContext())
+//            myExport.triggerCallBack { s, s2 ->
+//                startActivity(Intent.createChooser(emailIntent, "Send Email"))
+//            }
+           // myExport.exportAll(externalFilesDir)
+
             val jsonFile = createTempJsonFile(myGson)
             sendEmail(jsonFile)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             binding.exportDataTV?.text = e.toString()
-            var myString:String
+            var myString: String
             myString = e.toString()
             Toast.makeText(requireContext(), myString, Toast.LENGTH_SHORT).show()
         }
@@ -80,7 +78,6 @@ class Export2Mail_Fragment : Fragment() {
     private fun createTempJsonFile(jsonContent: String): Uri {
         val externalFilesDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(externalFilesDir, "temp_json_file.json")
-
         try {
             FileWriter(file).use { writer ->
                 writer.write(jsonContent)
@@ -90,7 +87,11 @@ class Export2Mail_Fragment : Fragment() {
         }
 
         // Use FileProvider to get a content URI
-        return FileProvider.getUriForFile(requireContext(), "de.ticktrax.ticktrax_geo.fileprovider", file)
+        return FileProvider.getUriForFile(
+            requireContext(),
+            "de.ticktrax.ticktrax_geo.fileprovider",
+            file
+        )
     }
 
     private fun sendEmail(jsonFileUri: Uri) {
@@ -112,45 +113,5 @@ class Export2Mail_Fragment : Fragment() {
         startActivity(Intent.createChooser(emailIntent, "Send Email"))
     }
 
-    // Function to convert data to Excel format
-    fun <T> convertDataToExcel(data: List<T>, clazz: Class<T>): Workbook {
-        val workbook = XSSFWorkbook()
-        val sheet = workbook.createSheet("Sheet1")
-
-        // Create header row dynamically from entity fields
-        val headerRow = sheet.createRow(0)
-        clazz.declaredFields.forEachIndexed { index, field ->
-            field.isAccessible = true
-            headerRow.createCell(index).setCellValue(field.name)
-        }
-
-        // Populate data rows
-        data.forEachIndexed { rowIndex, entity ->
-            val dataRow = sheet.createRow(rowIndex + 1)
-            clazz.declaredFields.forEachIndexed { cellIndex, field ->
-                field.isAccessible = true
-                val cell = dataRow.createCell(cellIndex)
-                cell.setCellValue(getValueAsString(field.get(entity)))
-            }
-        }
-
-        return workbook
-    }
-
-    // Helper function to get a string representation of a field value
-    private fun getValueAsString(value: Any?): String {
-        return when (value) {
-            null -> ""
-            is String, is Number, is Boolean -> value.toString()
-            else -> ""
-        }
-    }
-
-    // Function to create Excel file
-    fun createExcelFile(workbook: Workbook, filePath: String) {
-        val fileOut = FileOutputStream(filePath)
-        workbook.write(fileOut)
-        fileOut.close()
-    }
 
 }
