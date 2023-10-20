@@ -11,7 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +25,7 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import java.util.Locale
 
 class GEO_Fragment : Fragment() {
@@ -76,6 +79,19 @@ class GEO_Fragment : Fragment() {
             mapController.setZoom(startZoom)
             var currentLoc = GeoPoint(it.lat, it.lon);
             mapController.setCenter(currentLoc);
+         //   val context: Context = holder.itemView.context
+            val context = requireContext ()
+            val currentIcon =
+                AppCompatResources.getDrawable(context, R.drawable.baseline_my_location_24)
+            // Convert Drawable to Bitmap
+            val iconBitmap = currentIcon?.toBitmap()
+            val marker = Marker(map)
+            marker.position = currentLoc
+            marker.icon = currentIcon
+            marker.title = "Place"
+            marker.snippet = ""
+
+            map.overlays.add(marker)
         }
         binding.nextFAB.setOnClickListener {
             R.layout.fragment_g_e_o

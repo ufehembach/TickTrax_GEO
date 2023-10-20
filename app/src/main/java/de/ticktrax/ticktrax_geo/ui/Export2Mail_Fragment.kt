@@ -1,15 +1,34 @@
 package de.ticktrax.ticktrax_geo.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import de.ticktrax.ticktrax_geo.R
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentExport2MailBinding
+import org.apache.poi.ss.usermodel.Workbook
+import java.io.File
+import java.io.FileOutputStream
+import java.io.FileWriter
+import java.io.IOException
+import java.lang.Exception
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.hssf.usermodel.HSSFWorkbook // For XLS files
+import org.apache.poi.xssf.usermodel.XSSFWorkbook // For XLSX files
+
+import java.lang.reflect.Field
 
 class Export2Mail_Fragment : Fragment() {
     private lateinit var binding: FragmentExport2MailBinding
@@ -29,15 +48,109 @@ class Export2Mail_Fragment : Fragment() {
         binding.nextFAB.setOnClickListener {
             val navController = findNavController()
             //navController.navigate(Export_FragmentDirections.actionExportFragment2ToHomeFragment2())
-           navController.navigate(R.id.home_Fragment)
+            navController.navigate(R.id.home_Fragment)
         }
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.GEO_Fragment)
         }
-        val data = viewModel.osmPlaceS
-        binding.exportDataTV?.text = data.toString ()
-//        val gson = Gson()
-//        val myGson = gson.toJson(data)
+        val data = viewModel.osmPlaceS.value
+        Log.d("ufe-export", data.toString())
+
+        binding.exportDataTV?.text = data.toString()
+
+        try {
+            val excelFilePath = requireContext().getExternalFilesDir(null)?.absolutePath + File.separator + "exported_data.xlsx"
+            createExcelFile(convertDataToExcel(viewModel.osmPlaceS.value,(OSMPlace::class.java), excelFilePath))
+
+            val gson = Gson()
+            val myGson = gson.toJson(data)
+            binding.exportDataTV?.text = myGson
+            val jsonFile = createTempJsonFile(myGson)
+            sendEmail(jsonFile)
+        } catch (e: Exception){
+            binding.exportDataTV?.text = e.toString()
+            var myString:String
+            myString = e.toString()
+            Toast.makeText(requireContext(), myString, Toast.LENGTH_SHORT).show()
+        }
     }
+
+
+    private fun createTempJsonFile(jsonContent: String): Uri {
+        val externalFilesDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+        val file = File(externalFilesDir, "temp_json_file.json")
+
+        try {
+            FileWriter(file).use { writer ->
+                writer.write(jsonContent)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        // Use FileProvider to get a content URI
+        return FileProvider.getUriForFile(requireContext(), "de.ticktrax.ticktrax_geo.fileprovider", file)
+    }
+
+    private fun sendEmail(jsonFileUri: Uri) {
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.type = "application/json"
+
+        // Add the email address you want to send the email to
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("recipient@example.com"))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "JSON File Attachment")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Please find the attached JSON file.")
+
+        // Add the JSON file as an attachment
+        emailIntent.putExtra(Intent.EXTRA_STREAM, jsonFileUri)
+
+        // Ensure that the app is selected to send the email
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // Start the email activity
+        startActivity(Intent.createChooser(emailIntent, "Send Email"))
+    }
+
+    // Function to convert data to Excel format
+    fun <T> convertDataToExcel(data: List<T>, clazz: Class<T>): Workbook {
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("Sheet1")
+
+        // Create header row dynamically from entity fields
+        val headerRow = sheet.createRow(0)
+        clazz.declaredFields.forEachIndexed { index, field ->
+            field.isAccessible = true
+            headerRow.createCell(index).setCellValue(field.name)
+        }
+
+        // Populate data rows
+        data.forEachIndexed { rowIndex, entity ->
+            val dataRow = sheet.createRow(rowIndex + 1)
+            clazz.declaredFields.forEachIndexed { cellIndex, field ->
+                field.isAccessible = true
+                val cell = dataRow.createCell(cellIndex)
+                cell.setCellValue(getValueAsString(field.get(entity)))
+            }
+        }
+
+        return workbook
+    }
+
+    // Helper function to get a string representation of a field value
+    private fun getValueAsString(value: Any?): String {
+        return when (value) {
+            null -> ""
+            is String, is Number, is Boolean -> value.toString()
+            else -> ""
+        }
+    }
+
+    // Function to create Excel file
+    fun createExcelFile(workbook: Workbook, filePath: String) {
+        val fileOut = FileOutputStream(filePath)
+        workbook.write(fileOut)
+        fileOut.close()
+    }
+
 }

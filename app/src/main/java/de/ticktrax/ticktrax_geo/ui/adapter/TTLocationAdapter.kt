@@ -36,7 +36,7 @@ class TTLocationAdapter(
         var myTTLocation = thisTTLocations[position.toInt()]
         Log.d("ufe", "onbindviewholder " + position)
         binding.LonLatTV!!.text = myTTLocation.lat.toString() + "/" + myTTLocation.lon
-        binding.DisplayNameTV!!.text = myTTLocation.noOfSights.toString()
+        binding.DisplayNameTV!!.text = myTTLocation.lastSeen.toString()
 
         //Use Coil to load images
 //        Log.d("ufe", "get image from " + genericData.image)
