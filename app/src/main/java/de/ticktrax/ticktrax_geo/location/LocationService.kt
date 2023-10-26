@@ -4,19 +4,12 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationServices
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.R
-import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
-import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
-import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
-import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,7 +74,7 @@ class LocationService : Service() {
                 )
                 Log.d("ufe-geo", "Location in LocService: ($lat, $long)")
                 // locationRepository.setLocation(location)
-                ttApRep.setLocation(location)
+                ttApRep.addLocation(location)
                 ttApRep.addLogEntry(
                     ALogType.FGSERV,
                     "LocService: ($lat, $long)",

@@ -13,6 +13,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
+import de.ticktrax.ticktrax_geo.myTools.GEOHash
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -126,17 +127,19 @@ class TickTraxAppRepository {
         }
     }
 
-    fun setLocation(myLocation: Location) {
+    fun addLocation(myLocation: Location) {
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
         Log.d("Formatted Date (UTC)", formattedDateUTC)
 
         var ttLocation: TTLocation =
             TTLocation(
-                0,
+                GEOHash(myLocation),
                 formattedDateUTC,
+                currentDate,
                 1,
                 formattedDateUTC,
+                currentDate,
                 myLocation.longitude,
                 myLocation.latitude,
                 myLocation.altitude

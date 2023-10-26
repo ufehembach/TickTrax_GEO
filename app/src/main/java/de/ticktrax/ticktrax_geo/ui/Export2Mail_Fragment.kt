@@ -52,20 +52,25 @@ class Export2Mail_Fragment : Fragment() {
         binding.exportDataTV?.text = data.toString()
 
         try {
+            val externalFilesDir =
+                requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             val gson = Gson()
             val myGson = gson.toJson(data.toString())
             binding.exportDataTV?.text = myGson
-            val externalFilesDir =
-                requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-            // Export the data
-           // val myExport = ExportViaMail(data!!, requireContext())
-//            myExport.triggerCallBack { s, s2 ->
-//                startActivity(Intent.createChooser(emailIntent, "Send Email"))
-//            }
-           // myExport.exportAll(externalFilesDir)
-
-            val jsonFile = createTempJsonFile(myGson)
-            sendEmail(jsonFile)
+             //Export the data
+              val jsonFile = createTempJsonFile(myGson)
+            //  sendEmail(jsonFile)
+            val myExport = ExportViaMail(data!!, requireContext())
+            Toast.makeText(requireContext(), "myExport created", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),externalFilesDir.toString(),Toast.LENGTH_LONG)
+            val myIntent: Intent? = myExport.exportAll(externalFilesDir)
+            Toast.makeText(requireContext(), "Intent created", Toast.LENGTH_SHORT).show()
+            if (myIntent != null) {
+                // Erfolgsfall
+                startActivity(Intent.createChooser(myIntent, "Send Email"))
+            } else {
+                // Misserfolgsfall
+            }
         } catch (e: Exception) {
             binding.exportDataTV?.text = e.toString()
             var myString: String
@@ -99,7 +104,7 @@ class Export2Mail_Fragment : Fragment() {
         emailIntent.type = "application/json"
 
         // Add the email address you want to send the email to
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("recipient@example.com"))
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("ufe@hembach1.de"))
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "JSON File Attachment")
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Please find the attached JSON file.")
 
