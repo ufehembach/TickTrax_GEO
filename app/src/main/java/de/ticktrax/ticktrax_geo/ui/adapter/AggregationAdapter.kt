@@ -22,7 +22,7 @@ class AggregationAdapter(
     // hier werden neue ViewHolder erstellt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        Log.d("ufe", "create viewholder")
+       // Log.d("ufe", "create viewholder")
         val binding =
             FragmentHomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
@@ -31,11 +31,8 @@ class AggregationAdapter(
     // hier findet der Recyclingprozess statt
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        Log.d("ufe", "onviewcreated")
         val binding = holder.binding
-        // Hole die Somedata aus dem enveloppe
         var myOSMPlace = thisOSMPlaces[position.toInt()]
-        Log.d("ufe", "onbindviewholder " + position)
         binding.LonLatTV!!.text = myOSMPlace.lat.toString() + "/" + myOSMPlace.lon
         binding.DisplayNameTV!!.text = myOSMPlace.displayName
 
@@ -45,9 +42,10 @@ class AggregationAdapter(
 //            transformations(RoundedCornersTransformation(10F))
 
         binding.theHomeCardView?.setOnClickListener {
-            Log.d("ufe", "on the way to detail with $position")
+            Log.d("ufe", "on the way to home detail from aggregation with $position")
             holder.binding.root.findNavController()
                 .navigate(
+                  //  Home_FragmentDirections.actionHomeFragmentToHomeRecyclerDetail(position)
                     Home_FragmentDirections.actionHomeFragmentToHomeRecyclerDetail(position)
                 )
         }

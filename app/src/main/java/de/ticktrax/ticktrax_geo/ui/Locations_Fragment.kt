@@ -43,8 +43,8 @@ class Locations_Fragment : Fragment() {
 
         }
         viewModel.ttLocationS.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call Adapter ${it}")
-            Log.d("ufe", "${it.size}")
+          //  Log.d("ufe", "Call Adapter ${it}")
+          //  Log.d("ufe", "${it.size}")
             binding.locationRV?.adapter = TTLocationAdapter(it)
         }
 

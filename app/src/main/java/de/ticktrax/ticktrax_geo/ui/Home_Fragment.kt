@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
+import de.ticktrax.ticktrax_geo.ui.adapter.AggregationAdapter
 
 
 class Home_Fragment : Fragment() {
@@ -42,9 +43,9 @@ class Home_Fragment : Fragment() {
 
 
         viewModel.osmPlaceS.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call Adapter ${it}")
-            Log.d("ufe", "${it.size}")
-            binding.homeRV?.adapter = OSMPlaceAdapter(it)
+           // Log.d("ufe", "Call Adapter ${it}")
+           // Log.d("ufe", "${it.size}")
+            binding.homeRV?.adapter = AggregationAdapter(it)
         }
 
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt

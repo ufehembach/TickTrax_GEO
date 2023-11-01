@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         //Wird aufgerufen wenn Item in der NavBar ausgewählt wird
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            Log.d("ufe", "BottomNavSelectList " + item.itemId)
+            //Log.d("ufe", "BottomNavSelectList " + item.itemId)
             //Standard NavBar Funktionalität: Navigiere zum ausgewählten Item
             //Hierbei wird auch im navController der entsprechende BackStack geladen
             //Das führt dazu dass vorherige Navigation noch "gespeichert" und z.B.
@@ -95,14 +95,14 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(item, navController)
             //Hier lösen wir das Problem indem wir den BackStack zurücksetzen auf das ausgewählte Item
             navController.popBackStack(item.itemId, false)
-            Log.w("Navbar", item.toString())
+          //  Log.d("Navbar", item.toString())
             //Toast.makeText(this@MainActivity, "selected Item: " + item.toString(), Toast.LENGTH_LONG).show()
             //Item soll als ausgewählt angezeigt werden(farblich hinterlegt)
             return@setOnItemSelectedListener true
         }
 
         //hamburger
-        Log.d("ufe-geo", "Hamburger")
+       // Log.d("ufe-geo", "Hamburger")
         hamDrawerLayout = binding.hamDrawerLayout
         hamNavigationView = binding.hamburgerNav
         hamDrawerToggle =
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         hamDrawerToggle.syncState()
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         hamNavigationView.setNavigationItemSelectedListener() {
-            Log.d("ufe-geo", "HamburgerSelectList " + it.toString())
+         //   Log.d("ufe-geo", "HamburgerSelectList " + it.toString())
             //("ufe-geo", "HamburgerSelectList " + it.toString())
             when (it.itemId) {
                 R.id.HMenuHome -> {
@@ -146,14 +146,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.HMenuLog -> {
-                    Log.d("ufe", "Hamburger nav to log" + it.toString())
                     // ("ufe", "Hamburger nav to log"+it.toString())
                     Toast.makeText(this, "pre- " + R.string.HMenuLog, Toast.LENGTH_SHORT)
                         .show()
                     // val navController = findNavController(R.id.navHostHomeFrag)
                     // navController.navigate(R.id.ALogFragment)
                     navHostFragment.navController.navigate(R.id.ALogFragment)
-                    Log.d("ufe", "Hamburger after nav to log" + it.toString())
                     Toast.makeText(this, R.string.HMenuLog, Toast.LENGTH_SHORT).show()
                     hamDrawerLayout.closeDrawer(GravityCompat.START)
                 }
@@ -211,7 +209,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
             Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
         } else
-            viewModel.aLog(ALogType.GEO, "LocationService Intent - START")
+        //    viewModel.aLog(ALogType.GEO, "LocationService Intent - START")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_START
             startService(this)

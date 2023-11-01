@@ -32,7 +32,7 @@ class ALogAdapter(
     // hier findet der Recyclingprozess statt
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        Log.d("ufe", "ALOG Adapter onviewcreated")
+        //Log.d("ufe", "ALOG Adapter onviewcreated")
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
         var myALog = thisALog[position.toInt()]

@@ -21,7 +21,7 @@ interface TickTraxDao {
     // for export
     //   @get:Query("SELECT * FROM " + OSMPLACES_TBL_NAME)
     //   val allOSMPlaces: List<OSMPlace?>?
-    
+
     // -----TTAggregation---------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTTAggregation(TTAggregation: TTAggregation)
@@ -32,13 +32,13 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + TTAggregation_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllTTAggregations(): List<TTAggregation>
 
-   
+
     @Query("DELETE FROM " + TTAggregation_TBL_NAME)
     fun deleteAllTTAggregations()
 
     @Query("SELECT COUNT(*) FROM " + TTAggregation_TBL_NAME)
     fun countTTAggregations(): Long
-    
+
     // ----OSMPlace----------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOSMPlace(OSMPlace: OSMPlace)
@@ -57,10 +57,10 @@ interface TickTraxDao {
 
     // -------------------------------------------------
     // Location
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertLocation(Location: TTLocation)
 
-    @Query("SELECT * FROM " + TTLocation_TBL_NAME)
+    @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllLocations(): List<TTLocation>
 
     // -------------------------------------------------

@@ -1,10 +1,16 @@
 package de.ticktrax.ticktrax_geo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
+import de.ticktrax.ticktrax_geo.databinding.FragmentLocationDetailBinding
+import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,42 +24,67 @@ private const val ARG_PARAM2 = "param2"
  */
 class Location_Detail_Fragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private val ViewModel: TickTraxViewModel by activityViewModels()
+    private lateinit var binding: FragmentLocationDetailBinding
+
+    private lateinit var myOSMPlace: OSMPlace
+    private var index: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            index = it.getInt("position")
+            Log.d("ufe", "set pos  " + index)
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_location_detail, container, false)
+        //  return inflater.inflate(R.layout.fragment_home_recycler_detail, container, false)
+        binding = FragmentLocationDetailBinding.inflate(inflater, container, false)
+        Log.d("ufe", " location oncreateview ")
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Location_Detail_Fragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Location_Detail_Fragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("ufe", " settings fields ")
+        var a = ViewModel
+        var b = a.osmPlaceS
+        var c = b.value
+        var d = c?.get(index)
+
+        if (d != null) {
+            binding.placeIdTV?.text = d.placeId.toString()
+            binding.licenseTV?.text = d.licence
+            binding.osmTypeTV?.text = d.osmType.toString()
+            binding.osmIdTV?.text = d.osmId.toString()
+            binding.latTV?.text = d.lat.toString()
+            binding.lonTV?.text = d.lon.toString()
+            binding.classTV?.text = d.osmClass.toString()
+            binding.typeTV?.text = d.type.toString()
+            binding.placeRankTV?.text = d.placeRank.toString()
+            binding.importanceTV?.text = d.importance.toString()
+            binding.addressTypeTV?.text = d.addresstype.toString()
+            binding.nameTV?.text = d.name
+            binding.displayNameTV?.text = d.displayName
+            binding.houseNumberTV?.text = d.houseNumber
+            binding.roadTV?.text = d.road
+            binding.hamletTV?.text = d.hamlet
+            binding.townTV?.text = d.town
+            binding.countyTV?.text = d.county
+            binding.stateTV?.text = d.state
+            binding.iso3166lvl4TV?.text = d.ISO3166
+            binding.postcodeTV?.text = d.postcode
+            binding.countryTV?.text = d.country
+            binding.countryCodeTV?.text = d.countryCode
+            binding.boundingBox0TV?.text = d.bb0
+            binding.boundingBox1TV?.text = d.bb1
+            binding.boundingBox2TV?.text = d.bb2
+            binding.boundingBox3TV?.text = d.bb3
+        }
+
     }
 }

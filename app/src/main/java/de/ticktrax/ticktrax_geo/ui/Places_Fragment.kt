@@ -39,8 +39,8 @@ class Places_Fragment : Fragment() {
             navController.navigate(R.id.home_Fragment)
         }
         viewModel.osmPlaceS.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call Adapter ${it}")
-            Log.d("ufe", "${it.size}")
+          //  Log.d("ufe", "Call Adapter ${it}")
+          //  Log.d("ufe", "${it.size}")
             binding.placesRV?.adapter = OSMPlaceAdapter(it)
         }
 
