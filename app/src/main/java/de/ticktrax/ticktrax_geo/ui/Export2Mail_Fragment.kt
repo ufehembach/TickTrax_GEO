@@ -17,6 +17,7 @@ import com.google.gson.Gson
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentExport2MailBinding
 import de.ticktrax.ticktrax_geo.myTools.ExportViaMail
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -47,7 +48,7 @@ class Export2Mail_Fragment : Fragment() {
             navController.navigate(R.id.GEO_Fragment)
         }
         val data = viewModel.osmPlaceS.value
-        Log.d("ufe-export", data.toString())
+        logDebug("ufe-export", data.toString())
 
         binding.exportDataTV?.text = data.toString()
 

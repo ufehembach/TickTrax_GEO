@@ -12,9 +12,12 @@ import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -35,7 +38,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
 //        database = database }
 
     init {
-        Log.d("ufe", "init viewmodel")
+        logDebug("ufe", "init viewmodel")
         ttApRep.setParas(OSMGsonApi, database)
         ttApRep.addLogEntry(ALogType.INFO,"Repository Initalized")
     }
@@ -45,7 +48,6 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     private val _saving = MutableLiveData<LOADStatus>()
     val saving: LiveData<LOADStatus>
         get() = _saving
-
 
     // ------------------------------------------------------------------------
     // One OSM Place
@@ -67,6 +69,25 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     private val _ttLocationS = ttApRep.ttLocationS
     val ttLocationS: LiveData<List<TTLocation>>
         get() = _ttLocationS
+    // ------------------------------------------------------------------------
+    // geo locationext
+    private val _ttLocationExt = ttApRep.ttLocationExt
+    val ttLocationExt: LiveData<TTLocationExt>
+        get() = _ttLocationExt
+
+    private val _ttLocationExtS = ttApRep.ttLocationExtS
+    val ttLocationExtS: LiveData<List<TTLocationExt>>
+        get() = _ttLocationExtS
+
+    // ------------------------------------------------------------------------
+    // geo location details
+    private val _ttLocationDetail = ttApRep.ttLocationDetail
+    val ttLocationDetail: LiveData<TTLocationDetail>
+        get() = _ttLocationDetail
+
+    private val _ttLocationDetailS = ttApRep.ttLocationDetailS
+    val ttLocationDetailS: LiveData<List<TTLocationDetail>>
+        get() = _ttLocationDetailS
 
     // ------------------------------------------------------------------------
     private val _alogData = ttApRep.alogData

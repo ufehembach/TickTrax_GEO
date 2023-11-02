@@ -1,6 +1,7 @@
 package de.ticktrax.ticktrax_geo.processData
 
 import android.util.Log
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -18,9 +19,9 @@ class GeoUtils {
             val dLat = Math.toRadians(lat2 - lat1)
             val dLon = Math.toRadians(lon2 - lon1)
 
-            Log.d("ufe-calc", ": 1" + lat1 + " " + lon1)
-            Log.d("ufe-calc", ": 2" + lat2 + " " + lon2)
-            Log.d("ufe-calc", ": d" + dLat + " " + dLon)
+            logDebug("ufe-calc", ": 1 " + lat1 + " " + lon1)
+            logDebug("ufe-calc", ": 2 " + lat2 + " " + lon2)
+            logDebug("ufe-calc", ": d " + dLat + " " + dLon)
 
             val a = sin(dLat / 2) * sin(dLat / 2) +
                     cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
@@ -28,8 +29,8 @@ class GeoUtils {
 
             val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-            Log.d("ufe-calc", ": a" + a + " c " + c)
-            Log.d("ufe-calc", ": " + EARTH_RADIUS * c + "m")
+            logDebug("ufe-calc", ": a" + a + " c " + c)
+            logDebug("ufe-calc", ": " + EARTH_RADIUS * c + "m")
 
             return EARTH_RADIUS * c
         }

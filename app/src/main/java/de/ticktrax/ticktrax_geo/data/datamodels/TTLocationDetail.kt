@@ -10,18 +10,16 @@ import java.util.Date
 
 //import com.squareup.moshi.Json
 
-const val TTLocation_TBL_NAME = "tblLocation"
-const val TTLocation_Distance_Max = 10 // in Meter gives what we see as the same location
+const val TTLocationDetail_TBL_NAME = "tblLocationDetail"
 
-@Entity(tableName = TTLocation_TBL_NAME)
+@Entity(tableName = TTLocationDetail_TBL_NAME)
 @TypeConverters(Converters::class)
-data class TTLocation(
-    @PrimaryKey(autoGenerate = false)
+data class TTLocationDetail(
+    @PrimaryKey(autoGenerate = true)
+    var LocationDetailId: Long = 0,
     var LocationId: Long = 0,
-    var lon: Double = 0.0,
-    var lat: Double = 0.0,
-    var alt: Double = 0.0,
-
-    var locAdded: Date = Date(0, 0, 0),
-    var lastSeen: Date = Date(0,0,0)
+    var lastSeen: Date = Date(0, 0, 0),
+    var firstSeen: Date = Date(0, 0, 0),
+    var durationMinutes: Long? = 0,
+    var lastDistance: Double = 0.0
 )

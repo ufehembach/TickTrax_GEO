@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationsBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.ui.adapter.TTLocationAdapter
 
@@ -42,9 +43,9 @@ class Locations_Fragment : Fragment() {
           navController.navigate(R.id.places_Fragment)
 
         }
-        viewModel.ttLocationS.observe(viewLifecycleOwner) {
-          //  Log.d("ufe", "Call Adapter ${it}")
-          //  Log.d("ufe", "${it.size}")
+        viewModel.ttLocationExtS.observe(viewLifecycleOwner) {
+         //   logDebug("ufe", "Call Adapter ${it}")
+         //   logDebug("ufe", "${it.size}")
             binding.locationRV?.adapter = TTLocationAdapter(it)
         }
 

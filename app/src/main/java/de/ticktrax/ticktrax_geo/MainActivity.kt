@@ -37,6 +37,7 @@ import java.util.Locale
 
 import android.content.Context
 import android.content.pm.PackageManager
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import org.osmdroid.config.Configuration
 import org.osmdroid.config.Configuration.*
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     // ufe stuff
     init {
-        Log.d("ufe-geo", "mainactivity init")
+        logDebug("ufe-geo", "mainactivity init")
     }
 
     private lateinit var hamDrawerLayout: DrawerLayout
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("ufe-geo", "onCreate")
+        logDebug("ufe-geo", "onCreate")
 
         // This won't work unless you have imported this: org.osmdroid.config.Configuration.*
         //   getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         //Wird aufgerufen wenn Item in der NavBar ausgewählt wird
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            //Log.d("ufe", "BottomNavSelectList " + item.itemId)
+            //logDebug("ufe", "BottomNavSelectList " + item.itemId)
             //Standard NavBar Funktionalität: Navigiere zum ausgewählten Item
             //Hierbei wird auch im navController der entsprechende BackStack geladen
             //Das führt dazu dass vorherige Navigation noch "gespeichert" und z.B.
@@ -95,14 +96,14 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(item, navController)
             //Hier lösen wir das Problem indem wir den BackStack zurücksetzen auf das ausgewählte Item
             navController.popBackStack(item.itemId, false)
-          //  Log.d("Navbar", item.toString())
+          //  logDebug("Navbar", item.toString())
             //Toast.makeText(this@MainActivity, "selected Item: " + item.toString(), Toast.LENGTH_LONG).show()
             //Item soll als ausgewählt angezeigt werden(farblich hinterlegt)
             return@setOnItemSelectedListener true
         }
 
         //hamburger
-       // Log.d("ufe-geo", "Hamburger")
+       // logDebug("ufe-geo", "Hamburger")
         hamDrawerLayout = binding.hamDrawerLayout
         hamNavigationView = binding.hamburgerNav
         hamDrawerToggle =
@@ -111,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         hamDrawerToggle.syncState()
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         hamNavigationView.setNavigationItemSelectedListener() {
-         //   Log.d("ufe-geo", "HamburgerSelectList " + it.toString())
+         //   logDebug("ufe-geo", "HamburgerSelectList " + it.toString())
             //("ufe-geo", "HamburgerSelectList " + it.toString())
             when (it.itemId) {
                 R.id.HMenuHome -> {
@@ -201,10 +202,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         viewModel.aLog(ALogType.GEO, "main on start, sent start intend")
-        Log.d("ufe-geo", "main on start, sent start intend")
+        logDebug("ufe-geo", "main on start, sent start intend")
         if (!this.hasLocationPermission()) {
             viewModel.aLog(ALogType.GEO, "No Location Permissions")
-            Log.d("ufe-geo", "No Location Permissions")
+            logDebug("ufe-geo", "No Location Permissions")
             Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
             Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
             Toast.makeText(this, R.string.PermissionToast, Toast.LENGTH_LONG).show()
@@ -217,13 +218,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        Log.d("ufe-geo", "main on stop")
+        logDebug("ufe-geo", "main on stop")
         viewModel.aLog(ALogType.GEO, "main-onStop")
         super.onStop()
     }
 
     override fun onDestroy() {
-        Log.d("ufe-geo", "main on stop, sent stop intend")
+        logDebug("ufe-geo", "main on stop, sent stop intend")
         viewModel.aLog(ALogType.GEO, "LocationService Intent - STOP")
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_STOP

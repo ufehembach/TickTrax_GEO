@@ -11,6 +11,7 @@ import com.google.android.gms.location.LocationServices
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -37,7 +38,7 @@ class LocationService : Service() {
             applicationContext,
             LocationServices.getFusedLocationProviderClient(applicationContext)
         )
-        Log.d("ufe-service", "service on create")
+        logDebug("ufe-service", "service on create")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -46,7 +47,7 @@ class LocationService : Service() {
             ACTION_STOP -> stop()
         }
         //ttApRep.addLogEntry(ALogType.FGSERV, "service on startCommand")
-        Log.d("ufe-service", "service on onStartCommand()")
+        logDebug("ufe-service", "service on onStartCommand()")
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -57,7 +58,7 @@ class LocationService : Service() {
             .setSmallIcon(R.drawable.opas_ticktrax_app_logo)
             .setOngoing(true)
         //ttApRep.addLogEntry(ALogType.FGSERV, "service on start")
-        Log.d("ufe-service","Service Start")
+        logDebug("ufe-service","Service Start")
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -72,7 +73,7 @@ class LocationService : Service() {
                 val updatedNotification = notification.setContentText(
                     "Location: ($lat, $long)"
                 )
-                Log.d("ufe-geo", "Location in LocService: ($lat, $long)")
+                logDebug("ufe-geo", "Location in LocService: ($lat, $long)")
                 // locationRepository.setLocation(location)
                 ttApRep.addLocation(location)
                 ttApRep.addLogEntry(

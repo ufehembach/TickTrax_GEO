@@ -23,7 +23,7 @@ class ALogAdapter(
     // hier werden neue ViewHolder erstellt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-       // Log.d("ufe", "ALOG Adapter create viewholder")
+       // logDebug("ufe", "ALOG Adapter create viewholder")
         val binding =
             FragmentALogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
@@ -32,24 +32,24 @@ class ALogAdapter(
     // hier findet der Recyclingprozess statt
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        //Log.d("ufe", "ALOG Adapter onviewcreated")
+        //logDebug("ufe", "ALOG Adapter onviewcreated")
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
         var myALog = thisALog[position.toInt()]
-        //  Log.d("ufe", "ALOG onbindviewholder " + position)
-        var myDate = DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString())
+        //  logDebug("ufe", "ALOG onbindviewholder " + position)
+        var myDate = DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime  .toString())
         var niceDateString = DateTimeFormats.formatDateTime(myDate)
-        //DateTimeUtils.formatDateTime(DateTimeUtils.parseDateTimeFromUTC(myALog.dateTime.toString()))
+        //DateTimeUtils.formatDateTime(DateTimeUtils.parseDateTimeFromUTC(myAlogDebugateTime.toString()))
 
         binding.ALogItemTV.text =
             niceDateString + " " + myALog.logType.toString() + " " + myALog.logText.toString()
         //Use Coil to load images
-//        Log.d("ufe", "get image from " + genericData.image)
+//        logDebug("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
         binding.theALogCardView.setOnClickListener {
-//            Log.d("ufe", "ALOG Adapter on the way to detail with $position")
+//            logDebug("ufe", "ALOG Adapter on the way to detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
                     ALogFragmentDirections.actionALogFragmentToALogDetailFragment(position)

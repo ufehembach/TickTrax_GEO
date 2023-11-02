@@ -12,6 +12,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import de.ticktrax.ticktrax_geo.hasLocationPermission
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -26,21 +27,21 @@ class DefaultLocationClient(
     override fun getLocationUpdates(interval: Long): Flow<Location> {
         return callbackFlow {
             if (!context.hasLocationPermission()) {
-                Log.d("ufe-geo", "No Permisson for geo set!")
+                logDebug("ufe-geo", "No Permisson for geo set!")
                 throw LocationClient.LocationException("Missing location permission")
             }
 
             val locationManager =
                 context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            Log.d("ufe-geo", "location manager " + locationManager.toString())
+            logDebug("ufe-geo", "location manager " + locationManager.toString())
             val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            Log.d("ufe-geo", "isGpsEnable " + isGpsEnabled.toString())
+            logDebug("ufe-geo", "isGpsEnable " + isGpsEnabled.toString())
             val isNetworkEnabled =
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-            Log.d("ufe-geo", "isNetworkEnalbed " + isNetworkEnabled)
+            logDebug("ufe-geo", "isNetworkEnalbed " + isNetworkEnabled)
             if (!isGpsEnabled && !isNetworkEnabled) {
                 throw LocationClient.LocationException("GPS is disabled")
-                Log.d("ufe-geo", "gps disabled")
+                logDebug("ufe-geo", "gps disabled")
             }
 
             val request = LocationRequest.create()

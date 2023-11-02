@@ -43,8 +43,8 @@ class Home_Fragment : Fragment() {
 
 
         viewModel.osmPlaceS.observe(viewLifecycleOwner) {
-           // Log.d("ufe", "Call Adapter ${it}")
-           // Log.d("ufe", "${it.size}")
+           // logDebug("ufe", "Call Adapter ${it}")
+           // logDebug("ufe", "${it.size}")
             binding.homeRV?.adapter = AggregationAdapter(it)
         }
 

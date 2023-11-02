@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeItemBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
 import de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment
 
@@ -22,7 +23,7 @@ class AggregationAdapter(
     // hier werden neue ViewHolder erstellt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-       // Log.d("ufe", "create viewholder")
+       // logDebug("ufe", "create viewholder")
         val binding =
             FragmentHomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
@@ -37,12 +38,12 @@ class AggregationAdapter(
         binding.DisplayNameTV!!.text = myOSMPlace.displayName
 
         //Use Coil to load images
-//        Log.d("ufe", "get image from " + genericData.image)
+//        logDebug("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
         binding.theHomeCardView?.setOnClickListener {
-            Log.d("ufe", "on the way to home detail from aggregation with $position")
+           // logDebug("ufe", "on the way to home detail from aggregation with $position")
             holder.binding.root.findNavController()
                 .navigate(
                   //  Home_FragmentDirections.actionHomeFragmentToHomeRecyclerDetail(position)

@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
+import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationsItemBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Locations_FragmentDirections
 
 class TTLocationAdapter(
-    private val thisTTLocations: List<TTLocation>
+    private val thisTTLocationExtS:  List<TTLocationExt>
 ) : RecyclerView.Adapter<TTLocationAdapter.ItemViewHolder>() {
 
 
@@ -31,17 +33,17 @@ class TTLocationAdapter(
 
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
-        var myTTLocation = thisTTLocations[position.toInt()]
-        binding.LonLatTV!!.text = myTTLocation.lat.toString() + "/" + myTTLocation.lon
-        binding.DisplayNameTV!!.text = myTTLocation.lastSeen.toString()
+        var myTTLocation = thisTTLocationExtS[position.toInt()]
+        binding.LonLatTV!!.text = myTTLocation.ttLocation.lat.toString() + "/" + myTTLocation.ttLocation.lon
+        binding.DisplayNameTV!!.text = myTTLocation.ttLocation.lastSeen.toString() + " Duration: "+ myTTLocation.durationMinutes + "min"
 
         //Use Coil to load images
-//        Log.d("ufe", "get image from " + genericData.image)
+//        logDebug("ufe", "get image from " + genericData.image)
 //       binding.genericIV.load(genericData.image) {
 //            transformations(RoundedCornersTransformation(10F))
 
         binding.theLocationCardView.setOnClickListener {
-            Log.d("ufe", "on the way to TT location detail with $position")
+          //  logDebug("ufe", "on the way to TT location detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
                     //Home_FragmentDirections.actionHomeFragment2ToHomeRecyclerDetail(position)
@@ -56,7 +58,7 @@ class TTLocationAdapter(
      */
     override fun getItemCount(): Int {
         //return enericEnv.media.size
-        return thisTTLocations.size
+        return thisTTLocationExtS.size
     }
 }
 

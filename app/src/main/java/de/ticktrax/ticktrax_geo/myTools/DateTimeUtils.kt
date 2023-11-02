@@ -39,12 +39,12 @@ fun testit() {
 // Ein Datum formatieren
     val currentDate = Date()
     val formattedDate = DateTimeUtils.formatDateTime(currentDate)
-    Log.d("Formatted Date", formattedDate)
+    logDebug("Formatted Date", formattedDate)
 
 // Ein Datum analysieren
     try {
         val parsedDate = DateTimeUtils.parseDateTime("2023-09-29 15:30:00")
-        Log.d("Parsed Date", parsedDate.toString())
+        logDebug("Parsed Date", parsedDate.toString())
     } catch (e: ParseException) {
         e.printStackTrace()
     }

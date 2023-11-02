@@ -12,6 +12,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesDetailBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 
 class Places_Detail_Fragment : Fragment() {
@@ -24,7 +25,7 @@ class Places_Detail_Fragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             index = it.getInt("position")
-            Log.d("ufe", "set pos  " + index)
+            logDebug("ufe", "set pos  " + index)
         }
     }
 
@@ -35,12 +36,12 @@ class Places_Detail_Fragment : Fragment() {
         // Inflate the layout for this fragment
         //  return inflater.inflate(R.layout.fragment_home_recycler_detail, container, false)
         binding = FragmentPlacesDetailBinding.inflate(inflater, container, false)
-        Log.d("ufe", " places oncreateview ")
+        logDebug("ufe", " places oncreateview ")
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ufe", " settings fields ")
+        logDebug("ufe", " settings fields ")
         var a = ViewModel
         var b = a.osmPlaceS
         var c = b.value

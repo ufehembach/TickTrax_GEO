@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Places_FragmentDirections
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -37,7 +38,7 @@ class OSMPlaceAdapter(
     // hier werden neue ViewHolder erstellt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-       // Log.d("ufe", "create viewholder")
+       // logDebug("ufe", "create viewholder")
         val binding =
             FragmentPlacesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
@@ -85,7 +86,7 @@ class OSMPlaceAdapter(
 
 
         binding.thePlacesCardView.setOnClickListener {
-            Log.d("ufe", "on the way to osm place detail with $position")
+          //  logDebug("ufe", "on the way to osm place detail with $position")
             holder.binding.root.findNavController()
                 .navigate(
                     //Places_FragmentDirections.actionPlacesFragmentToPlacesDetailFragment(position)

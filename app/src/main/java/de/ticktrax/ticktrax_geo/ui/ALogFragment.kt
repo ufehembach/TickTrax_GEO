@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogItemBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 import de.ticktrax.ticktrax_geo.ui.adapter.ALogAdapter
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
@@ -25,7 +26,7 @@ class ALogFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        Log.d("ufe","oncreateview ALOG")
+        logDebug("ufe","oncreateview ALOG")
         binding = FragmentALogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,8 +35,8 @@ class ALogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.alogDataS.observe(viewLifecycleOwner) {
-            Log.d("ufe", "Call ALOG Adapter ${it}")
-            Log.d("ufe", "${it.size}")
+            logDebug("ufe", "Call ALOG Adapter ${it}")
+            logDebug("ufe", "${it.size}")
             binding.rvLog.adapter = ALogAdapter(it)
         }
 

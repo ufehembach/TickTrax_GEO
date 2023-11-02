@@ -1,6 +1,7 @@
 package de.ticktrax.h1Template.myTools
 
 import android.util.Log
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -10,7 +11,7 @@ class ReadTXTfromURL(private var link: String) {
     // val link = "http://.../file.txt"
     private val al = ArrayList<String>()
     fun read(): String {
-        Log.d("ufe","in readstring for " +link)
+        logDebug("ufe","in readstring for " +link)
         try {
             val url = URL(link)
             val conn = url.openConnection()

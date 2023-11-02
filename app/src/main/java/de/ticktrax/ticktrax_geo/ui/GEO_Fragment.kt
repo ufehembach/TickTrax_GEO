@@ -21,6 +21,7 @@ import de.ticktrax.ticktrax_geo.location.LocationService
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.databinding.FragmentGEOBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -73,7 +74,7 @@ class GEO_Fragment : Fragment() {
         viewModel.ttLocation.observe(viewLifecycleOwner) {
             val mytext = it.lat.toString() + "/" + it.lon.toString() + "/" + it.alt.toString()
             binding.GeoLocTV?.text = mytext
-            Log.d("ufe-geo", "map view for : " + mytext)
+            logDebug("ufe-geo", "map view for : " + mytext)
             viewModel.aLog(ALogType.GEO, "show Map: " + mytext)
             //mapController.setZoom(9.5)
             mapController.setZoom(startZoom)

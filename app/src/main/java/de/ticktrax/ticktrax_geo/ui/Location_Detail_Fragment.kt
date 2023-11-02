@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationDetailBinding
+import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,7 +35,7 @@ class Location_Detail_Fragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             index = it.getInt("position")
-            Log.d("ufe", "set pos  " + index)
+            logDebug("ufe", "set pos  " + index)
         }
     }
     override fun onCreateView(
@@ -44,13 +45,13 @@ class Location_Detail_Fragment : Fragment() {
         // Inflate the layout for this fragment
         //  return inflater.inflate(R.layout.fragment_home_recycler_detail, container, false)
         binding = FragmentLocationDetailBinding.inflate(inflater, container, false)
-        Log.d("ufe", " location oncreateview ")
+        logDebug("ufe", " location oncreateview ")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ufe", " settings fields ")
+        logDebug("ufe", " settings fields ")
         var a = ViewModel
         var b = a.osmPlaceS
         var c = b.value
