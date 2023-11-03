@@ -17,7 +17,8 @@ import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.myTools.GEOHash
 import de.ticktrax.ticktrax_geo.myTools.logDebug
-import de.ticktrax.ticktrax_geo.processData.TTProcess
+import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocation
+import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocationDetail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -149,47 +150,71 @@ class TickTraxAppRepository {
     val ttLocationDetailS: LiveData<List<TTLocationDetail>>
         get() = _ttLocationDetailS
 
-    var ttOldLocationDetail = TTLocationDetail()
-    fun addOrUpdateLocationDetail(myLocation: TTLocation) {
-        logDebug ("ufe","addOrUpdateLocationDetail called with " + myLocation)
-        val defaultLocationDetail = TTLocationDetail(
+    var lastLocationDetail = TTLocationDetail()
+    var lastLocation = TTLocation()
+    fun addOrUpdateLocationDetail(currentLocation: TTLocation) {
+
+        logDebug("ufe", "addOrUpdateLocationDetail called with " + currentLocation)
+        // for the case we need a new location detail
+        val currentLocationDetail = TTLocationDetail(
             0L,
-            myLocation.LocationId,
+            currentLocation.LocationId,
             Date(),
             Date(),
             0,
         )
 
-        var ttNewOrUpdatedLocationDetail: TTLocationDetail =
-            try {
-                logDebug ("ufe","try to get " + myLocation.LocationId)
-                val bla = database.TickTraxDao.getALocationDetail(myLocation.LocationId)
-                if (bla == null) {
-                    logDebug("ufe", "not found (bla == null)")
-                    defaultLocationDetail
-                } else
-                    logDebug("ufe", " bla nicht null " + bla.LocationId)
-                    bla
-            } catch (e: Exception) {
-                logDebug("ufe", " no locationdetails for hash " + myLocation.LocationId)
-                defaultLocationDetail
-            }
-        //init sonderfall
-        if (ttOldLocationDetail == null) ttOldLocationDetail = ttNewOrUpdatedLocationDetail
+        // oldlocationdetail is null --> first start
+        if (lastLocationDetail.LocationDetailId == 0L) {
+            // then we have no id we can try to load
+            // so lets load the last entry we made to room details table and take that as old
+            var bla = database.TickTraxDao.getAlocationDetailLatestEntry()
+            if (bla != null) {
+                lastLocationDetail = bla
+            } else
+                lastLocationDetail = currentLocationDetail
+        }
+
+        // lastlocation is null --> first start
+        if (lastLocation == null) {
+            lastLocation = currentLocation
+        }
+
+        var ttNewOrUpdatedLocationDetail: TTLocationDetail
+        // is the current location the location from the last detail?
+        if (currentLocation.LocationId == lastLocationDetail.LocationId) {
+            //yes it is, let's update it
+            // we want to update the alredy existing entry we we need the id
+            currentLocationDetail.LocationDetailId = lastLocationDetail.LocationId
+            // do the miracle around the locations
+            ttNewOrUpdatedLocationDetail = ProcessLocationDetail(
+                lastLocation,
+                currentLocation,
+                lastLocationDetail,
+                currentLocationDetail
+            )
+        } else {
+            // no, start over
+            ttNewOrUpdatedLocationDetail = currentLocationDetail
+        }
 
         _ttLocationDetail.postValue(ttNewOrUpdatedLocationDetail)
-
         try {
-            logDebug("ufe",
-                 "location insert or update "
+            logDebug(
+                "ufe",
+                "location insert or update "
                         + ttNewOrUpdatedLocationDetail.toString()
             )
             database.TickTraxDao.insertOrUpdateLocationDetail((ttNewOrUpdatedLocationDetail))
+            // OMG, I don't get the LocationDetailID for saving it for the old one, so just read it again
+            ttNewOrUpdatedLocationDetail = database.TickTraxDao.getAlocationDetailLatestEntry()!!
         } catch (e: Exception) {
             Log.e("ufe", e.toString())
         }
-        ttOldLocationDetail = ttNewOrUpdatedLocationDetail
+        lastLocationDetail = ttNewOrUpdatedLocationDetail
+        lastLocation = currentLocation
     }
+
     // ----------------------------------------------------------------
     // ttLocationExt
     // ----------------------------------------------------------------
@@ -200,6 +225,7 @@ class TickTraxAppRepository {
     private var _ttLocationExtS = MutableLiveData<List<TTLocationExt>>()
     val ttLocationExtS: LiveData<List<TTLocationExt>>
         get() = _ttLocationExtS
+
     suspend fun getAllLocationExtFromRoom() {
         try {
             var allLocationExt = database.TickTraxDao.getAllLocationExt()
@@ -209,6 +235,7 @@ class TickTraxAppRepository {
             Log.e("ufe", "Error loading Data from ROOM: $e")
         }
     }
+
     // ----------------------------------------------------------------
     // ttLocationData
     // ----------------------------------------------------------------
@@ -239,14 +266,39 @@ class TickTraxAppRepository {
             myLocation.longitude,
             myLocation.latitude,
             myLocation.altitude,
-            currentDate,
+            Date(),
+            Date(),
+            0.0
         )
-        logDebug("ufe","newlocation " +newLocation.toString())
-        database.TickTraxDao.insertLocation((newLocation))
+        // oldlocation is null --> first start
+        if (ttOldLocation.LocationId == 0L) {
+            // then we have no id we can try to load
+            // so lets load the last entry we made to room details table and take that as old
+            var bla = database.TickTraxDao.getAlocationLatestEntry()
+            if (bla != null) {
+                ttOldLocation = bla
+            } else
+                ttOldLocation = newLocation
+        }
+
+        var newOrUpdatedLocation: TTLocation
+        // is the current location the new location?
+        if (ttOldLocation.LocationId == newLocation.LocationId) {
+            //yes it is, let's update it
+            newOrUpdatedLocation = ProcessLocation(ttOldLocation, newLocation)
+        } else {
+            // no, start over
+            newOrUpdatedLocation = newLocation
+        }
+
+        logDebug("ufe", "location " + newOrUpdatedLocation.toString())
+        database.TickTraxDao.insertOrUpdateLocation((newOrUpdatedLocation))
         addOrUpdateLocationDetail(newLocation)
+        ttOldLocation = newLocation
         getAllLocationExtFromRoom()
         //TODO was mache ich hier?
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch()
+        {
             try {
                 getPlaceFromOSM(newLocation.lat, newLocation.lon)
             } catch (e: Exception) {

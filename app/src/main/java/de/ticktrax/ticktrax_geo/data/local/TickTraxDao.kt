@@ -61,13 +61,15 @@ interface TickTraxDao {
     // -------------------------------------------------
     // Location
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLocation(Location: TTLocation)
+    fun insertOrUpdateLocation(Location: TTLocation)
 
     @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllLocations(): List<TTLocation>
 
     @Query("SELECT * FROM " + TTLocation_TBL_NAME + " WHERE LocationId = :LocationId")
     fun getALocations(LocationId: Long): TTLocation
+    @Query("SELECT * FROM "+ TTLocation_TBL_NAME  +  " ORDER BY lastSeen DESC LIMIT 1")
+    fun getAlocationLatestEntry(): TTLocation?
 
     // -------------------------------------------------
     // LocationDetails
@@ -82,6 +84,9 @@ interface TickTraxDao {
 
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId")
     fun getALocationDetails(LocationId: Long): List<TTLocationDetail>
+
+    @Query("SELECT * FROM "+ TTLocationDetail_TBL_NAME  +  " ORDER BY LocationDetailId DESC LIMIT 1")
+    fun getAlocationDetailLatestEntry(): TTLocationDetail?
 
     // -------------------------------------------------
     // LocationExt

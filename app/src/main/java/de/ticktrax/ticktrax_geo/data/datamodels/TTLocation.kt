@@ -23,5 +23,6 @@ data class TTLocation(
     var alt: Double = 0.0,
 
     var locAdded: Date = Date(0, 0, 0),
-    var lastSeen: Date = Date(0,0,0)
+    var lastSeen: Date = Date(0, 0, 0),
+    var lastDistance: Double = 0.0
 )
