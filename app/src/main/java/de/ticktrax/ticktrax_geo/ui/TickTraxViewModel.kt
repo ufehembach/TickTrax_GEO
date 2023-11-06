@@ -1,15 +1,11 @@
 package de.ticktrax.ticktrax_geo.ui
 
 import android.app.Application
-import android.location.Location
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
-import de.ticktrax.ticktrax_geo.data.TickTraxAppRepository
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
@@ -18,8 +14,7 @@ import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider
 import de.ticktrax.ticktrax_geo.myTools.logDebug
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import java.nio.DoubleBuffer
 
 enum class LOADStatus {
     NIX, LOADREQUESTED, LOADED, NIXLOADED
@@ -40,7 +35,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     init {
         logDebug("ufe", "init viewmodel")
         ttApRep.setParas(OSMGsonApi, database)
-        ttApRep.addLogEntry(ALogType.INFO,"Repository Initalized")
+        ttApRep.addLogEntry(ALogType.INFO, "Repository Initalized")
     }
 
     // ------------------------------------------------------------------------
@@ -50,8 +45,8 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
         get() = _saving
 
     // ------------------------------------------------------------------------
-    // One OSM Place
-    private val _osmPlace = ttApRep.OSMPlace
+    // One OSM Place Live (current location)
+    private val _osmPlace = ttApRep.OSMLivePlace
     val osmPlace: LiveData<OSMPlace>
         get() = _osmPlace
 
@@ -60,6 +55,22 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     val osmPlaceS: LiveData<List<OSMPlace>>
         get() = _osmPlaceS
 
+    private val _osmPlace4Id =ttApRep._OSMPlace4ID
+    val osmPlace4Id: LiveData<OSMPlace>
+        get() = _osmPlace4Id
+
+    fun osmPlace4IdSetId(OSMId: Long) {
+
+        ttApRep.readOSMPlace4IdFromRoom(OSMId)
+    }
+
+    private val _osmPlace4LonLat =ttApRep._OSMPlace4LonLat
+    val osmPlace4LonLat: LiveData<OSMPlace>
+        get() = _osmPlace4LonLat
+
+    fun osmPlace4LonLatSetLonLat(lon: Double, lat: Double) {
+        ttApRep.readOSMPlace4LonLat(lon, lat)
+    }
     // ------------------------------------------------------------------------
     // geo location
     private val _ttLocation = ttApRep.ttLocation
@@ -69,6 +80,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     private val _ttLocationS = ttApRep.ttLocationS
     val ttLocationS: LiveData<List<TTLocation>>
         get() = _ttLocationS
+
     // ------------------------------------------------------------------------
     // geo locationext
     private val _ttLocationExt = ttApRep.ttLocationExt
@@ -89,6 +101,12 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     val ttLocationDetailS: LiveData<List<TTLocationDetail>>
         get() = _ttLocationDetailS
 
+    fun ttLocationDetailS4IdSetId(Id: Long) {
+
+        ttApRep.getAllLocationDetailFromRoom4Id(Id)
+    }
+    val ttLocationDetailS4Id = ttApRep._ttLocationDetailS4Id
+
     // ------------------------------------------------------------------------
     private val _alogData = ttApRep.alogData
     val alogData: LiveData<ALog>
@@ -97,10 +115,12 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     private val _alogDataS = ttApRep.alogDataS
     val alogDataS: LiveData<List<ALog>>
         get() = _alogDataS
+
     fun aLog(type: ALogType, logText: String?) {
         ttApRep.addLogEntry(type, logText, "rep " + logText)
     }
-    fun aLog(type: ALogType, logText: String?,logDetail:String?) {
+
+    fun aLog(type: ALogType, logText: String?, logDetail: String?) {
         ttApRep.addLogEntry(type, logText, "rep " + logText)
     }
 

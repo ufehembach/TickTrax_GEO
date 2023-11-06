@@ -26,7 +26,7 @@
                 android:id="@+id/placeIdTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="131207632"
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:id="@+id/licenseTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"'
+                android:text='##VoId##'
                 android:textStyle="bold" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:id="@+id/osmTypeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"way"'
+                android:text='##VoId##'
                 android:textStyle="bold" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:id="@+id/osmIdTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="272156543"
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -74,7 +74,7 @@
                 android:id="@+id/latTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"51.05210485"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:id="@+id/lonTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"7.320198009804348"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -98,7 +98,7 @@
                 android:id="@+id/classTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"building"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -110,7 +110,7 @@
                 android:id="@+id/typeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"yes"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -122,7 +122,7 @@
                 android:id="@+id/placeRankTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="30"
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -134,7 +134,7 @@
                 android:id="@+id/importanceTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"0.00000999999999995449"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -146,7 +146,7 @@
                 android:id="@+id/addressTypeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"building"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -170,7 +170,7 @@
                 android:id="@+id/displayNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"1, Hembach, Kürten, Rheinisch-Bergischer Kreis, Nordrhein-Westfalen, 51515, Deutschland"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -193,7 +193,7 @@
                 android:id="@+id/houseNumberTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"1"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -205,7 +205,7 @@
                 android:id="@+id/roadTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Hembach"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -217,7 +217,7 @@
                 android:id="@+id/hamletTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Hembach"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -229,7 +229,7 @@
                 android:id="@+id/townTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Kürten"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -241,7 +241,7 @@
                 android:id="@+id/countyTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Rheinisch-Bergischer Kreis"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -253,7 +253,7 @@
                 android:id="@+id/stateTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Nordrhein-Westfalen"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -265,7 +265,7 @@
                 android:id="@+id/iso3166lvl4TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"DE-NW"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -277,7 +277,7 @@
                 android:id="@+id/postcodeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"51515"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -289,7 +289,7 @@
                 android:id="@+id/countryTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Deutschland"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -301,7 +301,7 @@
                 android:id="@+id/countryCodeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"de"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -324,7 +324,7 @@
                 android:id="@+id/boundingBox0TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"51.0519774"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -336,7 +336,7 @@
                 android:id="@+id/boundingBox1TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"51.0522183"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -348,7 +348,7 @@
                 android:id="@+id/boundingBox2TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"7.3199936"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
 
             <TextView
@@ -360,9 +360,8 @@
                 android:id="@+id/boundingBox3TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"7.3203963"'
+                android:text="##VoId##"
                 android:textStyle="bold" />
-
         </GridLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

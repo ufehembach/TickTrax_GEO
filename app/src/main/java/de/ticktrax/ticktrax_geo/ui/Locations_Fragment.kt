@@ -41,8 +41,8 @@ class Locations_Fragment : Fragment() {
         binding.prevFAB.setOnClickListener {
             val navController = findNavController()
           navController.navigate(R.id.places_Fragment)
-
         }
+
         viewModel.ttLocationExtS.observe(viewLifecycleOwner) {
          //   logDebug("ufe", "Call Adapter ${it}")
          //   logDebug("ufe", "${it.size}")

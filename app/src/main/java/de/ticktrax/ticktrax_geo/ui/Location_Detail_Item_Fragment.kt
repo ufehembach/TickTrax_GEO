@@ -1,18 +1,23 @@
 package de.ticktrax.ticktrax_geo.ui
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import de.ticktrax.ticktrax_geo.R
+
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Places_Item_Fragment.newInstance] factory method to
+ * Use the [Location_Detail_Item_Fragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Places_Item_Fragment : Fragment() {
+class Location_Detail_Item_Fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -20,6 +25,8 @@ class Places_Item_Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -28,7 +35,7 @@ class Places_Item_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_places_item, container, false)
+        return inflater.inflate(R.layout.fragment_location_detail_item, container, false)
     }
 
     companion object {
@@ -38,13 +45,15 @@ class Places_Item_Fragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment Places_Item_Fragment.
+         * @return A new instance of fragment Location_Detail_Item_Fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Places_Item_Fragment().apply {
+            Location_Detail_Item_Fragment().apply {
                 arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
             }
     }

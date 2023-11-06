@@ -58,6 +58,9 @@ interface TickTraxDao {
     @Query("SELECT COUNT(*) FROM " + OSMPLACES_TBL_NAME)
     fun countOSMPlaces(): Long
 
+    @Query("SELECT * FROM " + OSMPLACES_TBL_NAME + " WHERE placeId = :placeId")
+    fun getOSMPlace4Id(placeId: Long): OSMPlace
+
     // -------------------------------------------------
     // Location
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -66,9 +69,10 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllLocations(): List<TTLocation>
 
-    @Query("SELECT * FROM " + TTLocation_TBL_NAME + " WHERE LocationId = :LocationId")
-    fun getALocations(LocationId: Long): TTLocation
-    @Query("SELECT * FROM "+ TTLocation_TBL_NAME  +  " ORDER BY lastSeen DESC LIMIT 1")
+    @Query("SELECT * FROM " + TTLocation_TBL_NAME + " WHERE LocationId = :locationId")
+    fun getALocations(locationId: Long): TTLocation
+
+    @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC LIMIT 1")
     fun getAlocationLatestEntry(): TTLocation?
 
     // -------------------------------------------------
@@ -82,19 +86,19 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId order BY LocationDetailId DESC LIMIT 1")
     fun getALocationDetail(LocationId: Long): TTLocationDetail
 
+    @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId order BY LocationDetailId DESC")
+    fun getAallLocationDetail(LocationId: Long): List<TTLocationDetail>
+
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId")
     fun getALocationDetails(LocationId: Long): List<TTLocationDetail>
 
-    @Query("SELECT * FROM "+ TTLocationDetail_TBL_NAME  +  " ORDER BY LocationDetailId DESC LIMIT 1")
+    @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " ORDER BY LocationDetailId DESC LIMIT 1")
     fun getAlocationDetailLatestEntry(): TTLocationDetail?
 
     // -------------------------------------------------
     // LocationExt
-    @Query("SELECT *, (SELECT SUM(durationMinutes) FROM "+TTLocationDetail_TBL_NAME+ " WHERE "+ TTLocationDetail_TBL_NAME+".LocationId = " + TTLocation_TBL_NAME + ".LocationId) as durationSum FROM "+ TTLocation_TBL_NAME +" order by lastSeen")
+    @Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + TTLocationDetail_TBL_NAME + " WHERE " + TTLocationDetail_TBL_NAME + ".LocationId = " + TTLocation_TBL_NAME + ".LocationId) as durationSum FROM " + TTLocation_TBL_NAME + " order by lastSeen")
     fun getAllLocationExt(): List<TTLocationExt>
-
-    //@Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId order BY LocationDetailId DESC LIMIT 1")
-    //fun getALocationExt(LocationId: Long): TTLocationExt
 
     // -------------------------------------------------
     @Insert(onConflict = OnConflictStrategy.REPLACE)

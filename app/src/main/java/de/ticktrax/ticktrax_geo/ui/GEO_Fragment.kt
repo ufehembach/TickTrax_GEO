@@ -75,7 +75,7 @@ class GEO_Fragment : Fragment() {
             val mytext = it.lat.toString() + "/" + it.lon.toString() + "/" + it.alt.toString()
             binding.GeoLocTV?.text = mytext
             logDebug("ufe-geo", "map view for : " + mytext)
-            viewModel.aLog(ALogType.GEO, "show Map: " + mytext)
+           // viewModel.aLog(ALogType.GEO, "show Map: " + mytext)
             //mapController.setZoom(9.5)
             mapController.setZoom(startZoom)
             var currentLoc = GeoPoint(it.lat, it.lon);

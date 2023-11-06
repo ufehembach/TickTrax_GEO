@@ -30,7 +30,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_ALogFragment_to_ALogItem">
+                            <entry key="action_ALogFragment_to_ALogDetailFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -133,6 +133,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="location_Detail_Item_Fragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1223" />
+                            <option name="y" value="37" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="locations_Fragment">
                     <value>
                       <LayoutPositions>
@@ -162,6 +174,15 @@
                             <option name="x" value="996" />
                             <option name="y" value="46" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_locations_Item_Fragment_to_location_Detail_Item_Fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

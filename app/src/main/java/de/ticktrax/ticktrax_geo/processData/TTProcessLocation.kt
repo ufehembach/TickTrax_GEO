@@ -47,6 +47,7 @@ class TTProcess {
             oldLocation: TTLocation, newLocation: TTLocation,
             oldLocationDetail: TTLocationDetail, newLocationDetail: TTLocationDetail
         ): TTLocationDetail {
+            logDebug("ufe-calc", "check for changes on details")
             // hat sich der hash geändert?
             if (oldLocationDetail?.LocationDetailId != newLocationDetail.LocationDetailId) {
                 logDebug("ufe-calc", "LocationID Changed")
