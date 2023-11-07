@@ -107,7 +107,11 @@
         android:id="@+id/places_Item_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Places_Item_Fragment"
         android:label="fragment_places_item"
-        tools:layout="@layout/fragment_places_item" />
+        tools:layout="@layout/fragment_places_item" >
+        <action
+            android:id="@+id/action_places_Item_Fragment_to_places_detail_item"
+            app:destination="@id/places_detail_item" />
+    </fragment>
     <fragment
         android:id="@+id/export2Mail_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Export2Mail_Fragment"
@@ -122,4 +126,9 @@
             android:name="index"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/places_detail_item"
+        android:name="de.ticktrax.ticktrax_geo.ui.places_detail_item"
+        android:label="fragment_places_detail_item"
+        tools:layout="@layout/fragment_places_detail_item" />
 </navigation>

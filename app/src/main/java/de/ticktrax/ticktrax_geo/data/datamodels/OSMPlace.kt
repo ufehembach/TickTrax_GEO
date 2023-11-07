@@ -6,123 +6,128 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import de.ticktrax.ticktrax_geo.data.remote.Flatten
 import androidx.annotation.Nullable; // Import this for @Nullable annotation
+import androidx.room.TypeConverters
+import de.ticktrax.ticktrax_geo.data.Converters
+import java.util.Date
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 annotation class ExportOrder(val order: Int)
-const val OSMPLACES_TBL_NAME = "tblOSMPlaces"
 
-@Entity(tableName = OSMPLACES_TBL_NAME)
+const val OSMPlace_TBL_NAME = "tblOSMPlace"
+const val OSMPlace_Distance_Max = 25 // in Meter gives what we see as the same location
+
+@Entity(tableName = OSMPlace_TBL_NAME)
+@TypeConverters(Converters::class)
 data class OSMPlace(
     @PrimaryKey
     @ExportOrder(1)
-    @SerializedName("place_id") val placeId: Long,
-    //license
+    @SerializedName("place_id") val OSMPlaceId: Long? = 0,
 
     @ExportOrder(2)
-    var lastSeen: String? = null,
-
-    @ExportOrder(3)
-    var noOfSights: Long? = null,
-
-    @ExportOrder(4)
-    var firstSeen: String? = null,
-
-    @ExportOrder(5)
     var myName: String? = null,
 
-    @ExportOrder(6)
+    //license
+    @ExportOrder(3)
     var licence: String? = null,
 //    var osm_type: String,
 
-    @ExportOrder(7)
+    @ExportOrder(4)
     @SerializedName("osm_type") val osmType: String? = null,
 
 //    var osm_id: String,
-    @ExportOrder(8)
-    @SerializedName("osm_id") val osmId: Long,
+    @ExportOrder(5)
+    @SerializedName("osm_id") val osmId: Long?=0L,
 
-    @ExportOrder(9)
-    var lat: String,
+    @ExportOrder(6)
+    var lat: String?=null,
 
-    @ExportOrder(10)
-    var lon: String,
+    @ExportOrder(7)
+    var lon: String?=null,
 //    var class : String,
 
-    @ExportOrder(11)
+    @ExportOrder(8)
     @SerializedName("class") val osmClass: String? = null,
 
-    @ExportOrder(12)
-    var type: String,
+    @ExportOrder(9)
+    var type: String? = null,
 //    var place_rank: String,
 
+    @ExportOrder(10)
+    @SerializedName("place_rank") val placeRank: Long? = 0L,
+
+    @ExportOrder(11)
+    var importance: Double? = 0.0,
+    @ExportOrder(12)
+    var addresstype: String? = null,
+
     @ExportOrder(13)
-    @SerializedName("place_rank") val placeRank: Long,
+    var name: String?=null,
 
     @ExportOrder(14)
-    var importance: Double,
-
-    @ExportOrder(15)
-    var addresstype: String?=null,
-
-    @ExportOrder(16)
-    var name: String,
-
-    @ExportOrder(17)
 //    var display_name: String,
     @SerializedName("display_name") val displayName: String? = null,
 // flatten address
 //    var house_number: String,
 
-    @ExportOrder(18)
+    @ExportOrder(15)
     @Flatten("address::house_number") val houseNumber: String? = null,
 //    var road: String,
 
-    @ExportOrder(19)
+    @ExportOrder(16)
     @Flatten("address::road") val road: String? = null,
 //    var hamlet: String,
 
-    @ExportOrder(20)
+    @ExportOrder(17)
     @Flatten("address::hamlet") val hamlet: String? = null,
 //    var town: String,
 
-    @ExportOrder(21)
+    @ExportOrder(18)
     @Flatten("address::town") val town: String? = null,
 //    var county: String? = null,
 
-    @ExportOrder(22)
+    @ExportOrder(19)
     @Flatten("address::county") val county: String? = null,
 //    var state: String? = null,
 
-    @ExportOrder(23)
+    @ExportOrder(20)
     @Flatten("address::state") val state: String? = null,
 //    var ISO3166-2-lvl4 :String? = null,
 
-    @ExportOrder(24)
+    @ExportOrder(21)
     @Flatten("address::ISO3166-2-lvl4") val ISO3166: String? = null,
 //    var postcode: String? = null,
 
-    @ExportOrder(25)
+    @ExportOrder(22)
     @Flatten("address::postcode") val postcode: String? = null,
 //    var country: String? = null,
 
-    @ExportOrder(26)
+    @ExportOrder(23)
     @Flatten("address::country") val country: String? = null,
 //    var country_code: String? = null,
 
-    @ExportOrder(27)
+    @ExportOrder(24)
     @Flatten("address::country_code") val countryCode: String? = null,
 // flatten boundingbox
 
-    @ExportOrder(28)
+    @ExportOrder(25)
     @Flatten("boundingbox::0") val bb0: String? = null,
 
-    @ExportOrder(29)
+    @ExportOrder(26)
     @Flatten("boundingbox::1") val bb1: String? = null,
 
-    @ExportOrder(30)
+    @ExportOrder(27)
     @Flatten("boundingbox::2") val bb2: String? = null,
 
+    @ExportOrder(28)
+    @Flatten("boundingbox::3") val bb3: String? = null,
+
+    @ExportOrder(29)
+    var locAdded: Date = Date(0, 0, 0),
+
+    @ExportOrder(30)
+    var lastSeen: Date = Date(0, 0, 0),
+
     @ExportOrder(31)
-    @Flatten("boundingbox::3") val bb3: String? = null
+    var lastDistance: Double = 0.0
 )

@@ -9,7 +9,8 @@ import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog_ROOM_Max
 import de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceDetail
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
@@ -19,6 +20,7 @@ import de.ticktrax.ticktrax_geo.myTools.GEOHash
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocation
 import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocationDetail
+import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessOSMPlaceDetail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,8 +57,6 @@ class TickTraxAppRepository {
                 logDebug("ufe", "I read " + (_ttLocationS.value?.size) + " locations")
                 getAllOSMPlacesFromRoom()
                 logDebug("ufe", "I read " + _OSMPlaceS.value?.size + " places")
-                getAllTTAggregationsFromRoom()
-                logDebug("ufe", "I read " + _TTAggregationS.value?.size + " aggregations")
             } catch (e: Exception) {
                 // Behandeln Sie Fehler hier
                 Log.e("ufe", e.toString())
@@ -64,26 +64,6 @@ class TickTraxAppRepository {
         }
     }
 
-    // ----------------------------------------------------------------
-    // TTAggregation
-    // ----------------------------------------------------------------
-    private var _TTAggregation = MutableLiveData<TTAggregation>()
-    val TTAggregation: LiveData<TTAggregation>
-        get() = _TTAggregation
-
-    private var _TTAggregationS = MutableLiveData<List<TTAggregation>>()
-    val TTAggregationS: LiveData<List<TTAggregation>>
-        get() = _TTAggregationS
-
-    suspend fun getAllTTAggregationsFromRoom() {
-        try {
-            var allPlaces = database.TickTraxDao.getAllTTAggregations()
-            //  logDebug("ufe", "I read " + allPlaces.size + " TTAggregations from ROOM")
-            _TTAggregationS.postValue(allPlaces)
-        } catch (e: Exception) {
-            Log.e("ufe", "Error loading Data from ROOM: $e")
-        }
-    }
 
     // ----------------------------------------------------------------
     // OSMPlace
@@ -129,9 +109,8 @@ class TickTraxAppRepository {
                 //  logDebug("ufe", "load Data from API")
                 val gsonOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
                 //  logDebug("ufe", "OSM Data from API ")
-                gsonOSMPlace.firstSeen = DateTimeUtils.formatDateTimeToUTC(Date())
-                gsonOSMPlace.lastSeen = DateTimeUtils.formatDateTimeToUTC(Date())
-                gsonOSMPlace.noOfSights = 1
+                gsonOSMPlace.locAdded = Date()
+                gsonOSMPlace.lastSeen = Date()
                 _OSMLivePlace.postValue(gsonOSMPlace)
                 addLogEntry(ALogType.GEO, "OSM Place added", gsonOSMPlace.toString())
                 database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
@@ -156,6 +135,116 @@ class TickTraxAppRepository {
         }
     }
 
+    // ----------------------------------------------------------------
+    // OSMPlacedetails
+    // ----------------------------------------------------------------
+    private val _OSMPlaceDetail = MutableLiveData<OSMPlaceDetail>()
+    val OSMPlaceDetail: LiveData<OSMPlaceDetail>
+        get() = _OSMPlaceDetail
+
+    private var _OSMPlaceDetailS = MutableLiveData<List<OSMPlaceDetail>>()
+    val OSMPlaceDetailS: LiveData<List<OSMPlaceDetail>>
+        get() = _OSMPlaceDetailS
+
+    val _OSMPlaceDetailS4Id = MutableLiveData<List<OSMPlaceDetail>>()
+    fun getAllOSMPlaceDetailFromRoom4Id(id: Long) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                var allOSMPlaceDetail = database.TickTraxDao.getAallOSMPlaceDetail(id)
+                //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
+                _OSMPlaceDetailS4Id.postValue(allOSMPlaceDetail)
+            } catch (e: Exception) {
+                Log.e("ufe", "Error loading Data from ROOM: $e")
+            }
+        }
+    }
+
+    var lastOSMPlaceDetail = OSMPlaceDetail(0)
+    var lastOSMPlace = OSMPlace(0)
+    fun addOrUpdateOSMPlaceDetail(currentOSMPlace: OSMPlace) {
+
+        logDebug("ufe", "addOrUpdateOSMPlaceDetail called with " + currentOSMPlace)
+        // for the case we need a new OSMPlace detail
+        val currentOSMPlaceDetail = OSMPlaceDetail(
+            0L,
+            currentOSMPlace.OSMPlaceId,
+            Date(),
+            Date(),
+            0,
+        )
+
+        // oldOSMPlacedetail is null --> first start
+        if (lastOSMPlaceDetail.OSMPlaceDetailId == 0L) {
+            // then we have no id we can try to load
+            // so lets load the last entry we made to room details table and take that as old
+            var bla = database.TickTraxDao.getAOSMPlaceDetailLatestEntry()
+            if (bla != null) {
+                lastOSMPlaceDetail = bla
+            } else
+                lastOSMPlaceDetail = currentOSMPlaceDetail
+        }
+
+        // lastOSMPlace is null --> first start
+        if (lastOSMPlace == null) {
+            lastOSMPlace = currentOSMPlace
+        }
+
+        var NewOrUpdatedOSMPlaceDetail: OSMPlaceDetail
+        // is the current OSMPlace the OSMPlace from the last detail?
+        if (currentOSMPlace.OSMPlaceId == lastOSMPlaceDetail.OSMPlaceId) {
+            //yes it is, let's update it
+            // we want to update the alredy existing entry we we need the id
+            currentOSMPlaceDetail.OSMPlaceDetailId = lastOSMPlaceDetail.OSMPlaceDetailId
+            // do the miracle around the OSMPlaces
+            NewOrUpdatedOSMPlaceDetail = ProcessOSMPlaceDetail(
+                lastOSMPlace,
+                currentOSMPlace,
+                lastOSMPlaceDetail,
+                currentOSMPlaceDetail
+            )
+        } else {
+            // no, start over
+            NewOrUpdatedOSMPlaceDetail = currentOSMPlaceDetail
+        }
+
+        _OSMPlaceDetail.postValue(NewOrUpdatedOSMPlaceDetail)
+        try {
+            logDebug(
+                "ufe",
+                "OSMPlace insert or update "
+                        + NewOrUpdatedOSMPlaceDetail.toString()
+            )
+            database.TickTraxDao.insertOrUpdateOSMPlaceDetail((NewOrUpdatedOSMPlaceDetail))
+            // OMG, I don't get the OSMPlaceDetailID for saving it for the old one, so just read it again
+            NewOrUpdatedOSMPlaceDetail = database.TickTraxDao.getAOSMPlaceDetailLatestEntry()!!
+        } catch (e: Exception) {
+            Log.e("ufe", e.toString())
+        }
+        lastOSMPlaceDetail = NewOrUpdatedOSMPlaceDetail
+        lastOSMPlace = currentOSMPlace
+    }
+
+    // ----------------------------------------------------------------
+    // OSMPlaceExt
+    // ----------------------------------------------------------------
+    private val _OSMPlaceExt = MutableLiveData<OSMPlaceExt>()
+    val OSMPlaceExt: LiveData<OSMPlaceExt>
+        get() = _OSMPlaceExt
+
+    private var _OSMPlaceExtS = MutableLiveData<List<OSMPlaceExt>>()
+    val OSMPlaceExtS: LiveData<List<OSMPlaceExt>>
+        get() = _OSMPlaceExtS
+
+    suspend fun getAllOSMPlaceExtFromRoom() {
+        try {
+            var allOSMPlaceExt = database.TickTraxDao.getAllOSMPlaceExt()
+            //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
+            _OSMPlaceExtS.postValue(allOSMPlaceExt)
+        } catch (e: Exception) {
+            Log.e("ufe", "Error loading Data from ROOM: $e")
+        }
+    }
+
 
     // ----------------------------------------------------------------
     // locationdetails
@@ -172,7 +261,7 @@ class TickTraxAppRepository {
     fun getAllLocationDetailFromRoom4Id(id: Long) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                var allLocationDetail = database.TickTraxDao.getAallLocationDetail(id)
+                var allLocationDetail = database.TickTraxDao.getAllLocationDetail(id)
                 //   logDebug("ufe", "I read " + allLocations.size + " ttlocations from ROOM")
                 _ttLocationDetailS4Id.postValue(allLocationDetail)
             } catch (e: Exception) {

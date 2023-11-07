@@ -6,11 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.data.datamodels.TTAggregation
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
 
-@Database(entities = [TTAggregation::class, OSMPlace::class, TTLocation::class, TTLocationDetail::class, ALog::class], version = 1)
+@Database(
+    entities = [OSMPlace::class, OSMPlaceDetail::class, TTLocation::class, TTLocationDetail::class, ALog::class],
+    version = 1
+)
 abstract class TickTraxDB : RoomDatabase() {
 
     abstract val TickTraxDao: TickTraxDao

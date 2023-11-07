@@ -57,7 +57,7 @@ class OSMPlaceAdapter(
         map.setTileSource(TileSourceFactory.MAPNIK)
         val mapController = map.controller
         val startZoom = 14.5
-        val startPoint = GeoPoint(myOSMPlace.lat.toDouble(), myOSMPlace.lon.toDouble());
+        val startPoint = GeoPoint(myOSMPlace.lat!!.toDouble(), myOSMPlace.lon!!.toDouble());
         mapController.setZoom(startZoom)
         mapController.setCenter(startPoint);
         // My Location Overlay

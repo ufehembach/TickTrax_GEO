@@ -114,7 +114,7 @@ class Location_Detail_Fragment : Fragment() {
                 "ufe-detail", d.ttLocation.lon.toString() + " " + d.ttLocation.lat
             )
             if (osm != null) {
-                binding.placeIdTV?.text = osm.placeId.toString()
+                binding.placeIdTV?.text = osm.OSMPlaceId.toString()
                 binding.licenseTV?.text = osm.licence
                 binding.osmTypeTV?.text = osm.osmType.toString()
                 binding.osmIdTV?.text = osm.osmId.toString()

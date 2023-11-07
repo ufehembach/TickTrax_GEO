@@ -1,6 +1,9 @@
 package de.ticktrax.ticktrax_geo.processData
 
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceDetail
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace_Distance_Max
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation_Distance_Max
 import java.util.Date
@@ -69,6 +72,58 @@ class TTProcess {
         fun getDifferenceInMinutes(date1: Date, date2: Date): Long {
             val diffInMilliseconds = date2.time - date1.time
             return TimeUnit.MILLISECONDS.toMinutes(diffInMilliseconds)
+        }
+        fun ProcessOSMPlace(
+            oldOSMPlace: OSMPlace, newOSMPlace: OSMPlace,
+        ): OSMPlace {
+            // hat sich der hash geändert?
+            if (oldOSMPlace?.OSMPlaceId != newOSMPlace.OSMPlaceId) {
+                logDebug("ufe-calc", "OSMPlaceID Changed")
+                return newOSMPlace
+            } else {
+                // hat sich die OSMPlace nur leicht geändert ?
+                val distance = GeoUtils.calculateDistance(
+                    oldOSMPlace.lat!!.toDouble(),
+                    oldOSMPlace.lon!!.toDouble(),
+                    newOSMPlace.lat!!.toDouble(),
+                    newOSMPlace.lon!!.toDouble()
+                )
+                logDebug("ufe-calc", "OSMPlace is ${distance} appart")
+                if (distance > OSMPlace_Distance_Max) {
+                    logDebug("ufe-calc", "this is a new OSMPlace")
+                    return newOSMPlace
+                }
+                oldOSMPlace.lastDistance = distance
+                logDebug("ufe-calc", "distance " + distance.toString())
+                ttApRep.addLogEntry(
+                    ALogType.GEO,
+                    "ProcessOSMPlace:  Di " + distance
+                )
+                return  oldOSMPlace
+            }
+        }
+
+        fun ProcessOSMPlaceDetail(
+            oldOSMPlace: OSMPlace, newOSMPlace: OSMPlace,
+            oldOSMPlaceDetail: OSMPlaceDetail, newOSMPlaceDetail: OSMPlaceDetail
+        ): OSMPlaceDetail {
+            logDebug("ufe-calc", "check for changes on details")
+            // hat sich der hash geändert?
+            if (oldOSMPlaceDetail?.OSMPlaceDetailId != newOSMPlaceDetail.OSMPlaceDetailId) {
+                logDebug("ufe-calc", "OSMPlaceID Changed")
+            } else {
+                oldOSMPlaceDetail.lastSeen = Date()
+                val duration =
+                    getDifferenceInMinutes(oldOSMPlaceDetail.firstSeen, newOSMPlaceDetail.lastSeen)
+                oldOSMPlaceDetail.durationMinutes = duration
+                logDebug("ufe-calc", "duration " + duration.toString())
+                ttApRep.addLogEntry(
+                    ALogType.GEO,
+                    "ProcessOSMPlace: Du " + duration
+                )
+                return  oldOSMPlaceDetail
+            }
+            return newOSMPlaceDetail
         }
     }
 }

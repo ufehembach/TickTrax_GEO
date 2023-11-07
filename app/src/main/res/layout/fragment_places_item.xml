@@ -21,13 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-<!--            <ImageView-->
-<!--                android:id="@+id/genericIV"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                android:src="@drawable/baseline_location_on_24" />-->
             <org.osmdroid.views.MapView
                 android:id="@+id/placesItemMAP"
                 android:layout_width="100dp"
@@ -51,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Description"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>

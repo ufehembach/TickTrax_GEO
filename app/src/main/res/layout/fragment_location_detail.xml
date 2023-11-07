@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ufeOcker"
-    tools:context=".Location_Detail_Fragment"> <!-- Dunkelgrüner Hintergrund -->
+    tools:context=".Location_Detail_Fragment">
 
     <!-- ImageView oben -->
     <org.osmdroid.views.MapView

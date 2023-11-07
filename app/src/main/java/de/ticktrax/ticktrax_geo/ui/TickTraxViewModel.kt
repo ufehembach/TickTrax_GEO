@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
@@ -55,7 +56,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     val osmPlaceS: LiveData<List<OSMPlace>>
         get() = _osmPlaceS
 
-    private val _osmPlace4Id =ttApRep._OSMPlace4ID
+    private val _osmPlace4Id = ttApRep._OSMPlace4ID
     val osmPlace4Id: LiveData<OSMPlace>
         get() = _osmPlace4Id
 
@@ -63,14 +64,30 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
 
         ttApRep.readOSMPlace4IdFromRoom(OSMId)
     }
+    fun OSMPLacesDetailS4IdSetId(OSMId: Long) {
 
-    private val _osmPlace4LonLat =ttApRep._OSMPlace4LonLat
+        ttApRep.getAllOSMPlaceDetailFromRoom4Id(OSMId)
+    }
+    val OSMPlaceDetailS4Id = ttApRep._OSMPlaceDetailS4Id
+
+    private val _osmPlace4LonLat = ttApRep._OSMPlace4LonLat
     val osmPlace4LonLat: LiveData<OSMPlace>
         get() = _osmPlace4LonLat
 
     fun osmPlace4LonLatSetLonLat(lon: Double, lat: Double) {
         ttApRep.readOSMPlace4LonLat(lon, lat)
     }
+
+    // ------------------------------------------------------------------------
+    // places ext
+    private val _OSMPLaceExt = ttApRep.OSMPlaceExt
+    val OSMPLaceExt: LiveData<OSMPlaceExt>
+        get() = _OSMPLaceExt
+
+    private val _OSMPLaceExtS = ttApRep.OSMPlaceExtS
+    val OSMPlaceExtS: LiveData<List<OSMPlaceExt>>
+        get() = _OSMPLaceExtS
+
     // ------------------------------------------------------------------------
     // geo location
     private val _ttLocation = ttApRep.ttLocation
@@ -105,6 +122,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
 
         ttApRep.getAllLocationDetailFromRoom4Id(Id)
     }
+
     val ttLocationDetailS4Id = ttApRep._ttLocationDetailS4Id
 
     // ------------------------------------------------------------------------

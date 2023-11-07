@@ -53,7 +53,7 @@ class HomeRecyclerDetail : Fragment() {
         var d = c?.get(index)
 
         if (d != null) {
-            binding.placeIdTV?.text = d.placeId.toString()
+            binding.placeIdTV?.text = d.OSMPlaceId.toString()
             binding.licenseTV?.text = d.licence
             binding.osmTypeTV?.text = d.osmType.toString()
             binding.osmIdTV?.text = d.osmId.toString()

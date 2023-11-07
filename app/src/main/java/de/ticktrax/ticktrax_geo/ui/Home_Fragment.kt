@@ -1,7 +1,6 @@
 package de.ticktrax.ticktrax_geo.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
-import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
-import de.ticktrax.ticktrax_geo.ui.adapter.AggregationAdapter
 
 
 class Home_Fragment : Fragment() {
@@ -42,20 +39,20 @@ class Home_Fragment : Fragment() {
         }
 
 
-        viewModel.osmPlaceS.observe(viewLifecycleOwner) {
-           // logDebug("ufe", "Call Adapter ${it}")
-           // logDebug("ufe", "${it.size}")
-            binding.homeRV?.adapter = AggregationAdapter(it)
-        }
+        // viewModel.osmPlaceS.observe(viewLifecycleOwner) {
+        // logDebug("ufe", "Call Adapter ${it}")
+        // logDebug("ufe", "${it.size}")
+        //     binding.homeRV?.adapter = AggregationAdapter(it)
+        //  }
 
         // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
         val helper: SnapHelper = PagerSnapHelper()
         helper.attachToRecyclerView(binding.homeRV)
 
     }
-    fun showLogFrag()
-    {
+
+    fun showLogFrag() {
         binding.root.findNavController()
-            .navigate(R.id.ALogFragment )
+            .navigate(R.id.ALogFragment)
     }
 }

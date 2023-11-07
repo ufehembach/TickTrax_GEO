@@ -8,12 +8,12 @@ import org.osmdroid.util.Distance
 import java.util.Date
 
 
-data class TTLocationExt(
+data class OSMPlaceExt(
     @Embedded
-
     @ExportOrder(1)
-    val ttLocation: TTLocation,
-    @ColumnInfo(name = "durationSum")
+    val OSMPlace: OSMPlace,
+
     @ExportOrder(2)
+    @ColumnInfo(name = "durationSum")
     var durationMinutes: Long = 0
 )
