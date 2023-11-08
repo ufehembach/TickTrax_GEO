@@ -19,19 +19,21 @@ class GeoUtils {
             val dLat = Math.toRadians(lat2 - lat1)
             val dLon = Math.toRadians(lon2 - lon1)
 
-            logDebug("ufe-calc", ": 1 " + lat1 + " " + lon1)
-            logDebug("ufe-calc", ": 2 " + lat2 + " " + lon2)
-            logDebug("ufe-calc", ": d " + dLat + " " + dLon)
-
+            if (1 == 0) {
+                logDebug("ufe-calc", ": 1 " + lat1 + " " + lon1)
+                logDebug("ufe-calc", ": 2 " + lat2 + " " + lon2)
+                logDebug("ufe-calc", ": d " + dLat + " " + dLon)
+            }
             val a = sin(dLat / 2) * sin(dLat / 2) +
                     cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
                     sin(dLon / 2) * sin(dLon / 2)
 
             val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-            logDebug("ufe-calc", ": a" + a + " c " + c)
-            logDebug("ufe-calc", ": " + EARTH_RADIUS * c + "m")
-
+            if (1 == 0) {
+                logDebug("ufe-calc", ": a" + a + " c " + c)
+                logDebug("ufe-calc", ": " + EARTH_RADIUS * c + "m")
+            }
             return EARTH_RADIUS * c
         }
     }

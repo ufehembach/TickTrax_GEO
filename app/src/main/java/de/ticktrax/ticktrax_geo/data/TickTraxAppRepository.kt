@@ -99,39 +99,45 @@ class TickTraxAppRepository {
 
     var oldLat: Double = 0.0
     var oldLon: Double = 0.0
+    var oldOSMPlace = OSMPlace(0L,0L,0.0,0.0)
     suspend fun getPlaceFromOSMandInsertOrUpdateRoom(lat: Double, lon: Double) {
-        //   addLogEntry( ALogType.GEO, "check " + oldLat + " " + lat + "(" + (oldLat == lat).toString() + ")" + " / " + oldLon + " " + lon + "(" + (oldLon == lon).toString() + ")" )
-
+        addLogEntry( ALogType.GEO, "check " + oldLat + " " + lat + "(" + (oldLat == lat).toString() + ")" + " / " + oldLon + " " + lon + "(" + (oldLon == lon).toString() + ")" )
+        var newOSMPlace = OSMPlace(0L,0L,0.0,0.0)
         if (oldLat == lat && oldLon == lon) {
             addLogEntry(ALogType.GEO, "OSM skipped, loc not changed")
         } else
             try {
-                //  logDebug("ufe", "load Data from API")
-                val gsonOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
-                //  logDebug("ufe", "OSM Data from API ")
-                gsonOSMPlace.locAdded = Date()
-                gsonOSMPlace.lastSeen = Date()
-                _OSMLivePlace.postValue(gsonOSMPlace)
-                addLogEntry(ALogType.GEO, "OSM Place added", gsonOSMPlace.toString())
-                database.TickTraxDao.insertOSMPlace(gsonOSMPlace)
+                newOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
+                newOSMPlace.locAdded = Date()
+                newOSMPlace.lastSeen = Date()
+                _OSMLivePlace.postValue(newOSMPlace)
+                addOrUpdateOSMPlaceDetail(newOSMPlace)
+                addLogEntry(ALogType.GEO, "OSM Place added", newOSMPlace.toString())
+                database.TickTraxDao.insertOSMPlace(newOSMPlace)
                 oldLat = lat
                 oldLon = lon
             } catch (e: Exception) {
                 Log.e("ufe", "Error loading Data from API: $e")
             }
+        oldOSMPlace = newOSMPlace
+        logDebug("ufe", "before update detail for "+oldOSMPlace.toString())
+        getAllOSMPlacesFromRoom()
+        getAllOSMPlaceExtFromRoom()
     }
 
     private var _OSMPlaceS = MutableLiveData<List<OSMPlace>>()
     val OSMPlaceS: LiveData<List<OSMPlace>>
         get() = _OSMPlaceS
 
-    suspend fun getAllOSMPlacesFromRoom() {
-        try {
-            var allPlaces = database.TickTraxDao.getAllOSMPlaces()
-            logDebug("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
-            _OSMPlaceS.postValue(allPlaces)
-        } catch (e: Exception) {
-            Log.e("ufe", "Error loading Data from ROOM: $e")
+    fun getAllOSMPlacesFromRoom() {
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                var allPlaces = database.TickTraxDao.getAllOSMPlaces()
+                logDebug("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
+                _OSMPlaceS.postValue(allPlaces)
+            } catch (e: Exception) {
+                Log.e("ufe", "Error loading Data from ROOM: $e")
+            }
         }
     }
 
@@ -160,7 +166,7 @@ class TickTraxAppRepository {
     }
 
     var lastOSMPlaceDetail = OSMPlaceDetail(0)
-    var lastOSMPlace = OSMPlace(0)
+    var lastOSMPlace = OSMPlace(0L,0L,0.0,0.0)
     fun addOrUpdateOSMPlaceDetail(currentOSMPlace: OSMPlace) {
 
         logDebug("ufe", "addOrUpdateOSMPlaceDetail called with " + currentOSMPlace)
@@ -208,6 +214,7 @@ class TickTraxAppRepository {
         }
 
         _OSMPlaceDetail.postValue(NewOrUpdatedOSMPlaceDetail)
+
         try {
             logDebug(
                 "ufe",
@@ -220,6 +227,7 @@ class TickTraxAppRepository {
         } catch (e: Exception) {
             Log.e("ufe", e.toString())
         }
+        getAllOSMPlaceExtFromRoom()
         lastOSMPlaceDetail = NewOrUpdatedOSMPlaceDetail
         lastOSMPlace = currentOSMPlace
     }
@@ -235,13 +243,15 @@ class TickTraxAppRepository {
     val OSMPlaceExtS: LiveData<List<OSMPlaceExt>>
         get() = _OSMPlaceExtS
 
-    suspend fun getAllOSMPlaceExtFromRoom() {
-        try {
-            var allOSMPlaceExt = database.TickTraxDao.getAllOSMPlaceExt()
-            //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
-            _OSMPlaceExtS.postValue(allOSMPlaceExt)
-        } catch (e: Exception) {
-            Log.e("ufe", "Error loading Data from ROOM: $e")
+    fun getAllOSMPlaceExtFromRoom() {
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                var allOSMPlaceExt = database.TickTraxDao.getAllOSMPlaceExt()
+                //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
+                _OSMPlaceExtS.postValue(allOSMPlaceExt)
+            } catch (e: Exception) {
+                Log.e("ufe", "Error loading Data from ROOM: $e")
+            }
         }
     }
 
@@ -327,7 +337,8 @@ class TickTraxAppRepository {
             )
             database.TickTraxDao.insertOrUpdateLocationDetail((ttNewOrUpdatedLocationDetail))
             // OMG, I don't get the LocationDetailID for saving it for the old one, so just read it again
-            ttNewOrUpdatedLocationDetail = database.TickTraxDao.getAlocationDetailLatestEntry()!!
+            ttNewOrUpdatedLocationDetail =
+                database.TickTraxDao.getAlocationDetailLatestEntry()!!
         } catch (e: Exception) {
             Log.e("ufe", e.toString())
         }

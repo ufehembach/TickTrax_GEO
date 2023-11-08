@@ -12,9 +12,9 @@ const val OSMPlaceDetail_TBL_NAME = "tblOSMPlaceDetail"
 @Entity(tableName = OSMPlaceDetail_TBL_NAME)
 @TypeConverters(Converters::class)
 data class OSMPlaceDetail(
-    @PrimaryKey(autoGenerate = true)
     @ExportOrder(1)
-    var OSMPlaceDetailId: Long? = 0L,
+    @PrimaryKey(autoGenerate = true)
+    var OSMPlaceDetailId: Long,
 
     @ExportOrder(2)
     var OSMPlaceId: Long? = 0L,

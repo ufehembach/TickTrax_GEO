@@ -26,7 +26,7 @@ class ALogFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        logDebug("ufe","oncreateview ALOG")
+   //     logDebug("ufe","oncreateview ALOG")
         binding = FragmentALogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,8 +35,8 @@ class ALogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.alogDataS.observe(viewLifecycleOwner) {
-            logDebug("ufe", "Call ALOG Adapter ${it}")
-            logDebug("ufe", "${it.size}")
+     //       logDebug("ufe", "Call ALOG Adapter ${it}")
+     //       logDebug("ufe", "${it.size}")
             binding.rvLog.adapter = ALogAdapter(it)
         }
 
