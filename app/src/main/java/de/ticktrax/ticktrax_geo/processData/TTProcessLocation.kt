@@ -19,6 +19,10 @@ class TTProcess {
         fun ProcessLocation(
             oldLocation: TTLocation, newLocation: TTLocation,
         ): TTLocation {
+            ttApRep.addLogEntry(
+                ALogType.GEO,
+                "ProcessLocation:" + newLocation.LocationId
+            )
             // hat sich der hash geändert?
             if (oldLocation?.LocationId != newLocation.LocationId) {
                 logDebug("ufe-calc", "LocationID Changed")
@@ -40,9 +44,9 @@ class TTProcess {
                 logDebug("ufe-calc", "distance " + distance.toString())
                 ttApRep.addLogEntry(
                     ALogType.GEO,
-                    "ProcessLocation:  Di " + distance
+                    "ProcessLocation: Di " + distance
                 )
-                return  oldLocation
+                return oldLocation
             }
         }
 
@@ -51,6 +55,10 @@ class TTProcess {
             oldLocationDetail: TTLocationDetail, newLocationDetail: TTLocationDetail
         ): TTLocationDetail {
             logDebug("ufe-calc", "check for changes on details")
+            ttApRep.addLogEntry(
+                ALogType.GEO,
+                "ProcessLocationDetail:" + newLocationDetail.LocationDetailId
+            )
             // hat sich der hash geändert?
             if (oldLocationDetail?.LocationDetailId != newLocationDetail.LocationDetailId) {
                 logDebug("ufe-calc", "LocationID Changed")
@@ -64,7 +72,7 @@ class TTProcess {
                     ALogType.GEO,
                     "ProcessLocation: Du " + duration
                 )
-                return  oldLocationDetail
+                return oldLocationDetail
             }
             return newLocationDetail
         }
@@ -73,10 +81,15 @@ class TTProcess {
             val diffInMilliseconds = date2.time - date1.time
             return TimeUnit.MILLISECONDS.toMinutes(diffInMilliseconds)
         }
+
         fun ProcessOSMPlace(
             oldOSMPlace: OSMPlace, newOSMPlace: OSMPlace,
         ): OSMPlace {
-            // hat sich der hash geändert?
+            ttApRep.addLogEntry(
+                ALogType.GEO,
+                "ProcessOSMPlace:" + newOSMPlace.OSMPlaceId
+            )
+            // hat sich die geändert?
             if (oldOSMPlace?.OSMPlaceId != newOSMPlace.OSMPlaceId) {
                 logDebug("ufe-calc", "OSMPlaceID Changed")
                 return newOSMPlace
@@ -97,17 +110,20 @@ class TTProcess {
                 logDebug("ufe-calc", "distance " + distance.toString())
                 ttApRep.addLogEntry(
                     ALogType.GEO,
-                    "ProcessOSMPlace:  Di " + distance
+                    "ProcessOSMPlace: Di " + distance
                 )
-                return  oldOSMPlace
+                return oldOSMPlace
             }
         }
 
-        fun ProcessOSMPlaceDetail(
+            fun ProcessOSMPlaceDetail(
             oldOSMPlace: OSMPlace, newOSMPlace: OSMPlace,
             oldOSMPlaceDetail: OSMPlaceDetail, newOSMPlaceDetail: OSMPlaceDetail
         ): OSMPlaceDetail {
-            logDebug("ufe-calc", "check for changes on details")
+            ttApRep.addLogEntry(
+                ALogType.GEO,
+                "ProcessOSMPlaceDetails: " + newOSMPlaceDetail.OSMPlaceDetailId
+            )
             // hat sich der hash geändert?
             if (oldOSMPlaceDetail?.OSMPlaceDetailId != newOSMPlaceDetail.OSMPlaceDetailId) {
                 logDebug("ufe-calc", "OSMPlaceID Changed")
@@ -121,7 +137,7 @@ class TTProcess {
                     ALogType.GEO,
                     "ProcessOSMPlace: Du " + duration
                 )
-                return  oldOSMPlaceDetail
+                return oldOSMPlaceDetail
             }
             return newOSMPlaceDetail
         }

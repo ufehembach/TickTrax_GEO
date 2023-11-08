@@ -20,11 +20,13 @@ import de.ticktrax.ticktrax_geo.myTools.GEOHash
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocation
 import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocationDetail
+import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessOSMPlace
 import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessOSMPlaceDetail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
+import kotlin.math.log
 
 // todo
 /**
@@ -54,9 +56,9 @@ class TickTraxAppRepository {
                 // Führen Sie hier asynchrone Aufgaben aus, z.B. eine Netzwerkanfrage
                 logDebug("ufe", "Read Room")
                 getAllLocationsFromRoom()
-                logDebug("ufe", "I read " + (_ttLocationS.value?.size) + " locations")
+                //  logDebug("ufe", "I read " + (_ttLocationS.value?.size) + " locations")
                 getAllOSMPlacesFromRoom()
-                logDebug("ufe", "I read " + _OSMPlaceS.value?.size + " places")
+                //  logDebug("ufe", "I read " + _OSMPlaceS.value?.size + " places")
             } catch (e: Exception) {
                 // Behandeln Sie Fehler hier
                 Log.e("ufe", e.toString())
@@ -99,10 +101,10 @@ class TickTraxAppRepository {
 
     var oldLat: Double = 0.0
     var oldLon: Double = 0.0
-    var oldOSMPlace = OSMPlace(0L,0L,0.0,0.0)
+    var oldOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
     suspend fun getPlaceFromOSMandInsertOrUpdateRoom(lat: Double, lon: Double) {
-        addLogEntry( ALogType.GEO, "check " + oldLat + " " + lat + "(" + (oldLat == lat).toString() + ")" + " / " + oldLon + " " + lon + "(" + (oldLon == lon).toString() + ")" )
-        var newOSMPlace = OSMPlace(0L,0L,0.0,0.0)
+        //    addLogEntry( ALogType.GEO, "check " + oldLat + " " + lat + "(" + (oldLat == lat).toString() + ")" + " / " + oldLon + " " + lon + "(" + (oldLon == lon).toString() + ")" )
+        var newOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
         if (oldLat == lat && oldLon == lon) {
             addLogEntry(ALogType.GEO, "OSM skipped, loc not changed")
         } else
@@ -111,6 +113,7 @@ class TickTraxAppRepository {
                 newOSMPlace.locAdded = Date()
                 newOSMPlace.lastSeen = Date()
                 _OSMLivePlace.postValue(newOSMPlace)
+                newOSMPlace = ProcessOSMPlace(oldOSMPlace, newOSMPlace)
                 addOrUpdateOSMPlaceDetail(newOSMPlace)
                 addLogEntry(ALogType.GEO, "OSM Place added", newOSMPlace.toString())
                 database.TickTraxDao.insertOSMPlace(newOSMPlace)
@@ -120,7 +123,9 @@ class TickTraxAppRepository {
                 Log.e("ufe", "Error loading Data from API: $e")
             }
         oldOSMPlace = newOSMPlace
-        logDebug("ufe", "before update detail for "+oldOSMPlace.toString())
+        logDebug("ufe", "before update detail for " + oldOSMPlace.toString())
+        addLogEntry(ALogType.GEO, "add or update osm detail")
+        addOrUpdateOSMPlaceDetail(newOSMPlace)
         getAllOSMPlacesFromRoom()
         getAllOSMPlaceExtFromRoom()
     }
@@ -133,12 +138,24 @@ class TickTraxAppRepository {
         CoroutineScope(Dispatchers.IO).launch() {
             try {
                 var allPlaces = database.TickTraxDao.getAllOSMPlaces()
-                logDebug("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
+                // logDebug("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
                 _OSMPlaceS.postValue(allPlaces)
             } catch (e: Exception) {
                 Log.e("ufe", "Error loading Data from ROOM: $e")
             }
         }
+    }
+
+    fun getAOSMPlaceIdBasedOnLatLon(lat: Double, lon: Double): Long {
+        var newOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                newOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
+            } catch (e: Exception) {
+                Log.e("ufe", "Error loading Data from ROOM: $e")
+            }
+        }
+        return newOSMPlace.OSMPlaceId
     }
 
     // ----------------------------------------------------------------
@@ -166,7 +183,7 @@ class TickTraxAppRepository {
     }
 
     var lastOSMPlaceDetail = OSMPlaceDetail(0)
-    var lastOSMPlace = OSMPlace(0L,0L,0.0,0.0)
+    var lastOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
     fun addOrUpdateOSMPlaceDetail(currentOSMPlace: OSMPlace) {
 
         logDebug("ufe", "addOrUpdateOSMPlaceDetail called with " + currentOSMPlace)
@@ -212,9 +229,7 @@ class TickTraxAppRepository {
             // no, start over
             NewOrUpdatedOSMPlaceDetail = currentOSMPlaceDetail
         }
-
         _OSMPlaceDetail.postValue(NewOrUpdatedOSMPlaceDetail)
-
         try {
             logDebug(
                 "ufe",
@@ -228,6 +243,8 @@ class TickTraxAppRepository {
             Log.e("ufe", e.toString())
         }
         getAllOSMPlaceExtFromRoom()
+        getAllOSMPlacesFromRoom()
+
         lastOSMPlaceDetail = NewOrUpdatedOSMPlaceDetail
         lastOSMPlace = currentOSMPlace
     }
@@ -342,6 +359,9 @@ class TickTraxAppRepository {
         } catch (e: Exception) {
             Log.e("ufe", e.toString())
         }
+        addOrUpdateOSMPlaceDetail(
+            database.TickTraxDao.getOSMPlace4Id(getAOSMPlaceIdBasedOnLatLon(currentLocation.lat, currentLocation.lon))
+        )
         lastLocationDetail = ttNewOrUpdatedLocationDetail
         lastLocation = currentLocation
     }
@@ -433,6 +453,7 @@ class TickTraxAppRepository {
         CoroutineScope(Dispatchers.IO).launch()
         {
             try {
+                logDebug("ufe", "CALL getPlaceFromOSMandInsertOrUpdateRoom ")
                 getPlaceFromOSMandInsertOrUpdateRoom(newLocation.lat, newLocation.lon)
             } catch (e: Exception) {
                 Log.e("ufe", e.toString())

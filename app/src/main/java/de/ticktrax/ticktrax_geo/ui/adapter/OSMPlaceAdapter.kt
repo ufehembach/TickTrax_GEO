@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
+import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Places_FragmentDirections
@@ -26,7 +27,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
 class OSMPlaceAdapter(
-    private val thisOSMPlaces: List<OSMPlace>
+    private val thisOSMPlacesExt: List<OSMPlaceExt>
 ) : RecyclerView.Adapter<OSMPlaceAdapter.ItemViewHolder>() {
 
     private lateinit var map: MapView
@@ -49,15 +50,20 @@ class OSMPlaceAdapter(
 
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
-        var myOSMPlace = thisOSMPlaces[position.toInt()]
-        binding.LonLatTV!!.text = myOSMPlace.lat.toString() + "/" + myOSMPlace.lon
-        binding.DisplayNameTV!!.text = myOSMPlace.displayName
+        var myOSMPlace = thisOSMPlacesExt[position]
+        binding.LonLatTV!!.text = myOSMPlace.OSMPlace.lat.toString() + "/" + myOSMPlace.OSMPlace.lon
+        binding.DisplayNameTV!!.text = myOSMPlace.OSMPlace.displayName
+        binding.LonLatTV!!.text =
+            myOSMPlace.OSMPlace.lat.toString() + "/" + myOSMPlace.OSMPlace.lon
+        binding.DisplayNameTV!!.text =
+            myOSMPlace.OSMPlace.lastSeen.toString() + " Duration: " + myOSMPlace.durationMinutes + "min"
 
+        //map
         map = binding.placesItemMAP!!
         map.setTileSource(TileSourceFactory.MAPNIK)
         val mapController = map.controller
         val startZoom = 14.5
-        val startPoint = GeoPoint(myOSMPlace.lat!!.toDouble(), myOSMPlace.lon!!.toDouble());
+        val startPoint = GeoPoint(myOSMPlace.OSMPlace.lat!!.toDouble(), myOSMPlace.OSMPlace.lon!!.toDouble());
         mapController.setZoom(startZoom)
         mapController.setCenter(startPoint);
         // My Location Overlay
@@ -66,7 +72,7 @@ class OSMPlaceAdapter(
 //        val context: Context = requireContext()
         val context: Context = holder.itemView.context
         val currentIcon =
-            AppCompatResources.getDrawable(context, R.drawable.baseline_my_location_24)
+            AppCompatResources.getDrawable(context, R.drawable.baseline_location_on_24   )
         // Convert Drawable to Bitmap
         val iconBitmap = currentIcon?.toBitmap()
         val marker = Marker(map)
@@ -76,7 +82,6 @@ class OSMPlaceAdapter(
         marker.snippet = ""
 
         map.overlays.add(marker)
-
 
         val myLocationoverlay = MyLocationNewOverlay(map)
         //myLocationoverlay.setPersonIcon(iconBitmap)
@@ -101,7 +106,7 @@ class OSMPlaceAdapter(
      */
     override fun getItemCount(): Int {
         //return enericEnv.media.size
-        return thisOSMPlaces.size
+        return thisOSMPlacesExt.size
     }
 }
 
