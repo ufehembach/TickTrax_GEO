@@ -67,8 +67,8 @@ interface TickTraxDao {
     fun getAOSMPlaceDetailLatestEntry(): OSMPlaceDetail?
     // -------------------------------------------------
     // OSMPLaceExt
-    //@Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + OSMPlaceDetail_TBL_NAME + " WHERE " + OSMPlaceDetail_TBL_NAME + ".OSMPLaceId = " + OSMPlace_TBL_NAME + ".OSMPLaceId) as durationSum FROM " + OSMPlace_TBL_NAME + " order by lastSeen desc")
-    @Query(
+    @Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + OSMPlaceDetail_TBL_NAME + " WHERE " + OSMPlaceDetail_TBL_NAME + ".OSMPLaceId = " + OSMPlace_TBL_NAME + ".OSMPLaceId) as durationSum FROM " + OSMPlace_TBL_NAME + " order by lastSeen desc")
+   /* @Query(
         "SELECT " +
                 "$OSMPlace_TBL_NAME.*, " +
                 "(SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
@@ -77,9 +77,9 @@ interface TickTraxDao {
                 "FROM $OSMPlace_TBL_NAME " +
                 "WHERE (SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
                 "FROM $OSMPlaceDetail_TBL_NAME " +
-                "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) > 2 " +
+                "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) > 0 " +
                 "ORDER BY lastSeen DESC"
-    )
+    )*/
     fun getAllOSMPlaceExt(): List<OSMPlaceExt>
 
     // -------------------------------------------------
@@ -118,18 +118,18 @@ interface TickTraxDao {
 
     // -------------------------------------------------
     // LocationExt
-//    @Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + TTLocationDetail_TBL_NAME + " WHERE " + TTLocationDetail_TBL_NAME + ".LocationId = " + TTLocation_TBL_NAME + ".LocationId ) as durationSum FROM " + TTLocation_TBL_NAME + " order by lastSeen Desc")
-    @Query(
-        "SELECT *, " +
-                "(SELECT SUM(durationMinutes) " +
-                "FROM $TTLocationDetail_TBL_NAME " +
-                "WHERE $TTLocationDetail_TBL_NAME.LocationId = $TTLocation_TBL_NAME.LocationId) as durationSum " +
-                "FROM $TTLocation_TBL_NAME " +
-                "WHERE (SELECT SUM(durationMinutes) " +
-                "FROM $TTLocationDetail_TBL_NAME " +
-                "WHERE $TTLocationDetail_TBL_NAME.LocationId = $TTLocation_TBL_NAME.LocationId) > 2 " +
-                "ORDER BY lastSeen DESC"
-    )
+    @Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + TTLocationDetail_TBL_NAME + " WHERE " + TTLocationDetail_TBL_NAME + ".LocationId = " + TTLocation_TBL_NAME + ".LocationId ) as durationSum FROM " + TTLocation_TBL_NAME + " order by lastSeen Desc")
+//    @Query(
+//        "SELECT *, " +
+//                "(SELECT SUM(durationMinutes) " +
+//                "FROM $TTLocationDetail_TBL_NAME " +
+//                "WHERE $TTLocationDetail_TBL_NAME.LocationId = $TTLocation_TBL_NAME.LocationId) as durationSum " +
+//                "FROM $TTLocation_TBL_NAME " +
+//                "WHERE (SELECT SUM(durationMinutes) " +
+//                "FROM $TTLocationDetail_TBL_NAME " +
+//                "WHERE $TTLocationDetail_TBL_NAME.LocationId = $TTLocation_TBL_NAME.LocationId) > 0 " +
+//                "ORDER BY lastSeen DESC"
+//    )
 
     fun getAllLocationExt(): List<TTLocationExt>
 

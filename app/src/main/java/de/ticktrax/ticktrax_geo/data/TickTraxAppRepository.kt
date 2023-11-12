@@ -119,13 +119,13 @@ class TickTraxAppRepository {
                 database.TickTraxDao.insertOSMPlace(newOSMPlace)
                 oldLat = lat
                 oldLon = lon
+                oldOSMPlace = newOSMPlace
             } catch (e: Exception) {
                 Log.e("ufe", "Error loading Data from API: $e")
             }
-        oldOSMPlace = newOSMPlace
         logDebug("ufe", "before update detail for " + oldOSMPlace.toString())
-        addLogEntry(ALogType.GEO, "add or update osm detail")
-        addOrUpdateOSMPlaceDetail(newOSMPlace)
+        addLogEntry(ALogType.GEO, "add or update osm detail for " + oldOSMPlace.OSMPlaceId)
+        addOrUpdateOSMPlaceDetail(oldOSMPlace)
         getAllOSMPlacesFromRoom()
         getAllOSMPlaceExtFromRoom()
     }
@@ -146,7 +146,7 @@ class TickTraxAppRepository {
         }
     }
 
-    fun getAOSMPlaceIdBasedOnLatLon(lat: Double, lon: Double): Long {
+    suspend fun getAOSMPlaceIdBasedOnLatLon(lat: Double, lon: Double): Long {
         var newOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
         CoroutineScope(Dispatchers.IO).launch() {
             try {
@@ -299,7 +299,7 @@ class TickTraxAppRepository {
 
     var lastLocationDetail = TTLocationDetail()
     var lastLocation = TTLocation()
-    fun addOrUpdateLocationDetail(currentLocation: TTLocation) {
+   suspend fun addOrUpdateLocationDetail(currentLocation: TTLocation) {
 
         logDebug("ufe", "addOrUpdateLocationDetail called with " + currentLocation)
         // for the case we need a new location detail
@@ -359,9 +359,21 @@ class TickTraxAppRepository {
         } catch (e: Exception) {
             Log.e("ufe", e.toString())
         }
-        addOrUpdateOSMPlaceDetail(
-            database.TickTraxDao.getOSMPlace4Id(getAOSMPlaceIdBasedOnLatLon(currentLocation.lat, currentLocation.lon))
-        )
+        var thisOSMPlaceId = getAOSMPlaceIdBasedOnLatLon(currentLocation.lat, currentLocation.lon)
+        if (thisOSMPlaceId != 0L) {
+            var thisOSMPlace = database.TickTraxDao.getOSMPlace4Id(thisOSMPlaceId)
+            if (thisOSMPlace != null) {
+                addOrUpdateOSMPlaceDetail((thisOSMPlace))
+            } else
+                logDebug(
+                    "ufe",
+                    "thisOSMPlace was null " + thisOSMPlaceId
+                )
+        } else
+            logDebug(
+                "ufe",
+                "thisOSMPlaceId was 0 " + currentLocation.lat + "/" + currentLocation.lon
+            )
         lastLocationDetail = ttNewOrUpdatedLocationDetail
         lastLocation = currentLocation
     }
