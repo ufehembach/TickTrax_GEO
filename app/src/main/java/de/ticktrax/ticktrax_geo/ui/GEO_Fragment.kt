@@ -71,7 +71,7 @@ class GEO_Fragment : Fragment() {
         mapController.setZoom(startZoom)
         val startPoint = GeoPoint(48.8583, 2.2944);
         mapController.setCenter(startPoint);
-        viewModel.ttLocation.observe(viewLifecycleOwner) {
+        viewModel.location.observe(viewLifecycleOwner) {
             val mytext = it.lat.toString() + "/" + it.lon.toString() + "/" + it.alt.toString()
             binding.GeoLocTV?.text = mytext
             logDebug("ufe-geo", "map view for : " + mytext)

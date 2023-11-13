@@ -69,16 +69,17 @@ class LocationService : Service() {
             .onEach { location ->
 
                 val lat = location.latitude.toString()//.takeLast(3)
-                val long = location.longitude.toString()//.takeLast(3)
+                val lon = location.longitude.toString()//.takeLast(3)
+                val alt = location.altitude.toString()//.takeLast(3)
                 val updatedNotification = notification.setContentText(
-                    "Location: ($lat, $long)"
+                    "Location: ($lat, $lon, $alt)"
                 )
-                logDebug("ufe-geo", "Location in LocService: ($lat, $long)")
+                logDebug("ufe-geo", "Location in LocService: ($lat, $lon)")
                 // locationRepository.setLocation(location)
-                ttApRep.addLocation(location)
+                ttApRep.addLatLonAlt(location.latitude,location.longitude,location.altitude)
                 ttApRep.addLogEntry(
                     ALogType.FGSERV,
-                    "LocService: ($lat, $long)",
+                    "$lat/$lon/$alt",
                     location.toString()
                 )
                 notificationManager.notify(1, updatedNotification.build())

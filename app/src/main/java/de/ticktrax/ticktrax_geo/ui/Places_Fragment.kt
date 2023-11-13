@@ -38,7 +38,7 @@ class Places_Fragment : Fragment() {
             //navController.navigate(Me_FragmentDirections.actionMeFragment2ToGEOFragment2())
             navController.navigate(R.id.home_Fragment)
         }
-        viewModel.OSMPlaceExtS.observe(viewLifecycleOwner) {
+        viewModel.osmPlaceExtS.observe(viewLifecycleOwner) {
           //  logDebug("ufe", "Call Adapter ${it}")
           //  logDebug("ufe", "${it.size}")
             binding.placesRV?.adapter = OSMPlaceAdapter(it)

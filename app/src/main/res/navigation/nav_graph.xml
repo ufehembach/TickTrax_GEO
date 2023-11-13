@@ -13,26 +13,7 @@
         android:id="@+id/home_Fragment"
         android:name="de.ticktrax.ticktrax_geo.ui.Home_Fragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home_Fragment_to_homeRecyclerDetail"
-            app:destination="@id/homeRecyclerDetail" />
-    </fragment>
-    <fragment
-        android:id="@+id/home_Item_Fragment"
-        android:name="de.ticktrax.ticktrax_geo.ui.Home_Item_Fragment"
-        android:label="fragment_home__item_"
-        tools:layout="@layout/fragment_home_item" />
-    <fragment
-        android:id="@+id/homeRecyclerDetail"
-        android:name="de.ticktrax.ticktrax_geo.ui.HomeRecyclerDetail"
-        android:label="fragment_home_recycler_detail"
-        tools:layout="@layout/fragment_home_recycler_detail" >
-        <argument
-            android:name="position"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/ALogFragment"
         android:name="de.ticktrax.ticktrax_geo.ALogFragment"

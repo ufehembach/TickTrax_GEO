@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationDetailBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
@@ -55,7 +54,7 @@ class Location_Detail_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         logDebug("ufe", " settings fields ")
         var a = viewModel
-        var b = a.ttLocationExtS
+        var b = a.locationExtS
         var c = b.value
         var d = c?.get(index)
 
@@ -99,15 +98,15 @@ class Location_Detail_Fragment : Fragment() {
         mapView.invalidate()
 
         // rv
-        viewModel.ttLocationDetailS4IdSetId(d.ttLocation.LocationId)
-        viewModel.ttLocationDetailS4Id.observe(viewLifecycleOwner) {
+        viewModel.locationDetailS4IdSetId(d.ttLocation.LocationId)
+        viewModel.locationDetailS4Id.observe(viewLifecycleOwner) {
             logDebug("ufe-detail", "Call Adapter ${it}")
             logDebug("ufe-detail", "${it.size}")
             binding.recyclerView.adapter = TTLocationDetailsAdapter(it)
         }
         // scroll view
 
-        viewModel.osmPlace4LonLatSetLonLat(d.ttLocation.lon.toDouble(), d.ttLocation.lat.toDouble())
+    //    viewModel.osmPlace4LonLatSetLonLat(d.ttLocation.lon.toDouble(), d.ttLocation.lat.toDouble())
         viewModel.osmPlace4LonLat.observe(viewLifecycleOwner) {
             var osm = viewModel.osmPlace4LonLat.value
             logDebug(

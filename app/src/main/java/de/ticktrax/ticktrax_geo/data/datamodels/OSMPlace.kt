@@ -144,7 +144,7 @@ data class OSMPlace(
     val bb3: String? = null,
 
     @ExportOrder(29)
-    var locAdded: Date = Date(0, 0, 0),
+    var firstSeen: Date = Date(0, 0, 0),
 
     @ExportOrder(30)
     var lastSeen: Date = Date(0, 0, 0),

@@ -30,7 +30,6 @@ import de.ticktrax.ticktrax_geo.location.LocationService
 import kotlinx.coroutines.selects.select
 import de.ticktrax.ticktrax_geo.databinding.ActivityMainBinding
 import de.ticktrax.ticktrax_geo.ui.Home_Fragment
-import de.ticktrax.ticktrax_geo.ui.Home_FragmentDirections
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 import java.util.Locale
 

@@ -1,21 +1,16 @@
 package de.ticktrax
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
-import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
-import de.ticktrax.ticktrax_geo.databinding.FragmentLocationDetailBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesDetailBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceDetailsAdapter
-import de.ticktrax.ticktrax_geo.ui.adapter.TTLocationDetailsAdapter
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 
@@ -46,7 +41,7 @@ class Places_Detail_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         logDebug("ufe", " settings fields ")
         var a = viewModel
-        var b = a.OSMPlaceExtS
+        var b = a.osmPlaceExtS
         var c = b.value
         var d = c?.get(index)
         var osm = d!!.OSMPlace
@@ -91,14 +86,14 @@ class Places_Detail_Fragment : Fragment() {
         mapView.invalidate()
 
         // rv
-        viewModel.OSMPLacesDetailS4IdSetId(osm.OSMPlaceId!!)
-        viewModel.OSMPlaceDetailS4Id.observe(viewLifecycleOwner) {
+  //      viewModel.OSMPLacesDetailS4IdSetId(osm.OSMPlaceId!!)
+        viewModel.osmPlaceDetailS4Id.observe(viewLifecycleOwner) {
             logDebug("ufe-detail", "Call Adapter ${it}")
             binding.recyclerView.adapter = OSMPlaceDetailsAdapter(it)
         }
         // scroll view
 
-        viewModel.OSMPlaceExtS.observe(viewLifecycleOwner) {
+        viewModel.osmPlaceExtS.observe(viewLifecycleOwner) {
             binding.placeIdTV?.text = osm.OSMPlaceId.toString()
             binding.licenseTV?.text = osm.licence
             binding.osmTypeTV?.text = osm.osmType.toString()

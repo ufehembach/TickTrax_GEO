@@ -11,7 +11,6 @@ import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentALogDetailBinding
-import de.ticktrax.ticktrax_geo.databinding.FragmentHomeRecyclerDetailBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 

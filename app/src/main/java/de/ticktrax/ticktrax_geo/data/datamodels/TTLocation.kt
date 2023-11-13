@@ -29,6 +29,7 @@ data class TTLocation(
     @ExportOrder(4)
     var alt: Double = 0.0,
 
+    var OSMPlaceId: Long = 0L,
 
     @ExportOrder(5)
     var locAdded: Date = Date(0, 0, 0),

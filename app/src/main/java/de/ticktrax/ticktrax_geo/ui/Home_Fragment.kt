@@ -1,23 +1,33 @@
 package de.ticktrax.ticktrax_geo.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
+import de.ticktrax.ticktrax_geo.myTools.logError
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import org.osmdroid.views.MapView
 
 
 class Home_Fragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: TickTraxViewModel by activityViewModels()
-
+    private lateinit var map: MapView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -38,21 +48,72 @@ class Home_Fragment : Fragment() {
             navController.navigate(R.id.export2Mail_Fragment)
         }
 
+        // Hole die Somedata aus dem enveloppe
+        viewModel.osmPlaceExtS.observe(viewLifecycleOwner)
+        {
+            val filteredList =
+                viewModel.osmPlaceExtS.value?.filter { it.OSMPlace.OSMPlaceId == viewModel.osmPlace.value?.OSMPlaceId }
+            try {
+                var myOSMPlaceExt = filteredList?.get(0)
 
-        // viewModel.osmPlaceS.observe(viewLifecycleOwner) {
-        // logDebug("ufe", "Call Adapter ${it}")
-        // logDebug("ufe", "${it.size}")
-        //     binding.homeRV?.adapter = AggregationAdapter(it)
-        //  }
+                if (myOSMPlaceExt != null) {
+                    binding.DisplayNameTV!!.text = myOSMPlaceExt.OSMPlace.displayName
+                    binding.firstSeenTV!!.text = myOSMPlaceExt.OSMPlace.firstSeen.toString()
+                    binding.lastSeenTV!!.text = myOSMPlaceExt.OSMPlace.lastSeen.toString()
+                    binding.durationTV!!.text = myOSMPlaceExt.durationMinutes.toString()
+                }
 
-        // Der SnapHelper sorgt dafür, dass die RecyclerView immer auf das aktuelle List Item springt
-        val helper: SnapHelper = PagerSnapHelper()
-        helper.attachToRecyclerView(binding.homeRV)
+                //map
+                map = binding.HomeMAP!!
+                map.setTileSource(TileSourceFactory.MAPNIK)
+                val mapController = map.controller
+                val startZoom = 14.5
+                val startPoint = GeoPoint(
+                    myOSMPlaceExt?.OSMPlace?.lat!!.toDouble(),
+                    myOSMPlaceExt?.OSMPlace?.lon!!.toDouble()
+                );
+                mapController.setZoom(startZoom)
+                mapController.setCenter(startPoint);
+                // My Location Overlay
 
-    }
+                // Im Fragment
+                val context: Context = requireContext()
+                val currentIcon =
+                    AppCompatResources.getDrawable(context, R.drawable.baseline_location_on_24)
+                // Convert Drawable to Bitmap
+                val iconBitmap = currentIcon?.toBitmap()
+                val marker = Marker(map)
+                marker.position = startPoint
+                marker.icon = currentIcon
+                marker.title = "Place"
+                marker.snippet = ""
 
-    fun showLogFrag() {
-        binding.root.findNavController()
-            .navigate(R.id.ALogFragment)
+                map.overlays.add(marker)
+                val myLocationoverlay = MyLocationNewOverlay(map)
+                var osm= myOSMPlaceExt?.OSMPlace!!
+
+                binding.latTV?.text = osm.lat.toString()
+                binding.lonTV?.text = osm.lon.toString()
+                binding.typeTV?.text = osm.osmType.toString()
+                binding.addressTypeTV?.text = osm.addresstype.toString()
+
+                binding.nameTV?.text = osm.name
+                binding.houseNumberTV?.text = osm.houseNumber
+                binding.roadTV?.text = osm.road
+                binding.townTV?.text = osm.town
+                binding.stateTV?.text = osm.state
+                binding.iso3166lvl4TV?.text = osm.ISO3166
+                binding.postcodeTV?.text = osm.postcode
+                binding.countryTV?.text = osm.country
+                binding.countryCodeTV?.text = osm.countryCode
+            }catch (e:Exception)
+            {
+                logError("ufe", "Nix gefunden")
+            }
+        }
+        fun showLogFrag() {
+            binding.root.findNavController()
+                .navigate(R.id.ALogFragment)
+        }
     }
 }

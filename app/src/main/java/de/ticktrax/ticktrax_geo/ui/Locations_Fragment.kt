@@ -43,7 +43,7 @@ class Locations_Fragment : Fragment() {
           navController.navigate(R.id.places_Fragment)
         }
 
-        viewModel.ttLocationExtS.observe(viewLifecycleOwner) {
+        viewModel.locationExtS.observe(viewLifecycleOwner) {
          //   logDebug("ufe", "Call Adapter ${it}")
          //   logDebug("ufe", "${it.size}")
             binding.locationRV?.adapter = TTLocationAdapter(it)
