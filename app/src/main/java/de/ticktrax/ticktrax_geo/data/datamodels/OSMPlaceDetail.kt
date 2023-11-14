@@ -14,10 +14,10 @@ const val OSMPlaceDetail_TBL_NAME = "tblOSMPlaceDetail"
 data class OSMPlaceDetail(
     @ExportOrder(1)
     @PrimaryKey(autoGenerate = true)
-    var OSMPlaceDetailId: Long,
+    var osmPlaceDetailId: Long,
 
     @ExportOrder(2)
-    var OSMPlaceId: Long? = 0L,
+    var osmPlaceId: Long? = 0L,
 
     @ExportOrder(3)
     var lastSeen: Date = Date(0, 0, 0),

@@ -44,7 +44,7 @@ class Places_Detail_Fragment : Fragment() {
         var b = a.osmPlaceExtS
         var c = b.value
         var d = c?.get(index)
-        var osm = d!!.OSMPlace
+        var osm = d!!.osmPlace
 
         // map
         var mapView = binding.locDetailMAP
@@ -86,15 +86,15 @@ class Places_Detail_Fragment : Fragment() {
         mapView.invalidate()
 
         // rv
-  //      viewModel.OSMPLacesDetailS4IdSetId(osm.OSMPlaceId!!)
+        viewModel.OSMPLacesDetailS4IdSetId(osm.osmPlaceId!!)
         viewModel.osmPlaceDetailS4Id.observe(viewLifecycleOwner) {
-            logDebug("ufe-detail", "Call Adapter ${it}")
-            binding.recyclerView.adapter = OSMPlaceDetailsAdapter(it)
+            logDebug("ufe-detail", it.size.toString() + " items for Adapter ${it}")
+            binding.locationiDetailRV.adapter = OSMPlaceDetailsAdapter(it)
         }
         // scroll view
 
         viewModel.osmPlaceExtS.observe(viewLifecycleOwner) {
-            binding.placeIdTV?.text = osm.OSMPlaceId.toString()
+            binding.placeIdTV?.text = osm.osmPlaceId.toString()
             binding.licenseTV?.text = osm.licence
             binding.osmTypeTV?.text = osm.osmType.toString()
             binding.osmIdTV?.text = osm.osmId.toString()

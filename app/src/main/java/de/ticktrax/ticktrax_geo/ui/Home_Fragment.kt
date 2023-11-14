@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
+import de.ticktrax.ticktrax_geo.myTools.formatDate4Recycler
 import de.ticktrax.ticktrax_geo.myTools.logError
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -48,29 +49,29 @@ class Home_Fragment : Fragment() {
             navController.navigate(R.id.export2Mail_Fragment)
         }
 
-        // Hole die Somedata aus dem enveloppe
-        viewModel.osmPlaceExtS.observe(viewLifecycleOwner)
+        //val filteredList =
+        //    viewModel.osmPlaceExtS.value?.filter { it.osmPlace.osmPlaceId == viewModel.osmPlace.value?.osmPlaceId }
+        //viewModel.osmPlaceExtS.observe(viewLifecycleOwner)
+        viewModel.osmPlaceExt.observe(viewLifecycleOwner)
         {
-            val filteredList =
-                viewModel.osmPlaceExtS.value?.filter { it.OSMPlace.OSMPlaceId == viewModel.osmPlace.value?.OSMPlaceId }
             try {
-                var myOSMPlaceExt = filteredList?.get(0)
+                var myosmPlaceExt = it
 
-                if (myOSMPlaceExt != null) {
-                    binding.DisplayNameTV!!.text = myOSMPlaceExt.OSMPlace.displayName
-                    binding.firstSeenTV!!.text = myOSMPlaceExt.OSMPlace.firstSeen.toString()
-                    binding.lastSeenTV!!.text = myOSMPlaceExt.OSMPlace.lastSeen.toString()
-                    binding.durationTV!!.text = myOSMPlaceExt.durationMinutes.toString()
+                if (myosmPlaceExt != null) {
+                    binding.DisplayNameTV!!.text = myosmPlaceExt.osmPlace.displayName
+                    binding.firstSeenTV!!.text = formatDate4Recycler( myosmPlaceExt.osmPlace.firstSeen)
+                    binding.lastSeenTV!!.text =formatDate4Recycler( myosmPlaceExt.osmPlace.lastSeen)
+                    binding.durationTV!!.text = myosmPlaceExt.durationMinutes.toString()
                 }
-
+                var startPoint = GeoPoint(0.0,0.0 );
                 //map
                 map = binding.HomeMAP!!
                 map.setTileSource(TileSourceFactory.MAPNIK)
                 val mapController = map.controller
                 val startZoom = 14.5
-                val startPoint = GeoPoint(
-                    myOSMPlaceExt?.OSMPlace?.lat!!.toDouble(),
-                    myOSMPlaceExt?.OSMPlace?.lon!!.toDouble()
+                startPoint = GeoPoint(
+                    myosmPlaceExt?.osmPlace?.lat!!.toDouble(),
+                    myosmPlaceExt?.osmPlace?.lon!!.toDouble()
                 );
                 mapController.setZoom(startZoom)
                 mapController.setCenter(startPoint);
@@ -90,7 +91,7 @@ class Home_Fragment : Fragment() {
 
                 map.overlays.add(marker)
                 val myLocationoverlay = MyLocationNewOverlay(map)
-                var osm= myOSMPlaceExt?.OSMPlace!!
+                var osm = myosmPlaceExt?.osmPlace!!
 
                 binding.latTV?.text = osm.lat.toString()
                 binding.lonTV?.text = osm.lon.toString()
@@ -106,8 +107,7 @@ class Home_Fragment : Fragment() {
                 binding.postcodeTV?.text = osm.postcode
                 binding.countryTV?.text = osm.country
                 binding.countryCodeTV?.text = osm.countryCode
-            }catch (e:Exception)
-            {
+            } catch (e: Exception) {
                 logError("ufe", "Nix gefunden")
             }
         }

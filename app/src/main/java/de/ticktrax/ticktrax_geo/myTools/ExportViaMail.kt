@@ -60,7 +60,7 @@ class ExportViaMail<T : Any>(private val data: List<T>, val theContext: Context)
             // Starten Sie die E-Mail-Anwendung
             // theContext.startActivity(Intent.createChooser(emailIntent, "E-Mail senden"))
         } catch (e: Exception) {
-            Log.e("EmailSender", "Fehler beim Versenden der E-Mail", e)
+            logError("EmailSender", "Fehler beim Versenden der E-Mail" + e.toString())
         }
         return (
                 if (emailIntent != null) {

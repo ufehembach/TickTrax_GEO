@@ -15,7 +15,6 @@ import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.TickTraxViewModel
 import de.ticktrax.ticktrax_geo.ui.adapter.ALogAdapter
-import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 
 
 class ALogFragment : Fragment() {

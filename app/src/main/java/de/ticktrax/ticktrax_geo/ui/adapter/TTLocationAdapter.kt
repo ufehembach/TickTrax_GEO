@@ -12,6 +12,7 @@ import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationsItemBinding
+import de.ticktrax.ticktrax_geo.myTools.formatDate4Recycler
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Locations_FragmentDirections
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -47,7 +48,7 @@ class TTLocationAdapter(
         binding.LonLatTV!!.text =
             myTTLocation.ttLocation.lat.toString() + "/" + myTTLocation.ttLocation.lon
         binding.DisplayNameTV!!.text =
-            myTTLocation.ttLocation.lastSeen.toString() + " Duration: " + myTTLocation.durationMinutes + "min"
+            formatDate4Recycler (myTTLocation.ttLocation.lastSeen) + " Duration: " + myTTLocation.durationMinutes + "min"
 
         //map
         var map = binding.LocationItemMAP!!

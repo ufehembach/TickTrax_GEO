@@ -2,11 +2,7 @@ package de.ticktrax.ticktrax_geo.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import de.ticktrax.ticktrax_geo.data.datamodels.ALogType
-import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
-import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
-import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB.Companion.getDatabase
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.data.ttRepositoryProvider
@@ -19,6 +15,7 @@ enum class LOADStatus {
 class TickTraxViewModel(application: Application) : AndroidViewModel(application) {
 
     val database = getDatabase(application)
+
     //    private val locationRepository = RepositoryProvider.locationRepository
     //    private val ttApRep = TickTraxAppRepository(OSMGsonApi, database)
     //    private val ttApRep = TickTraxAppRepository()
@@ -31,29 +28,30 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
         logDebug("ufe", "init viewmodel")
         ttApRep.setParas(OSMGsonApi, database)
         ttApRep.addLogEntry(ALogType.INFO, "ViewModel/Repository init")
-    //    ttApRep.readInit()
+        //    ttApRep.readInit()
     }
 
     // ------------------------------------------------------------------------
 
     // all OSM Places
-    val osmPlace = ttApRep.OSMPlace
-    val osmPlaceS = ttApRep.OSMPlaceS
-    val osmPlaceExt = ttApRep.OSMPlaceExt
-    val osmPlaceExtS = ttApRep.OSMPlaceExtS
+    val osmPlace = ttApRep.osmPlace
+    val osmPlaceS = ttApRep.osmPlaceS
+    val osmPlaceExt = ttApRep.osmPlaceExt
+    val osmPlaceExtS = ttApRep.osmPlaceExtS
+
     // ------------------------------------------------------------------------
-    val osmPlace4Id = ttApRep._OSMPlace4ID
-    val osmPlaceDetailS4Id = ttApRep._OSMPlaceDetailS4Id
-   /* fun OSMPLacesDetailS4IdSetId(OSMId: Long) {
+    val osmPlace4Id = ttApRep._osmPlace4ID
+    val osmPlaceDetailS4Id = ttApRep._osmPlaceDetailS4Id
+    fun OSMPLacesDetailS4IdSetId(OSMId: Long) {
         ttApRep.getAllOSMPlaceDetailFromRoom4Id(OSMId)
-    }*/
-    // ------------------------------------------------------------------------
-    val osmPlace4LonLat = ttApRep._OSMPlace4LonLat
-    // ------------------------------------------------------------------------
-  /*  fun osmPlace4LonLatSetLonLat(lon: Double, lat: Double) {
-        ttApRep.readOSMPlace4LonLat(lon, lat)
     }
-*/
+    // ------------------------------------------------------------------------
+    val osmPlace4LonLat = ttApRep._osmPlace4LonLat
+    // ------------------------------------------------------------------------
+    fun osmPlace4LonLatSetLonLat(lon: Double, lat: Double) {
+    ttApRep.readOSMPlace4LonLat(lon, lat)
+    }
+
     // ------------------------------------------------------------------------
     // geo location
     val location = ttApRep.location
@@ -69,9 +67,10 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     val locationDetail = ttApRep.locationDetail
     val locationDetailS = ttApRep.locationDetailS
     val locationDetailS4Id = ttApRep._locationDetailS4Id
-    fun locationDetailS4IdSetId(Id: Long) {
+    fun locationDetailS4IdSetId(Id: String) {
         ttApRep.getAllLocationDetailFromRoom4Id(Id)
     }
+
     // ------------------------------------------------------------------------
     val alogData = ttApRep.aLogData
     val alogDataS = ttApRep.aLogDataS
@@ -79,6 +78,7 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     fun aLog(type: ALogType, logText: String?) {
         ttApRep.addLogEntry(type, logText, "rep " + logText)
     }
+
     fun aLog(type: ALogType, logText: String?, logDetail: String?) {
         ttApRep.addLogEntry(type, logText, "rep " + logText)
     }

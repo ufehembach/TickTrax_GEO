@@ -1,7 +1,5 @@
 package de.ticktrax.ticktrax_geo.data
 
-import android.location.Location
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
@@ -17,12 +15,10 @@ import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
 import de.ticktrax.ticktrax_geo.data.local.TickTraxDB
 import de.ticktrax.ticktrax_geo.data.remote.OSMGsonApi
 import de.ticktrax.ticktrax_geo.myTools.GEOHash
+import de.ticktrax.ticktrax_geo.myTools.createUniqueKey
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.myTools.logError
-import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocation
-import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessLocationDetail
-import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessOSMPlace
-import de.ticktrax.ticktrax_geo.processData.TTProcess.Companion.ProcessOSMPlaceDetail
+import de.ticktrax.ticktrax_geo.processData.TTProcess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,9 +86,9 @@ class TickTraxAppRepository {
                 logDebug(
                     "ufe",
                     "read " +
-                            OSMPlaceS.value?.size.toString() + "/" +
-                            OSMPlaceExtS.value?.size.toString() + "/" +
-                            OSMPlaceDetailS.value?.size.toString() + "/" +
+                            osmPlaceS.value?.size.toString() + "/" +
+                            osmPlaceExtS.value?.size.toString() + "/" +
+                            osdmPlaceDetailS.value?.size.toString() + "/" +
 
                             locationS.value?.size.toString() + "/" +
                             locationExtS.value?.size.toString() + "/" +
@@ -101,7 +97,7 @@ class TickTraxAppRepository {
                             aLogDataS.value?.size.toString()
                 )
             } catch (e: Exception) {
-                Log.e("ufe", e.toString())
+                logError("ufe", e.toString())
             }
         }
     }
@@ -135,19 +131,19 @@ class TickTraxAppRepository {
 
     // one
     // ----------------------------------------------------------------
-    private var _OSMPlace = MutableLiveData<OSMPlace>()
-    val OSMPlace: LiveData<OSMPlace>
-        get() = _OSMPlace
+    private var _osmPlace = MutableLiveData<OSMPlace>()
+    val osmPlace: LiveData<OSMPlace>
+        get() = _osmPlace
 
     // ----------------------------------------------------------------
-    private val _OSMPlaceExt = MutableLiveData<OSMPlaceExt>()
-    val OSMPlaceExt: LiveData<OSMPlaceExt>
-        get() = _OSMPlaceExt
+    private val _osmPlaceExt = MutableLiveData<OSMPlaceExt>()
+    val osmPlaceExt: LiveData<OSMPlaceExt>
+        get() = _osmPlaceExt
 
     // ----------------------------------------------------------------
-    private val _OSMPlaceDetail = MutableLiveData<OSMPlaceDetail>()
-    val OSMPlaceDetail: LiveData<OSMPlaceDetail>
-        get() = _OSMPlaceDetail
+    private val _osmPlaceDetail = MutableLiveData<OSMPlaceDetail>()
+    val osmPlaceDetail: LiveData<OSMPlaceDetail>
+        get() = _osmPlaceDetail
 
     // ----------------------------------------------------------------
     private val _location = MutableLiveData<TTLocation>()
@@ -166,19 +162,19 @@ class TickTraxAppRepository {
 
     // all
     // ----------------------------------------------------------------
-    private var _OSMPlaceS = MutableLiveData<List<OSMPlace>>()
-    val OSMPlaceS: LiveData<List<OSMPlace>>
-        get() = _OSMPlaceS
+    private var _osmPlaceS = MutableLiveData<List<OSMPlace>>()
+    val osmPlaceS: LiveData<List<OSMPlace>>
+        get() = _osmPlaceS
 
     // ----------------------------------------------------------------
-    private var _OSMPlaceExtS = MutableLiveData<List<OSMPlaceExt>>()
-    val OSMPlaceExtS: LiveData<List<OSMPlaceExt>>
-        get() = _OSMPlaceExtS
+    private var _osmPlaceExtS = MutableLiveData<List<OSMPlaceExt>>()
+    val osmPlaceExtS: LiveData<List<OSMPlaceExt>>
+        get() = _osmPlaceExtS
 
     // ----------------------------------------------------------------
-    private var _OSMPlaceDetailS = MutableLiveData<List<OSMPlaceDetail>>()
-    val OSMPlaceDetailS: LiveData<List<OSMPlaceDetail>>
-        get() = _OSMPlaceDetailS
+    private var _osmPlaceDetailS = MutableLiveData<List<OSMPlaceDetail>>()
+    val osdmPlaceDetailS: LiveData<List<OSMPlaceDetail>>
+        get() = _osmPlaceDetailS
 
     // ----------------------------------------------------------------
     private var _locationS = MutableLiveData<List<TTLocation>>()
@@ -196,9 +192,9 @@ class TickTraxAppRepository {
         get() = _locationDetailS
 
     // ----------------------------------------------------------------
-    var _OSMPlace4ID = MutableLiveData<OSMPlace>()
-    var _OSMPlace4LonLat = MutableLiveData<OSMPlace>()
-    val _OSMPlaceDetailS4Id = MutableLiveData<List<OSMPlaceDetail>>()
+    var _osmPlace4ID = MutableLiveData<OSMPlace>()
+    var _osmPlace4LonLat = MutableLiveData<OSMPlace>()
+    val _osmPlaceDetailS4Id = MutableLiveData<List<OSMPlaceDetail>>()
     val _locationDetailS4Id = MutableLiveData<List<TTLocationDetail>>()
 
     var _readInit: Boolean = false
@@ -223,51 +219,26 @@ class TickTraxAppRepository {
             //lastLocationDetail = database.TickTraxDao.getLastLocationDetail()
             lastLocationDetail = TTLocationDetail()
         }
-        if (_location.value != null) {
-            lastLocation = _location.value!!
-        }
-        if (_newOSMPlace.value != null) {
-            lastOSMPlace = _OSMPlace.value!!
-        }
-        if (_locationDetail.value != null) {
-            lastLocationDetail = _locationDetail.value!!
-        }
-        if (_OSMPlaceDetail.value != null) {
-            lastOSMPlaceDetail = _OSMPlaceDetail.value!!
-        }
-        addLogEntry(
-            ALogType.INFO,
-            ": " + lat.toString() + "/" + lon.toString() + "/" + alt.toString()
-        )
-        if (oldLat != lat && oldLon != lon)
-            getAPlaceFromOSMandAdd2DB(lat, lon, alt)
-        else {
-            addLogEntry(
-                ALogType.INFO,
-                "old location: " + lat.toString() + "/" + lon.toString() + "/" + alt.toString()
-            )
-            lastLocation.lastSeen = Date()
-            lastOSMPlace.lastSeen = Date()
-            lastLocationDetail.lastSeen = Date()
-            lastOSMPlaceDetail.lastSeen = Date()
-            updatePlace(lastOSMPlace)
-            updatePlaceDetail(lastOSMPlaceDetail)
-            updateLocation(lastLocation)
-            updateLocationDetail(lastLocationDetail)
+        //addLogEntry( ALogType.INFO, ": " + lat.toString() + "/" + lon.toString() + "/" + alt.toString() )
 
-        }
-        addLogEntry(
-            ALogType.GEO,
-            "getAOSMPlaceExtBasedOnID " + OSMPlace.toString()
-        )
-        if(OSMPlace.value != null)
-            getAOSMPlaceExtBasedOnID(OSMPlace.value!!.OSMPlaceId)
-        addLogEntry(
-            ALogType.GEO,
-            "set OLD Variables  " + OSMPlace.toString()
-        )
-        oldLat = lat
-        oldLon = lon
+        // get stuff from OSM and set life data
+        // manage placeDetails
+        //      location
+        //      and location details
+        processPlaceOnLatLon(lat, lon, alt)
+//        addLogEntry(
+//            ALogType.GEO,
+//            "OLD Variables ",
+//            oldLat.toString() + "/" + oldLon.toString() + "\n"
+//                    + "----Loc-----------\n"
+//                    + location.value.toString() + "\n"
+//                    + "----LocDetail------\n"
+//                    + locationDetail.value.toString() + "\n"
+//                    + "----Place----------\n"
+//                    + osmPlace.value.toString() + "\n"
+//                    + "----PlaceDetail----\n"
+//                    + osmPlaceDetail.value.toString() + "\n"
+//        )
     }
 
     /*-----------------------------------------------------------------------------------------------
@@ -279,7 +250,7 @@ class TickTraxAppRepository {
     |_|
      -----------------------------------------------------------------------------------------------
     */
-    suspend fun getAPlaceFromOSMandAdd2DB(lat: Double, lon: Double, alt: Double) {
+    suspend fun processPlaceOnLatLon(lat: Double, lon: Double, alt: Double) {
         var nOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
         runBlocking {
             CoroutineScope(Dispatchers.IO).launch() {
@@ -287,34 +258,33 @@ class TickTraxAppRepository {
                     nOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
                     nOSMPlace.firstSeen = Date()
                     nOSMPlace.lastSeen = Date()
-                    addLogEntry(
-                        ALogType.GEO,
-                        "OSM Place added " + nOSMPlace.OSMPlaceId,
-                        nOSMPlace.toString()
-                    )
+//                    addLogEntry(
+//                        ALogType.GEO,
+//                        "OSM Place " + nOSMPlace.osmPlaceId,
+//                        nOSMPlace.toString()
+//                    )
                     database.TickTraxDao.insertOSMPlace(nOSMPlace)
-                    _OSMPlace.postValue( nOSMPlace)
+                    _osmPlace.postValue(nOSMPlace)
 
                     getAllOSMPlacesFromRoom()
                     getAllOSMPlacesExtFromRoom()
-                    createAOSMPlaceDetail(nOSMPlace.OSMPlaceId)
-                    val newLocation = TTLocation(
-                        GEOHash(lat, lon),
-                        lon,
-                        lat,
-                        alt,
-                        nOSMPlace.OSMPlaceId,
-                        Date(),
-                        Date(),
-                        0.0
-                    )
-                    addALocations2Room(newLocation)
+                    // save old for checking change
+                    oldLat = lat
+                    oldLon = lon
+                    if (_newOSMPlace.value != null) {
+                        lastOSMPlace = _osmPlace.value!!
+                    }
+                    // place done
+                    // now place detail
+                    processPlaceDetailOnOSMId(nOSMPlace.osmPlaceId)
+                    // now location
+                    // in location we do locationdetail
+                    processLocationOnLatLon(nOSMPlace.osmPlaceId, lat, lon, alt)
+                    getAOSMPlaceExtBasedOnID(nOSMPlace.osmPlaceId)
                     addLogEntry(
                         ALogType.GEO,
-                        "getAOSMPlaceExtBasedOnID " + nOSMPlace.OSMPlaceId,
-                        nOSMPlace.toString()
+                        "OSM Place processed " + nOSMPlace.osmPlaceId
                     )
-                    getAOSMPlaceExtBasedOnID(nOSMPlace.OSMPlaceId)
                 } catch (e: Exception) {
                     logError("ufe", "Error loading Data from API: $e")
                 }
@@ -323,15 +293,20 @@ class TickTraxAppRepository {
     }
 
     suspend fun updatePlace(place: OSMPlace) {
-        try {
-            database.TickTraxDao.updateOSMPlace(place)
-            _OSMPlace.postValue(place)
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                val no = database.TickTraxDao.updateOSMPlace(place)
+                _osmPlace.postValue(place)
 
-            getAllOSMPlacesFromRoom()
-            getAllOSMPlacesExtFromRoom()
-            addLogEntry(ALogType.GEO, "Place updated")
-        } catch (e: Exception) {
-            logError("ufe", "Error loading Data from API: $e")
+                getAllOSMPlacesFromRoom()
+                getAllOSMPlacesExtFromRoom()
+                addLogEntry(
+                    ALogType.GEO,
+                    no.toString() + " Place updated " + _osmPlace.value?.lastSeen.toString()
+                )
+            } catch (e: Exception) {
+                logError("ufe", "Error loading Data from API: $e")
+            }
         }
     }
 
@@ -339,30 +314,49 @@ class TickTraxAppRepository {
         try {
             var allPlaces = database.TickTraxDao.getAllOSMPlaces()
             // logDebug("ufe", "I read " + allPlaces.size + " OSMPlaces from ROOM")
-            _OSMPlaceS.postValue(allPlaces)
+            _osmPlaceS.postValue(allPlaces)
         } catch (e: Exception) {
             logError("ufe", "Error loading Data from ROOM: $e")
         }
     }
 
-        suspend fun getAOSMPlaceExtBasedOnID(OSMPlaceID: Long) {
-            logDebug("ufe", "try to get " + OSMPlaceID)
-            addLogEntry(
-                ALogType.GEO,
-                "OSM PlaceExt get  " + OSMPlaceID
-            )
-            CoroutineScope(Dispatchers.IO).launch() {
-                try {
-                    var osmPlaceExt = database.TickTraxDao.getOSMPlaceExtById(OSMPlaceID)
-                    addLogEntry(
-                        ALogType.GEO,
-                        "OSM PlaceExt set  " + osmPlaceExt
-                    )
-                    _OSMPlaceExt.postValue(osmPlaceExt)
-                } catch (e: Exception) {
-                    logError("ufe", "Error loading Data from ROOM: $e")
-                }
+    suspend fun getAOSMPlaceExtBasedOnID(OSMPlaceID: Long) {
+        logDebug("ufe", "try to get " + OSMPlaceID)
+        addLogEntry(
+            ALogType.GEO,
+            "OSM PlaceExt get  " + OSMPlaceID
+        )
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                var osmPlaceExt = database.TickTraxDao.getOSMPlaceExtById(OSMPlaceID)
+//                addLogEntry(
+//                    ALogType.GEO,
+//                    "OSM PlaceExt set on ID  ", osmPlaceExt.toString()
+//                )
+                _osmPlaceExt.postValue(osmPlaceExt)
+            } catch (e: Exception) {
+                logError("ufe", "Error loading Data from ROOM: $e")
             }
+        }
+    }
+
+    fun readOSMPlace4LonLat(lat: Double, lon: Double) {
+        var nOSMPlace = OSMPlace(0L, 0L, 0.0, 0.0)
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                logDebug("ufe1", "load lat/lon " + lat.toString() + "/" + lon.toString())
+                nOSMPlace = OSMGsonApi.apiGsonService.getOSMPlace(lat, lon)
+                addLogEntry(
+                    ALogType.GEO,
+                    "OSM Place for lat/lon  " + nOSMPlace.osmPlaceId,
+                    nOSMPlace.toString()
+                )
+                logDebug("ufe1", nOSMPlace.toString())
+                _osmPlace4LonLat.postValue(nOSMPlace)
+            } catch (e: Exception) {
+                logError("ufe", "Error loading Data from API: $e")
+            }
+        }
     }
 
     /*---------------------------------------------------------------------------------------------
@@ -374,26 +368,51 @@ class TickTraxAppRepository {
           |_|
     -----------------------------------------------------------------------------------------------
     */
-    fun createAOSMPlaceDetail(osmPlaceId: Long) {
-        var OSMPlaceDetail = OSMPlaceDetail(0L, osmPlaceId, Date(), Date(), 0L, 0.0)
+    fun processPlaceDetailOnOSMId(osmPlaceId: Long) {
+        var thisOSMPlaceDetail = OSMPlaceDetail(0L, osmPlaceId, Date(), Date(), 0L, 0.0)
+        logDebug("ufe-up", "process placeDetail")
+        CoroutineScope(Dispatchers.IO).launch {
+            if (lastOSMPlaceDetail.osmPlaceId == thisOSMPlaceDetail.osmPlaceId) {
+                logDebug("ufe-up", "place is the same")
+                //place not changed
+                lastOSMPlaceDetail.lastSeen = Date()
+                val duration =
+                    TTProcess.getDifferenceInMinutes(
+                        lastOSMPlaceDetail.firstSeen,
+                        thisOSMPlaceDetail.lastSeen
+                    )
+                lastOSMPlaceDetail.durationMinutes = duration
+                logDebug("ufe-up", "place is the same " + duration.toString())
+                addLogEntry(
+                    ALogType.GEO,
+                    "Same Place Detail, duration =" + duration + "m", lastOSMPlaceDetail.toString()
+                )
+                updatePlaceDetail(lastOSMPlaceDetail)
 
-        try {
-            logDebug(
-                "ufe",
-                "OSMPlace insert"
-                        + OSMPlaceDetail.toString()
-            )
-            val ID = database.TickTraxDao.insertOSMPlaceDetail(OSMPlaceDetail)
-            OSMPlaceDetail.OSMPlaceId = ID
-            _OSMPlaceDetail.value = OSMPlaceDetail
+                _osmPlaceDetail.postValue(lastOSMPlaceDetail)
+                getAllOSMPlacesDetailFromRoom()
+                getAllOSMPlacesExtFromRoom()
+            } else
+                try {
+                    logDebug( "ufe", "OSMPlace detail new "+ thisOSMPlaceDetail.toString() )
+                    val ID = database.TickTraxDao.insertOSMPlaceDetail(thisOSMPlaceDetail)
+                    thisOSMPlaceDetail.osmPlaceDetailId = ID
+                    _osmPlaceDetail.postValue(thisOSMPlaceDetail)
 
-            getAllOSMPlacesDetailFromRoom()
-            addLogEntry(
-                ALogType.GEO,
-                "OSM Place Detail added  " + ID + " for " + OSMPlaceDetail.OSMPlaceId
-            )
-        } catch (e: Exception) {
-            Log.e("ufe", e.toString())
+                    getAllOSMPlacesDetailFromRoom()
+                    getAllOSMPlacesExtFromRoom()
+                    logDebug( "ufe", "OSMPlace detail new "+ thisOSMPlaceDetail.toString() )
+
+                    addLogEntry(
+                        ALogType.GEO,
+                        "OSM Place Detail processed  " + ID + " for " + thisOSMPlaceDetail.osmPlaceId
+                    )
+                } catch (e: Exception) {
+                    logError("ufe", e.toString())
+                }
+        }
+        if (_osmPlaceDetail.value != null) {
+            lastOSMPlaceDetail = _osmPlaceDetail.value!!
         }
     }
 
@@ -404,16 +423,17 @@ class TickTraxAppRepository {
         )
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                database.TickTraxDao.updateOSMPlaceDetail(placeDetail)
-                _OSMPlaceDetail.value = placeDetail
+                val no = database.TickTraxDao.updateOSMPlaceDetail(placeDetail)
+                _osmPlaceDetail.postValue(placeDetail)
 
                 getAllOSMPlacesDetailFromRoom()
+                getAllOSMPlacesExtFromRoom()
                 addLogEntry(
                     ALogType.GEO,
-                    "OSM Place Detail updated  "
+                    no.toString() + " Place Detail updated " + _osmPlace.value?.lastSeen.toString()
                 )
             } catch (e: Exception) {
-                Log.e("ufe", e.toString())
+                logError("ufe", e.toString())
             }
         }
     }
@@ -423,13 +443,45 @@ class TickTraxAppRepository {
             try {
                 var allOSMPlaceDetailS = database.TickTraxDao.getAllOSMPlaceDetails()
                 //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
-                _OSMPlaceDetailS.postValue(allOSMPlaceDetailS)
+                _osmPlaceDetailS.postValue(allOSMPlaceDetailS)
+            } catch (e: Exception) {
+                logError("ufe", "Error loading Data from ROOM:" + e.toString())
+            }
+        }
+    }
+
+    fun getAllOSMPlaceDetailFromRoom4Id(OSMPlaceID: Long) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                var OSMPlaceDetailS = database.TickTraxDao.getAllOSMPlaceDetails(OSMPlaceID)
+                //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
+                _osmPlaceDetailS4Id.postValue(OSMPlaceDetailS)
+            } catch (e: Exception) {
+                logError("ufe", "Error loading Data from ROOM:" + e.toString())
+            }
+        }
+    }
+
+    /*---------------------------------------------------------------------------------------------
+             _                                 _                 _          _
+       _ __ | | __ _  ___ ___  ___    _____  _| |_ ___ _ __   __| | ___  __| |
+      | '_ \| |/ _` |/ __/ _ \/ __|  / _ \ \/ / __/ _ \ '_ \ / _` |/ _ \/ _` |
+      | |_) | | (_| | (_|  __/\__ \ |  __/>  <| ||  __/ | | | (_| |  __/ (_| |
+      | .__/|_|\__,_|\___\___||___/  \___/_/\_\\__\___|_| |_|\__,_|\___|\__,_|
+      |_|
+      -----------------------------------------------------------------------------------------------
+      */
+    fun getAllOSMPlacesExtFromRoom() {
+        CoroutineScope(Dispatchers.IO).launch() {
+            try {
+                var allOSMPlaceExt = database.TickTraxDao.getAllOSMPlaceExt()
+                //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
+                _osmPlaceExtS.postValue(allOSMPlaceExt)
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
         }
     }
-
 
     /*---------------------------------------------------------------------------------------------
        _                 _   _                   _          __  __
@@ -453,23 +505,34 @@ class TickTraxAppRepository {
         }
     }
 
-    fun addALocations2Room(newLoc: TTLocation) {
+    fun processLocationOnLatLon(OSMPlaceId: Long, lat: Double, lon: Double, alt: Double) {
+        val newLoc = TTLocation(
+            createUniqueKey(lat, lon),
+            lon,
+            lat,
+            alt,
+            OSMPlaceId,
+            Date(),
+            Date(),
+            0.0
+        )
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val ID = database.TickTraxDao.insertLocation(newLoc)
-                newLoc.LocationId = ID
-                _location.value = newLoc
+                //    newLoc.LocationId = ID
+                _location.postValue(newLoc)
 
                 getAllLocationsFromRoom()
                 getAllLocationsExtFromRoom()
-
+                if (_location.value != null) {
+                    lastLocation = _location.value!!
+                }
+                processLocationDetail(newLoc)
                 addLogEntry(
                     ALogType.GEO,
-                    "Location added " + newLoc.LocationId + " for " + newLoc.OSMPlaceId
+                    "Location processed for " + newLoc.OSMPlaceId,
+                    " for " + newLoc.OSMPlaceId + "\n" + newLoc.toString()
                 )
-
-                val newLocationDetail = TTLocationDetail(0L, newLoc.LocationId)
-                createALocationDetail(newLocationDetail)
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
@@ -477,47 +540,28 @@ class TickTraxAppRepository {
     }
 
     fun updateLocation(newLoc: TTLocation) {
-        addLogEntry(
-            ALogType.GEO,
-            "try Location update " + newLoc.LocationId + " for " + newLoc.OSMPlaceId
-        )
-        try {
-            database.TickTraxDao.insertLocation(newLoc)
-            _location.postValue(newLoc)
-
-            getAllLocationsFromRoom()
-            getAllLocationsExtFromRoom()
-
-            addLogEntry(
-                ALogType.GEO,
-                "Location update " + newLoc.LocationId + " for " + newLoc.OSMPlaceId
-            )
-        } catch (e: Exception) {
-            logError("ufe", "Error loading Data from ROOM: $e")
-        }
-    }
-
-
-    /*---------------------------------------------------------------------------------------------
-           _                                 _                 _          _
-     _ __ | | __ _  ___ ___  ___    _____  _| |_ ___ _ __   __| | ___  __| |
-    | '_ \| |/ _` |/ __/ _ \/ __|  / _ \ \/ / __/ _ \ '_ \ / _` |/ _ \/ _` |
-    | |_) | | (_| | (_|  __/\__ \ |  __/>  <| ||  __/ | | | (_| |  __/ (_| |
-    | .__/|_|\__,_|\___\___||___/  \___/_/\_\\__\___|_| |_|\__,_|\___|\__,_|
-    |_|
-    -----------------------------------------------------------------------------------------------
-    */
-    fun getAllOSMPlacesExtFromRoom() {
-        CoroutineScope(Dispatchers.IO).launch() {
+        CoroutineScope(Dispatchers.IO).launch {
+//            addLogEntry(
+//                ALogType.GEO,
+//                "try Location update " + newLoc.LocationId + " for " + newLoc.OSMPlaceId
+//            )
             try {
-                var allOSMPlaceExt = database.TickTraxDao.getAllOSMPlaceExt()
-                //   logDebug("ufe", "I read " + allOSMPlaces.size + " OSMPlaces from ROOM")
-                _OSMPlaceExtS.postValue(allOSMPlaceExt)
+                val no = database.TickTraxDao.insertLocation(newLoc)
+                _location.postValue(newLoc)
+
+                getAllLocationsFromRoom()
+                getAllLocationsExtFromRoom()
+
+                addLogEntry(
+                    ALogType.GEO,
+                    no.toString() + " Location update " + _location.value?.lastSeen
+                )
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
         }
     }
+
 
     /*---------------------------------------------------------------------------------------------
     _                 _   _                   _      _        _ _
@@ -527,42 +571,68 @@ class TickTraxAppRepository {
     |_|\___/ \___\__,_|\__|_|\___/|_| |_|  \__,_|\___|\__\__,_|_|_|___/
     -----------------------------------------------------------------------------------------------
     */
-    fun createALocationDetail(locationDetail: TTLocationDetail) {
-        try {
-            logDebug(
-                "ufe",
-                "location insert"
-                        + locationDetail.toString()
-            )
-            val ID = database.TickTraxDao.insertLocationDetail(locationDetail)
-            locationDetail.LocationDetailId = ID
-            _locationDetail.value = locationDetail
-
-            getAllLocationsDetailFromRoom()
+    fun processLocationDetail(location: TTLocation) {
+        var locationDetail = TTLocationDetail(
+            0L, location.LocationId, Date(), Date(), 0L, 0.0
+        )
+        if (lastLocationDetail.LocationId == locationDetail.LocationId) {
+            //location not changed
+            lastLocationDetail.lastSeen = Date()
+            val duration =
+                TTProcess.getDifferenceInMinutes(
+                    lastLocationDetail.firstSeen,
+                    locationDetail.lastSeen
+                )
+            lastLocationDetail.durationMinutes = duration
             addLogEntry(
                 ALogType.GEO,
-                "Location Detail added  " + locationDetail.LocationDetailId + " for " + locationDetail.LocationId
+                "Same Location Detail, duration =" + duration + "m", lastLocationDetail.toString()
             )
-        } catch (e: Exception) {
-            logError("ufe", e.toString())
-        }
+            updateLocationDetail(lastLocationDetail)
+            _locationDetail.postValue(lastLocationDetail)
+            getAllLocationsDetailFromRoom()
+            getAllLocationsExtFromRoom()
+        } else
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val ID = database.TickTraxDao.insertLocationDetail(locationDetail)
+                    locationDetail.LocationDetailId = ID
+                    _locationDetail.postValue(locationDetail)
+
+                    getAllLocationsDetailFromRoom()
+                    getAllLocationsExtFromRoom()
+                    if (_locationDetail.value != null) {
+                        lastLocationDetail = _locationDetail.value!!
+                    }
+                    addLogEntry(
+                        ALogType.GEO,
+                        "Location Detail added " + locationDetail.LocationDetailId,
+                        locationDetail.toString()
+                    )
+                } catch (e: Exception) {
+                    logError("ufe", e.toString())
+                }
+            }
     }
 
     fun updateLocationDetail(locationDetail: TTLocationDetail) {
-        addLogEntry(
-            ALogType.GEO,
-            "try Location Detail update "
-        )
-        try {
-            database.TickTraxDao.updateLocationDetail(locationDetail)
-            _locationDetail.postValue(locationDetail)
-            getAllLocationsDetailFromRoom()
+        CoroutineScope(Dispatchers.IO).launch {
             addLogEntry(
                 ALogType.GEO,
-                "Location Detail update "
+                "try Location Detail update "
             )
-        } catch (e: Exception) {
-            logError("ufe", e.toString())
+            try {
+                val no = database.TickTraxDao.updateLocationDetail(locationDetail)
+                _locationDetail.postValue(locationDetail)
+                getAllLocationsDetailFromRoom()
+                getAllLocationsExtFromRoom()
+//                addLogEntry(
+//                    ALogType.GEO,
+//                    no.toString() + " Location Detail update " + _locationDetail.value?.lastSeen.toString()
+//                )
+            } catch (e: Exception) {
+                logError("ufe", e.toString())
+            }
         }
     }
 
@@ -579,7 +649,7 @@ class TickTraxAppRepository {
     }
 
 
-    fun getAllLocationDetailFromRoom4Id(id: Long) {
+    fun getAllLocationDetailFromRoom4Id(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 var allLocationDetail = database.TickTraxDao.getAllLocationDetail(id)
@@ -602,9 +672,9 @@ class TickTraxAppRepository {
 
     fun getAllLocationsExtFromRoom() {
         try {
-            var allLocationExt = database.TickTraxDao.getAllLocationExt()
-            //   logDebug("ufe", "I read " + allLocations.size + " ttlocations from ROOM")
-            _locationExtS.postValue(allLocationExt)
+            var allLocationExtS = database.TickTraxDao.getAllLocationExt()
+            logDebug("ufe", "I read " + allLocationExtS.size + " locationExt from ROOM")
+            _locationExtS.postValue(allLocationExtS)
         } catch (e: Exception) {
             logError("ufe", "Error loading Data from ROOM: $e")
         }
@@ -635,19 +705,16 @@ class TickTraxAppRepository {
             var allLogsEntries = database.TickTraxDao.getAllLogEntries()
 //            logDebug("ufe", "I read " + allLogsEntries.size + " ALog Records from ROOM")
             _aLogDataS.postValue(allLogsEntries)
-            logDebug("ufe", "loading Data from ROOM: ${_aLogDataS.value?.size}")
+            //logDebug("ufe", "loading Data from ROOM: ${_aLogDataS.value?.size}")
         } catch (e: Exception) {
             logError("ufe", "Error loading Data from ROOM: $e")
         }
     }
 
     fun addLogEntry(type: ALogType, logText: String?, lopDetail: String?) {
-
-
         if (oldLogText == logText) {
             return
         }
-
         val currentDate = Date()
         val formattedDateUTC = DateTimeUtils.formatDateTimeToUTC(Date())
         //   logDebug("Formatted Date (UTC)", formattedDateUTC)

@@ -14,7 +14,6 @@ import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 import de.ticktrax.ticktrax_geo.databinding.FragmentLocationsBinding
 import de.ticktrax.ticktrax_geo.myTools.logDebug
-import de.ticktrax.ticktrax_geo.ui.adapter.OSMPlaceAdapter
 import de.ticktrax.ticktrax_geo.ui.adapter.TTLocationAdapter
 
 

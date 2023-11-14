@@ -87,10 +87,10 @@ class TTProcess {
         ): OSMPlace {
             ttApRep.addLogEntry(
                 ALogType.GEO,
-                "ProcessOSMPlace:" + newOSMPlace.OSMPlaceId
+                "ProcessOSMPlace:" + newOSMPlace.osmPlaceId
             )
             // hat sich die geändert?
-            if (oldOSMPlace?.OSMPlaceId != newOSMPlace.OSMPlaceId) {
+            if (oldOSMPlace?.osmPlaceId != newOSMPlace.osmPlaceId) {
                 logDebug("ufe-calc", "OSMPlaceID Changed")
                 return newOSMPlace
             } else {
@@ -122,10 +122,10 @@ class TTProcess {
         ): OSMPlaceDetail {
             ttApRep.addLogEntry(
                 ALogType.GEO,
-                "ProcessOSMPlaceDetails: " + newOSMPlaceDetail.OSMPlaceDetailId
+                "ProcessOSMPlaceDetails: " + newOSMPlaceDetail.osmPlaceDetailId
             )
             // hat sich der hash geändert?
-            if (oldOSMPlaceDetail?.OSMPlaceDetailId != newOSMPlaceDetail.OSMPlaceDetailId) {
+            if (oldOSMPlaceDetail?.osmPlaceDetailId != newOSMPlaceDetail.osmPlaceDetailId) {
                 logDebug("ufe-calc", "OSMPlaceID Changed")
             } else {
                 oldOSMPlaceDetail.lastSeen = Date()

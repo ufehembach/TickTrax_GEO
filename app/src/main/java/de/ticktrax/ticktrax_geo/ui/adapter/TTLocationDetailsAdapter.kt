@@ -36,7 +36,7 @@ class TTLocationDetailsAdapter(
 
         val binding = holder.binding
         var myTTLocationDetail = thisTTLocationDetailS[position.toInt()]
-        Log.d("ufe-adapter", "in LocationDetailsAdapter " + myTTLocationDetail
+        logDebug("ufe-adapter", thisTTLocationDetailS.size.toString() +" are in list" + myTTLocationDetail
         )
         binding.textViewDateFrom.text= formatDate4Recycler(myTTLocationDetail.firstSeen)
         binding.textViewDateTo.text= formatDate4Recycler(myTTLocationDetail.lastSeen)

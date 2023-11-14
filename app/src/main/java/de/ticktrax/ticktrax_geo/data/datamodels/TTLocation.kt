@@ -18,7 +18,7 @@ const val TTLocation_Distance_Max = 10 // in Meter gives what we see as the same
 data class TTLocation(
     @PrimaryKey(autoGenerate = false)
     @ExportOrder(1)
-    var LocationId: Long = 0,
+    var LocationId: String = "",
 
     @ExportOrder(2)
     var lon: Double = 0.0,
@@ -32,7 +32,7 @@ data class TTLocation(
     var OSMPlaceId: Long = 0L,
 
     @ExportOrder(5)
-    var locAdded: Date = Date(0, 0, 0),
+    var firstSeen: Date = Date(0, 0, 0),
 
     @ExportOrder(6)
     var lastSeen: Date = Date(0, 0, 0),

@@ -11,7 +11,7 @@ import java.util.Date
 data class OSMPlaceExt(
     @Embedded
     @ExportOrder(1)
-    val OSMPlace: OSMPlace,
+    val osmPlace: OSMPlace,
 
     @ExportOrder(2)
     @ColumnInfo(name = "durationSum")

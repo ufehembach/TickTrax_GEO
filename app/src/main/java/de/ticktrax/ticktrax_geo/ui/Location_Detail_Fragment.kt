@@ -97,23 +97,26 @@ class Location_Detail_Fragment : Fragment() {
         // Zeige die Karte an
         mapView.invalidate()
 
+
+       viewModel.locationDetailS.observe(viewLifecycleOwner){
+           viewModel.locationDetailS4IdSetId(d.ttLocation.LocationId)
+       }
         // rv
         viewModel.locationDetailS4IdSetId(d.ttLocation.LocationId)
         viewModel.locationDetailS4Id.observe(viewLifecycleOwner) {
-            logDebug("ufe-detail", "Call Adapter ${it}")
-            logDebug("ufe-detail", "${it.size}")
-            binding.recyclerView.adapter = TTLocationDetailsAdapter(it)
+            //binding.recyclerView.adapter = TTLocationDetailsAdapter(it)
+            binding.locationDetailRV.adapter = TTLocationDetailsAdapter(it)
         }
         // scroll view
 
-    //    viewModel.osmPlace4LonLatSetLonLat(d.ttLocation.lon.toDouble(), d.ttLocation.lat.toDouble())
+        viewModel.osmPlace4LonLatSetLonLat(d.ttLocation.lat, d.ttLocation.lon)
         viewModel.osmPlace4LonLat.observe(viewLifecycleOwner) {
             var osm = viewModel.osmPlace4LonLat.value
             logDebug(
                 "ufe-detail", d.ttLocation.lon.toString() + " " + d.ttLocation.lat
             )
             if (osm != null) {
-                binding.placeIdTV?.text = osm.OSMPlaceId.toString()
+                binding.placeIdTV?.text = osm.osmPlaceId.toString()
                 binding.licenseTV?.text = osm.licence
                 binding.osmTypeTV?.text = osm.osmType.toString()
                 binding.osmIdTV?.text = osm.osmId.toString()

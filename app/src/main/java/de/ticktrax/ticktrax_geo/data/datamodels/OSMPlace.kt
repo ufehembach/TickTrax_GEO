@@ -22,7 +22,7 @@ const val OSMPlace_Distance_Max = 25 // in Meter gives what we see as the same l
 data class OSMPlace(
     @PrimaryKey
     @ExportOrder(1)
-    @SerializedName("place_id") val OSMPlaceId: Long,
+    @SerializedName("place_id") val osmPlaceId: Long,
 
 //    var osm_id: String,
     @ExportOrder(2)

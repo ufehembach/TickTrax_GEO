@@ -20,7 +20,7 @@ data class TTLocationDetail(
     var LocationDetailId: Long = 0,
 
     @ExportOrder(2)
-    var LocationId: Long = 0,
+    var LocationId: String = "",
 
     @ExportOrder(3)
     var lastSeen: Date = Date(0, 0, 0),

@@ -63,29 +63,33 @@ class GEO_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Configuration.getInstance().setUserAgentValue(context?.getPackageName() ?: "TickTrax.de");
-        map = binding.geoMAP!!
-        map.setTileSource(TileSourceFactory.MAPNIK)
-        val mapController = map.controller
-        val startZoom = 18.5
 
-        mapController.setZoom(startZoom)
-        val startPoint = GeoPoint(48.8583, 2.2944);
-        mapController.setCenter(startPoint);
         viewModel.location.observe(viewLifecycleOwner) {
+            // text stuff
             val mytext = it.lat.toString() + "/" + it.lon.toString() + "/" + it.alt.toString()
             binding.GeoLocTV?.text = mytext
             logDebug("ufe-geo", "map view for : " + mytext)
-           // viewModel.aLog(ALogType.GEO, "show Map: " + mytext)
-            //mapController.setZoom(9.5)
-            mapController.setZoom(startZoom)
-            var currentLoc = GeoPoint(it.lat, it.lon);
-            mapController.setCenter(currentLoc);
-         //   val context: Context = holder.itemView.context
-            val context = requireContext ()
+            // viewModel.aLog(ALogType.GEO, "show Map: " + mytext)
+
+
+            // Map stuff
+            //   val context: Context = holder.itemView.context
+            val context = requireContext()
+            // create my Icon
             val currentIcon =
                 AppCompatResources.getDrawable(context, R.drawable.baseline_my_location_24)
             // Convert Drawable to Bitmap
             val iconBitmap = currentIcon?.toBitmap()
+            // set location
+            var currentLoc = GeoPoint(it.lat, it.lon);
+
+            map = binding.geoMAP!!
+            map.setTileSource(TileSourceFactory.MAPNIK)
+            val mapController = map.controller
+            val startZoom = 18.5
+            mapController.setZoom(startZoom)
+            mapController.setCenter(currentLoc);
+            // set marker
             val marker = Marker(map)
             marker.position = currentLoc
             marker.icon = currentIcon
@@ -94,6 +98,7 @@ class GEO_Fragment : Fragment() {
 
             map.overlays.add(marker)
         }
+        // büttons
         binding.nextFAB.setOnClickListener {
             R.layout.fragment_g_e_o
             val navController = findNavController()

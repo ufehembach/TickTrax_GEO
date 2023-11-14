@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog
 import de.ticktrax.ticktrax_geo.data.datamodels.ALog_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation_TBL_NAME
@@ -32,9 +33,10 @@ interface TickTraxDao {
     fun insertOSMPlace(OSMPlace: OSMPlace)
 
     @Update
-    fun updateOSMPlace(OSMPlace: OSMPlace)
+    fun updateOSMPlace(OSMPlace: OSMPlace): Int
+
     @Query("SELECT * FROM " + OSMPlace_TBL_NAME + " ORDER BY lastSeen DESC limit 1")
-    fun getLastOSMPlace() : OSMPlace
+    fun getLastOSMPlace(): OSMPlace
 
     @Query("SELECT * FROM " + OSMPlace_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllOSMPlaces(): List<OSMPlace>
@@ -51,16 +53,16 @@ interface TickTraxDao {
     // -------------------------------------------------
     // OSMPLaceDetails
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOSMPlaceDetail(osmPlaceDetail: OSMPlaceDetail):Long
+    fun insertOSMPlaceDetail(osmPlaceDetail: OSMPlaceDetail): Long
 
     @Update
-    fun updateOSMPlaceDetail(osmPlaceDetail: OSMPlaceDetail)
+    fun updateOSMPlaceDetail(osmPlaceDetail: OSMPlaceDetail): Int
 
     @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY OSMPlaceDetailId DESC LIMIT 1")
     fun getAOSMPlaceDetailLatestEntry(): OSMPlaceDetail?
 
     @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY lastSeen DESC limit 1")
-    fun getLastOSMPlaceDetail() : OSMPlaceDetail
+    fun getLastOSMPlaceDetail(): OSMPlaceDetail
 
     @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllOSMPlaceDetails(): List<OSMPlaceDetail>
@@ -77,18 +79,18 @@ interface TickTraxDao {
     // -------------------------------------------------
     // OSMPLaceExt
     @Query("SELECT *, (SELECT SUM(durationMinutes) FROM " + OSMPlaceDetail_TBL_NAME + " WHERE " + OSMPlaceDetail_TBL_NAME + ".OSMPLaceId = " + OSMPlace_TBL_NAME + ".OSMPLaceId) as durationSum FROM " + OSMPlace_TBL_NAME + " order by lastSeen desc")
-   /* @Query(
-        "SELECT " +
-                "$OSMPlace_TBL_NAME.*, " +
-                "(SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
-                "FROM $OSMPlaceDetail_TBL_NAME " +
-                "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) as durationSum " +
-                "FROM $OSMPlace_TBL_NAME " +
-                "WHERE (SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
-                "FROM $OSMPlaceDetail_TBL_NAME " +
-                "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) > 0 " +
-                "ORDER BY lastSeen DESC"
-    )*/
+            /* @Query(
+                 "SELECT " +
+                         "$OSMPlace_TBL_NAME.*, " +
+                         "(SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
+                         "FROM $OSMPlaceDetail_TBL_NAME " +
+                         "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) as durationSum " +
+                         "FROM $OSMPlace_TBL_NAME " +
+                         "WHERE (SELECT SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) " +
+                         "FROM $OSMPlaceDetail_TBL_NAME " +
+                         "WHERE $OSMPlaceDetail_TBL_NAME.OSMPLaceId = $OSMPlace_TBL_NAME.OSMPLaceId) > 0 " +
+                         "ORDER BY lastSeen DESC"
+             )*/
     fun getAllOSMPlaceExt(): List<OSMPlaceExt>
 
     @Query("SELECT $OSMPlace_TBL_NAME.*, SUM($OSMPlaceDetail_TBL_NAME.durationMinutes) AS durationSum FROM $OSMPlace_TBL_NAME LEFT JOIN $OSMPlaceDetail_TBL_NAME ON $OSMPlace_TBL_NAME.OSMPlaceId = $OSMPlaceDetail_TBL_NAME.OSMPlaceId WHERE $OSMPlace_TBL_NAME.OSMPlaceId = :OSMPlaceId GROUP BY $OSMPlace_TBL_NAME.OSMPlaceId")
@@ -100,12 +102,13 @@ interface TickTraxDao {
     // -------------------------------------------------
     // Location
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLocation(Location: TTLocation):Long
+    fun insertLocation(Location: TTLocation): Long
+
     @Update
-    fun updateLocation(Location: TTLocation)
+    fun updateLocation(Location: TTLocation): Int
 
     @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC limit 1")
-    fun getLastLocation() : TTLocation
+    fun getLastLocation(): TTLocation
 
     @Query("SELECT * FROM " + TTLocation_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllLocations(): List<TTLocation>
@@ -119,20 +122,23 @@ interface TickTraxDao {
     // -------------------------------------------------
     // LocationDetails
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLocationDetail(Location: TTLocationDetail):Long
+    fun insertLocationDetail(Location: TTLocationDetail): Long
+
     @Update
-    fun updateLocationDetail(Location: TTLocationDetail)
+    //@Upsert
+    fun updateLocationDetail(Location: TTLocationDetail): Int
 
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " ORDER BY lastSeen DESC limit 1")
-    fun getLastLocationDetail() : TTLocationDetail
+    fun getLastLocationDetail(): TTLocationDetail
+
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " ORDER BY lastSeen DESC")
     fun getAllLocationDetails(): List<TTLocationDetail>
 
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId order BY LocationDetailId DESC LIMIT 1")
-    fun getALocationDetail(LocationId: Long): TTLocationDetail
+    fun getALocationDetail(LocationId: String): TTLocationDetail
 
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId order BY lastseen DESC")
-    fun getAllLocationDetail(LocationId: Long): List<TTLocationDetail>
+    fun getAllLocationDetail(LocationId: String): List<TTLocationDetail>
 
     @Query("SELECT * FROM " + TTLocationDetail_TBL_NAME + " WHERE LocationId = :LocationId")
     fun getALocationDetails(LocationId: Long): List<TTLocationDetail>

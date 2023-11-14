@@ -17,6 +17,7 @@ import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
+import de.ticktrax.ticktrax_geo.myTools.formatDate4Recycler
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Places_FragmentDirections
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -51,19 +52,19 @@ class OSMPlaceAdapter(
         val binding = holder.binding
         // Hole die Somedata aus dem enveloppe
         var myOSMPlace = thisOSMPlacesExt[position]
-        binding.LonLatTV!!.text = myOSMPlace.OSMPlace.lat.toString() + "/" + myOSMPlace.OSMPlace.lon
-        binding.DisplayNameTV!!.text = myOSMPlace.OSMPlace.displayName
+        binding.LonLatTV!!.text = myOSMPlace.osmPlace.lat.toString() + "/" + myOSMPlace.osmPlace.lon
+        binding.DisplayNameTV!!.text = myOSMPlace.osmPlace.displayName
         binding.LonLatTV!!.text =
-            myOSMPlace.OSMPlace.lat.toString() + "/" + myOSMPlace.OSMPlace.lon
+            myOSMPlace.osmPlace.lat.toString() + "/" + myOSMPlace.osmPlace.lon
         binding.DisplayNameTV!!.text =
-            myOSMPlace.OSMPlace.lastSeen.toString() + " Duration: " + myOSMPlace.durationMinutes + "min"
+        formatDate4Recycler(myOSMPlace.osmPlace.lastSeen) + " Duration: " + myOSMPlace.durationMinutes + "min"
 
         //map
         map = binding.placesItemMAP!!
         map.setTileSource(TileSourceFactory.MAPNIK)
         val mapController = map.controller
         val startZoom = 14.5
-        val startPoint = GeoPoint(myOSMPlace.OSMPlace.lat!!.toDouble(), myOSMPlace.OSMPlace.lon!!.toDouble());
+        val startPoint = GeoPoint(myOSMPlace.osmPlace.lat!!.toDouble(), myOSMPlace.osmPlace.lon!!.toDouble());
         mapController.setZoom(startZoom)
         mapController.setCenter(startPoint);
         // My Location Overlay
