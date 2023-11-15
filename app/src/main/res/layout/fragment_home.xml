@@ -21,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></org.osmdroid.views.MapView>
 
-    <!-- CardView mit RecyclerView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/recyclerViewCardView"
         android:layout_width="0dp"

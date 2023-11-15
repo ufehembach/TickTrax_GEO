@@ -51,32 +51,33 @@ class Export2Mail_Fragment : Fragment() {
         logDebug("ufe-export", data.toString())
 
         binding.exportDataTV?.text = data.toString()
-
-        try {
-            val externalFilesDir =
-                requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-            val gson = Gson()
-            val myGson = gson.toJson(data.toString())
-            binding.exportDataTV?.text = myGson
-             //Export the data
-              val jsonFile = createTempJsonFile(myGson)
-            //  sendEmail(jsonFile)
-            val myExport = ExportViaMail(data!!, requireContext())
-            Toast.makeText(requireContext(), "myExport created", Toast.LENGTH_SHORT).show()
-            Toast.makeText(requireContext(),externalFilesDir.toString(),Toast.LENGTH_LONG)
-            val myIntent: Intent? = myExport.exportAll(externalFilesDir)
-            Toast.makeText(requireContext(), "Intent created", Toast.LENGTH_SHORT).show()
-            if (myIntent != null) {
-                // Erfolgsfall
-                startActivity(Intent.createChooser(myIntent, "Send Email"))
-            } else {
-                // Misserfolgsfall
+        binding.exportDataTV?.text = "Export all Data as Files (Json, XLS and CSV) per e-Mail"
+        //Export the data
+        //         val jsonFile = createTempJsonFile(myGson)
+        //  sendEmail(jsonFile)
+        binding.sendItFAB.setOnClickListener() {
+            try {
+                val externalFilesDir =
+                    requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+                val gson = Gson()
+                val myGson = gson.toJson(data.toString())
+                val myExport = ExportViaMail(data!!, requireContext())
+                //      Toast.makeText(requireContext(), "myExport created", Toast.LENGTH_SHORT).show()
+                //       Toast.makeText(requireContext(),externalFilesDir.toString(),Toast.LENGTH_LONG)
+                val myIntent: Intent? = myExport.exportAll(externalFilesDir)
+                //        Toast.makeText(requireContext(), "Intent created", Toast.LENGTH_SHORT).show()
+                if (myIntent != null) {
+                    // Erfolgsfall
+                    startActivity(Intent.createChooser(myIntent, "Send Email"))
+                } else {
+                    // Misserfolgsfall
+                }
+            } catch (e: Exception) {
+                binding.exportDataTV?.text = e.toString()
+                var myString: String
+                myString = e.toString()
+                Toast.makeText(requireContext(), myString, Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception) {
-            binding.exportDataTV?.text = e.toString()
-            var myString: String
-            myString = e.toString()
-            Toast.makeText(requireContext(), myString, Toast.LENGTH_SHORT).show()
         }
     }
 

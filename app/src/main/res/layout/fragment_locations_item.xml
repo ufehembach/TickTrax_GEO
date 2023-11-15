@@ -34,6 +34,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location:"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+                <TextView
                     android:id="@+id/LonLatTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -46,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Description"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>

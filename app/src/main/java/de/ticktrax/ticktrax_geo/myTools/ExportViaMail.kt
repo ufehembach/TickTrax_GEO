@@ -168,7 +168,7 @@ class ExportViaMail<T : Any>(private val data: List<T>, val theContext: Context)
         // Hier sollte die Logik implementiert werden, um die erste E-Mail-Adresse auf dem Gerät zu erhalten.
         // Du kannst die Android AccountManager-API verwenden, um dies zu erreichen.
         // Der folgende Code ist ein Beispiel, wie du die AccountManager-API verwenden könntest (muss angepasst werden):
-
+        return "UserName"
         // Überprüfen, ob die GET_ACCOUNTS-Berechtigung gewährt ist (nur für Android 6.0 und höher erforderlich)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(

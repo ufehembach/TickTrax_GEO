@@ -30,22 +30,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:orientation="vertical">
-
                 <TextView
-                    android:id="@+id/LonLatTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="lon/lat"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:text="Place"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/DisplayNameTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textSize="12sp" />
+                    android:text="lon/lat"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/InfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Info"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/LonLatTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="lon/lat"
+                    android:textSize="8sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

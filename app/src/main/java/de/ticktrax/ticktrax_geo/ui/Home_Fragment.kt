@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.SnapHelper
 import de.ticktrax.ticktrax_geo.R
 import de.ticktrax.ticktrax_geo.databinding.FragmentHomeBinding
 import de.ticktrax.ticktrax_geo.myTools.formatDate4Recycler
+import de.ticktrax.ticktrax_geo.myTools.generateMeaningfulName
 import de.ticktrax.ticktrax_geo.myTools.logError
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -58,10 +59,10 @@ class Home_Fragment : Fragment() {
                 var myosmPlaceExt = it
 
                 if (myosmPlaceExt != null) {
-                    binding.DisplayNameTV!!.text = myosmPlaceExt.osmPlace.displayName
+                    binding.DisplayNameTV!!.text =generateMeaningfulName(myosmPlaceExt.osmPlace.name.toString(),myosmPlaceExt.osmPlace.displayName.toString())
                     binding.firstSeenTV!!.text = formatDate4Recycler( myosmPlaceExt.osmPlace.firstSeen)
                     binding.lastSeenTV!!.text =formatDate4Recycler( myosmPlaceExt.osmPlace.lastSeen)
-                    binding.durationTV!!.text = myosmPlaceExt.durationMinutes.toString()
+                    binding.durationTV!!.text = myosmPlaceExt.durationMinutes.toString()+"m"
                 }
                 var startPoint = GeoPoint(0.0,0.0 );
                 //map

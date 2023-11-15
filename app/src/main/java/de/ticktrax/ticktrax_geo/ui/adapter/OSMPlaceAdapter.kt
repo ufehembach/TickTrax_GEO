@@ -18,6 +18,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
 import de.ticktrax.ticktrax_geo.databinding.FragmentPlacesItemBinding
 import de.ticktrax.ticktrax_geo.myTools.formatDate4Recycler
+import de.ticktrax.ticktrax_geo.myTools.generateMeaningfulName
 import de.ticktrax.ticktrax_geo.myTools.logDebug
 import de.ticktrax.ticktrax_geo.ui.Places_FragmentDirections
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -53,10 +54,8 @@ class OSMPlaceAdapter(
         // Hole die Somedata aus dem enveloppe
         var myOSMPlace = thisOSMPlacesExt[position]
         binding.LonLatTV!!.text = myOSMPlace.osmPlace.lat.toString() + "/" + myOSMPlace.osmPlace.lon
-        binding.DisplayNameTV!!.text = myOSMPlace.osmPlace.displayName
-        binding.LonLatTV!!.text =
-            myOSMPlace.osmPlace.lat.toString() + "/" + myOSMPlace.osmPlace.lon
-        binding.DisplayNameTV!!.text =
+        binding.DisplayNameTV!!.text = generateMeaningfulName(myOSMPlace.osmPlace.name.toString(),myOSMPlace.osmPlace.displayName.toString())
+        binding.InfoTV!!.text =
         formatDate4Recycler(myOSMPlace.osmPlace.lastSeen) + " Duration: " + myOSMPlace.durationMinutes + "min"
 
         //map
