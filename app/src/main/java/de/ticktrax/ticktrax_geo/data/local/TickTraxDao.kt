@@ -65,7 +65,7 @@ interface TickTraxDao {
     @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY lastSeen DESC limit 1")
     fun getLastOSMPlaceDetail(): OSMPlaceDetail
 
-    @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY lastSeen DESC")
+    @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " ORDER BY durationMinutes DESC")
     fun getAllOSMPlaceDetails(): List<OSMPlaceDetail>
 
     @Query("SELECT * FROM " + OSMPlaceDetail_TBL_NAME + " WHERE OSMPlaceId = :OSMPlaceId order BY OSMPlaceDetailId DESC LIMIT 1")

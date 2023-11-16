@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@id/HomeMAP">
 
         <ScrollView
-            android:id="@+id/locScrollView"
+            android:id="@+id/locDetailsScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp">
@@ -119,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:text="##VoId##"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -148,279 +149,278 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recyclerViewCardView">
 
-        <GridLayout
+        <ScrollView
+            android:id="@+id/locScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnCount="2"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:rowCount="2">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:rowCount="21">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='Name' />
-
-                <TextView
-                    android:id="@+id/DisplayNameTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='First Seen:' />
-
-                <TextView
-                    android:id="@+id/firstSeenTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='Last Seen:' />
-
-                <TextView
-                    android:id="@+id/lastSeenTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='Duration:' />
-
-                <TextView
-                    android:id="@+id/durationTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
-            </GridLayout>
-
-            <ScrollView
-                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp">
-
-            <!-- Hier füge deine Scroll-Inhalte ein -->
-
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:orientation="horizontal"
+                android:columnCount="1"
+                android:orientation="vertical"
                 android:padding="8dp"
-                android:rowCount="21">
+                android:rowCount="2">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <GridLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Latitude:" />
+                    android:columnCount="2"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:rowCount="21">
 
-                <TextView
-                    android:id="@+id/latTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='Name' />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Longitude:" />
+                    <TextView
+                        android:id="@+id/DisplayNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/lonTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='First Seen:' />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Type:" />
+                    <TextView
+                        android:id="@+id/firstSeenTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/typeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='Last Seen:' />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address Type:" />
+                    <TextView
+                        android:id="@+id/lastSeenTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/addressTypeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='Duration:' />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Name:" />
+                    <TextView
+                        android:id="@+id/durationTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+                </GridLayout>
 
-                <TextView
-                    android:id="@+id/nameTV"
-                    android:layout_width="wrap_content"
+                <!-- Hier füge deine Scroll-Inhalte ein -->
+                <GridLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    android:columnCount="2"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:rowCount="21">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Latitude:" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/latTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="House Number:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Longitude:" />
 
-                <TextView
-                    android:id="@+id/houseNumberTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/lonTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Road:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type:" />
 
-                <TextView
-                    android:id="@+id/roadTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/typeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Town:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address Type:" />
 
-                <TextView
-                    android:id="@+id/townTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/addressTypeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Postcode:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name:" />
 
-                <TextView
-                    android:id="@+id/postcodeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/nameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Country:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/countryTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Country Code:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="House Number:" />
 
-                <TextView
-                    android:id="@+id/countryCodeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/houseNumberTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="State:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Road:" />
 
-                <TextView
-                    android:id="@+id/stateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/roadTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ISO3166-2-lvl4:" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Town:" />
 
-                <TextView
-                    android:id="@+id/iso3166lvl4TV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="##VoId##"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/townTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Postcode:" />
+
+                    <TextView
+                        android:id="@+id/postcodeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country:" />
+
+                    <TextView
+                        android:id="@+id/countryTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country Code:" />
+
+                    <TextView
+                        android:id="@+id/countryCodeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="State:" />
+
+                    <TextView
+                        android:id="@+id/stateTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ISO3166-2-lvl4:" />
+
+                    <TextView
+                        android:id="@+id/iso3166lvl4TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="##VoId##"
+                        android:textStyle="bold" />
+                </GridLayout>
             </GridLayout>
-    </ScrollView>
-        </GridLayout>
-</androidx.cardview.widget.CardView>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
 
 
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-android:clickable="true"
-android:id="@+id/prevFAB"
-android:layout_height="wrap_content"
-android:layout_marginBottom="24dp"
-android:layout_marginStart="24dp"
-android:layout_width="wrap_content"
-android:src="@drawable/baseline_keyboard_arrow_left_24"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintStart_toStartOf="parent" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/prevFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_keyboard_arrow_left_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-android:clickable="true"
-android:id="@+id/nextFAB"
-android:layout_height="wrap_content"
-android:layout_marginBottom="24dp"
-android:layout_marginEnd="24dp"
-android:layout_width="wrap_content"
-android:src="@drawable/baseline_keyboard_arrow_right_24"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent" /></androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_keyboard_arrow_right_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
