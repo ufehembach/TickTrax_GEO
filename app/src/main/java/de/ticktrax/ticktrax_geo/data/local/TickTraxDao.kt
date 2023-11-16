@@ -19,6 +19,7 @@ import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail_TBL_NAME
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
+import java.util.Date
 
 
 @Dao
@@ -163,6 +164,7 @@ interface TickTraxDao {
     fun getAllLocationExt(): List<TTLocationExt>
 
     // -------------------------------------------------
+    // alog
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLogEntry(entry: ALog)
 
@@ -177,4 +179,6 @@ interface TickTraxDao {
 
     @Query("SELECT COUNT(*) FROM " + ALog_TBL_NAME)
     fun countLogEntries(): Int
+
+
 }

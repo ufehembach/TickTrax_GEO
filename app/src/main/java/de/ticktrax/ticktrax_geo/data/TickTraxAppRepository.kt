@@ -9,6 +9,7 @@ import de.ticktrax.ticktrax_geo.myTools.DateTimeUtils
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlace
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.OSMPlaceExt
+import de.ticktrax.ticktrax_geo.data.datamodels.Stats
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocation
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationDetail
 import de.ticktrax.ticktrax_geo.data.datamodels.TTLocationExt
@@ -307,6 +308,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from API: $e")
             }
+            updateStats()
         }
     }
 
@@ -318,6 +320,7 @@ class TickTraxAppRepository {
         } catch (e: Exception) {
             logError("ufe", "Error loading Data from ROOM: $e")
         }
+        updateStats()
     }
 
     suspend fun getAOSMPlaceExtBasedOnID(OSMPlaceID: Long) {
@@ -337,6 +340,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -394,14 +398,14 @@ class TickTraxAppRepository {
                 getAllOSMPlacesExtFromRoom()
             } else
                 try {
-                    logDebug( "ufe", "OSMPlace detail new "+ thisOSMPlaceDetail.toString() )
+                    logDebug("ufe", "OSMPlace detail new " + thisOSMPlaceDetail.toString())
                     val ID = database.TickTraxDao.insertOSMPlaceDetail(thisOSMPlaceDetail)
                     thisOSMPlaceDetail.osmPlaceDetailId = ID
                     _osmPlaceDetail.postValue(thisOSMPlaceDetail)
 
                     getAllOSMPlacesDetailFromRoom()
                     getAllOSMPlacesExtFromRoom()
-                    logDebug( "ufe", "OSMPlace detail new "+ thisOSMPlaceDetail.toString() )
+                    logDebug("ufe", "OSMPlace detail new " + thisOSMPlaceDetail.toString())
 
                     addLogEntry(
                         ALogType.GEO,
@@ -414,6 +418,7 @@ class TickTraxAppRepository {
         if (_osmPlaceDetail.value != null) {
             lastOSMPlaceDetail = _osmPlaceDetail.value!!
         }
+        updateStats()
     }
 
     fun updatePlaceDetail(placeDetail: OSMPlaceDetail) {
@@ -435,6 +440,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", e.toString())
             }
+            updateStats()
         }
     }
 
@@ -447,6 +453,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM:" + e.toString())
             }
+            updateStats()
         }
     }
 
@@ -459,6 +466,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM:" + e.toString())
             }
+            updateStats()
         }
     }
 
@@ -480,6 +488,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -502,6 +511,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -559,6 +569,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -633,6 +644,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", e.toString())
             }
+            updateStats()
         }
     }
 
@@ -645,6 +657,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -658,6 +671,7 @@ class TickTraxAppRepository {
             } catch (e: Exception) {
                 logError("ufe", "Error loading Data from ROOM: $e")
             }
+            updateStats()
         }
     }
 
@@ -678,6 +692,7 @@ class TickTraxAppRepository {
         } catch (e: Exception) {
             logError("ufe", "Error loading Data from ROOM: $e")
         }
+        updateStats()
     }
 
 
@@ -761,7 +776,70 @@ class TickTraxAppRepository {
         }
     }
 
+    /*---------------------------------------------------------------------------------------------
+          _        _
+      ___| |_ __ _| |_ ___
+    / __| __/ _` | __/ __|
+    \__ \ || (_| | |_\__ \
+    |___/\__\__,_|\__|___/
+      -----------------------------------------------------------------------------------------------
+      */
 
+    // --alogData----------------------
+    private val _Stats = MutableLiveData<Stats>()
+    val stats: LiveData<Stats>
+        get() = _Stats
+
+    fun updateStats() {
+        var myStats = Stats(
+            Date(),
+            Date(),
+            0L,
+            0L,
+            0L,
+            0L,
+            0L,
+            0L
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            var minFirst = _locationDetailS.value?.minByOrNull { it.firstSeen }
+            var maxLast = _locationDetailS.value?.maxByOrNull { it.lastSeen }
+            var noOfPalce= _osmPlaceS.value?.size
+            var noOfPaceNot0= _osmPlaceExtS.value?.count{ it.durationMinutes != 0L}
+            var durationPlaces = _osmPlaceExtS.value?.sumOf{ it.durationMinutes }
+            var noOfLocation = _locationS.value?.size
+            var noOfLocationNot0 = _locationExtS.value?.count{ it.durationMinutes != 0L }
+            var durationLocations = _locationExtS.value?.sumOf{ it.durationMinutes  }
+
+            if (minFirst != null) {
+                myStats.minFirstSeen = minFirst.firstSeen
+            }
+            if (maxLast != null) {
+                myStats.maxLastSeen = maxLast.lastSeen
+            }
+            if (noOfPalce != null) {
+                myStats.noPlaces = noOfPalce.toLong()
+            }
+            if (noOfLocation != null) {
+                myStats.noLocation = noOfLocation.toLong()
+            }
+            if (noOfPaceNot0 != null) {
+                myStats.noPlacesNot0= noOfPaceNot0.toLong()
+            }
+            if (noOfLocationNot0 != null) {
+                myStats.noLocationNot0 = noOfLocationNot0.toLong()
+            }
+            if (durationPlaces != null) {
+                myStats.durationPlaces = durationPlaces
+            }
+            if (durationLocations != null) {
+                myStats.durationLocation = durationLocations
+            }
+
+            _Stats.postValue(myStats)
+        }
+    }
 }
 
 

@@ -82,4 +82,5 @@ class TickTraxViewModel(application: Application) : AndroidViewModel(application
     fun aLog(type: ALogType, logText: String?, logDetail: String?) {
         ttApRep.addLogEntry(type, logText, "rep " + logText)
     }
+    val stats = ttApRep.stats
 }

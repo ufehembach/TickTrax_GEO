@@ -53,6 +53,15 @@ class Home_Fragment : Fragment() {
         //val filteredList =
         //    viewModel.osmPlaceExtS.value?.filter { it.osmPlace.osmPlaceId == viewModel.osmPlace.value?.osmPlaceId }
         //viewModel.osmPlaceExtS.observe(viewLifecycleOwner)
+        viewModel.stats.observe(viewLifecycleOwner)
+        {
+            with(viewModel.stats.value){
+                binding.minFirsSeenTV.text= formatDate4Recycler(this?.minFirstSeen!!)
+                binding.maxLastSeenTV.text= formatDate4Recycler(this?.maxLastSeen!!)
+                binding.noPlacesLocTV.text= (this?.noPlaces!!).toString()+"/"+this?.noLocation
+                binding.noPlacesLocnotNullTV.text=(this?.noPlacesNot0!!).toString()+"/"+this?.noLocationNot0
+                binding.totalDurationTV.text= (this?.durationPlaces!!).toString()+"/"+this?.durationLocation            }
+        }
         viewModel.osmPlaceExt.observe(viewLifecycleOwner)
         {
             try {

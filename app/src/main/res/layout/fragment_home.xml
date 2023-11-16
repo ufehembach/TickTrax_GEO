@@ -40,74 +40,97 @@
             android:layout_height="match_parent"
             android:padding="8dp">
 
-        <!-- Hier füge deine Scroll-Inhalte ein -->
+            <!-- Hier füge deine Scroll-Inhalte ein -->
 
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:rowCount="21">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stats"
-            android:textStyle="bold" />
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:rowCount="21">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='' />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stats"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='Name' />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='' />
 
-        <TextView
-            android:id="@+id/DisplayNameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="##VoId##"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='first Update' />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='First Seen:' />
+                <TextView
+                    android:id="@+id/minFirsSeenTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/firstSeenTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="##VoId##"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='last Update:' />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='Last Seen:' />
+                <TextView
+                    android:id="@+id/maxLastSeenTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lastSeenTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="##VoId##"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Places/Loc:' />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='Duration:' />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/durationTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="##VoId##"
-            android:textStyle="bold" />
-        </GridLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='# total :' />
+
+                <TextView
+                    android:id="@+id/noPlacesLocTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='# not 0:' />
+
+                <TextView
+                    android:id="@+id/noPlacesLocnotNullTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Total Duration:' />
+
+                <TextView
+                    android:id="@+id/totalDurationTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+            </GridLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
@@ -125,13 +148,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recyclerViewCardView">
 
-        <ScrollView
-            android:id="@+id/scrollView"
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp">
+            android:columnCount="2"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:rowCount="2">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:rowCount="21">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Name' />
+
+                <TextView
+                    android:id="@+id/DisplayNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='First Seen:' />
+
+                <TextView
+                    android:id="@+id/firstSeenTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Last Seen:' />
+
+                <TextView
+                    android:id="@+id/lastSeenTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='Duration:' />
+
+                <TextView
+                    android:id="@+id/durationTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="##VoId##"
+                    android:textStyle="bold" />
+            </GridLayout>
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
 
             <!-- Hier füge deine Scroll-Inhalte ein -->
+
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -212,6 +301,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -235,6 +325,7 @@
                     android:layout_height="wrap_content"
                     android:text="##VoId##"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -246,6 +337,7 @@
                     android:layout_height="wrap_content"
                     android:text="##VoId##"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -281,6 +373,7 @@
                     android:layout_height="wrap_content"
                     android:text="##VoId##"
                     android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -304,34 +397,30 @@
                     android:layout_height="wrap_content"
                     android:text="##VoId##"
                     android:textStyle="bold" />
-
-
-
-
             </GridLayout>
-        </ScrollView>
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
+        </GridLayout>
+</androidx.cardview.widget.CardView>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/prevFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:src="@drawable/baseline_keyboard_arrow_left_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+android:clickable="true"
+android:id="@+id/prevFAB"
+android:layout_height="wrap_content"
+android:layout_marginBottom="24dp"
+android:layout_marginStart="24dp"
+android:layout_width="wrap_content"
+android:src="@drawable/baseline_keyboard_arrow_left_24"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/nextFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:src="@drawable/baseline_keyboard_arrow_right_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+android:clickable="true"
+android:id="@+id/nextFAB"
+android:layout_height="wrap_content"
+android:layout_marginBottom="24dp"
+android:layout_marginEnd="24dp"
+android:layout_width="wrap_content"
+android:src="@drawable/baseline_keyboard_arrow_right_24"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent" /></androidx.constraintlayout.widget.ConstraintLayout>
